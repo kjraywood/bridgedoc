@@ -1,0 +1,33 @@
+:C: pass:normal[[.big]##&clubs;##]
+:D: pass:normal[[.big.red]##&diams;##]
+:H: pass:normal[[.big.red]##&hearts;##]
+:S: pass:normal[[.big]##&spades;##]
+:clubs: &clubs;
+:diams: &#9826;
+:hearts: &#9825;
+:spades: &spades;
+:clubsuit: pass:normal[&clubs;]
+:times: &times;
+:ndash: &ndash;
+:bull: &bull;
+
+// triangular bullet
+:tribull: &#8227;
+
+// inline separator
+:isep: &ensp;&bull;&ensp;
+
+//assertion
+:assn: &#8870;
+
+//:downRA: &#8627;
+:downRA: &#11177;
+:forces: &#10140;
+
+:thinsp: &thinsp;
+:emsp: &emsp;
+:ensp: &ensp;
+:tab: &emsp;&ensp;
+
+// limit raise or better
+:LRplus: pass:normal[LR&thinsp;^*+*^]
