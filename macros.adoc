@@ -11,6 +11,9 @@
 :ndash: &ndash;
 :bull: &bull;
 
+// non-breaking hyphen
+:hyph: &#8209;
+
 // triangular bullet
 :tribull: &#8227;
 
