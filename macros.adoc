@@ -9,21 +9,23 @@
 :clubsuit: pass:normal[&clubs;]
 :times: &times;
 :ndash: &ndash;
-:bull: &bull;
 
 :warning: pass:normal[icon:warning[fw,role="orange"]]
 
 // non-breaking hyphen
 :hyph: &#8209;
 
+// small bullet
+:bull: pass:normal[[.mildblue]##&bull;##]
+
 // triangular bullet
-:tribull: &#8227;
+:tribull: pass:normal[[.mildblue]##&#8227;##]
 
 // inline separator
 :isep: pass:normal[[.mildblue]##&nbsp;&bull;&nbsp;##]
 
 // inline separator using triangular bullet
-:trisep: &nbsp;&emsp;&#8227;&thinsp;
+:trisep: pass:normal[[.mildblue]##&nbsp;&ensp;&#8227;&nbsp;##]
 
 //assertion
 :assn: &#8870;
