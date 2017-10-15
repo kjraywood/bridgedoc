@@ -590,6 +590,8 @@ sup.footnote a:active, sup.footnoteref a:active { text-decoration: underline; }
 
 div.unbreakable { page-break-inside: avoid; }
 
+.nobr { white-space: nowrap; }
+
 .big { font-size: larger; }
 
 .small { font-size: smaller; }
