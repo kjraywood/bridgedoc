@@ -20,7 +20,7 @@
 :tribull: &#8227;
 
 // inline separator
-:isep: &nbsp;&bull;&nbsp;
+:isep: pass:normal[[.mildblue]##&nbsp;&bull;&nbsp;##]
 
 // inline separator using triangular bullet
 :trisep: &nbsp;&emsp;&#8227;&thinsp;
