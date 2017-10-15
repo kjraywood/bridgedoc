@@ -11,6 +11,8 @@
 :ndash: &ndash;
 :bull: &bull;
 
+:warning: pass:normal[icon:warning[fw,role="orange"]]
+
 // non-breaking hyphen
 :hyph: &#8209;
 
@@ -18,7 +20,10 @@
 :tribull: &#8227;
 
 // inline separator
-:isep: &ensp;&bull;&ensp;
+:isep: &nbsp;&bull;&nbsp;
+
+// inline separator using triangular bullet
+:trisep: &nbsp;&emsp;&#8227;&thinsp;
 
 //assertion
 :assn: &#8870;
@@ -34,3 +39,5 @@
 
 // limit raise or better
 :LRplus: pass:normal[LR&thinsp;^*+*^]
+
+:OrMore: pass:normal[^*+*^]
