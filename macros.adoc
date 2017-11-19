@@ -47,3 +47,4 @@
 :LRplus: pass:normal[LR&thinsp;^*+*^]
 
 :OrMore: pass:normal[^*+*^]
+:or: pass:normal[*|*]
