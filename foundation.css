@@ -195,7 +195,7 @@ h1 small, h2 small, h3 small, #toctitle small, .sidebarblock > .content > .title
 
 h1 { font-size: 2.125em; }
 
-h2 { font-size: 1.6875em; color: #993300;}
+h2 { font-size: 1.6875em; color: #7b2d00;}
 
 h3, #toctitle, .sidebarblock > .content > .title { font-size: 1.375em; }
 
@@ -337,7 +337,7 @@ b.button:after { content: "]"; padding: 0 2px 0 3px; }
 #toc a { text-decoration: none; }
 #toc a:active { text-decoration: underline; }
 
-#toctitle { color: #6f6f6f; font-size: 1.2em; }
+#toctitle { color: #7b2d00; font-size: 1.2em; }
 
 @media only screen and (min-width: 768px) { #toctitle { font-size: 1.375em; }
   body.toc2 { padding-left: 15em; padding-right: 0; }
@@ -377,7 +377,7 @@ b.button:after { content: "]"; padding: 0 2px 0 3px; }
 
 .admonitionblock td.content > .title, .audioblock > .title, .exampleblock > .title, .imageblock > .title, .listingblock > .title, .literalblock > .title, .stemblock > .title, .openblock > .title, .paragraph > .title, .quoteblock > .title, table.tableblock > .title, .verseblock > .title, .videoblock > .title, .dlist > .title, .olist > .title, .ulist > .title, .qlist > .title, .hdlist > .title { text-rendering: optimizeLegibility; text-align: left; }
 
-table.tableblock > caption.title { white-space: nowrap; overflow: visible; max-width: 0; }
+table.tableblock > caption.title { white-space: nowrap; overflow: visible; max-width: 0; color: #7b2d00; font-style: italic; font-weight: bold; }
 
 .paragraph.lead > p, #preamble > .sectionbody > .paragraph:first-of-type p { color: #000; }
 
