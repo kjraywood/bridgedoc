@@ -10,7 +10,6 @@
 :diams: &#9826;
 :hearts: &#9825;
 :spades: &#9824;
-:clubsuit: pass:normal[&#9827;]
 :times: &times;
 :ndash: &ndash;
 
