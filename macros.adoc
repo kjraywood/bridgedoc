@@ -13,6 +13,9 @@
 :times: &times;
 :ndash: &ndash;
 
+// times surrounded by thinsp
+:xtimes: pass:normal[&thinsp;&times;&thinsp;]
+
 :warning: pass:normal[icon:warning[fw,role="orange"]]
 
 // non-breaking hyphen
