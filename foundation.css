@@ -195,9 +195,9 @@ h1 small, h2 small, h3 small, #toctitle small, .sidebarblock > .content > .title
 
 h1 { font-size: 2.125em; }
 
-h2 { font-size: 1.6875em; color: #7b2d00;}
+h2 { font-size: 1.6875em; color: #7b2d00; margin-top: 0.75em; }
 
-h3, #toctitle, .sidebarblock > .content > .title { font-size: 1.375em; }
+h3, #toctitle, .sidebarblock > .content > .title { font-size: 1.375em; margin-top: 0.5em; }
 
 h4 { font-size: 1.125em; }
 
@@ -314,9 +314,9 @@ b.button:after { content: "]"; padding: 0 2px 0 3px; }
 #content:before { content: none; }
 
 #header > h1:first-child { color: #000; margin-top: 2.25rem; margin-bottom: 0; }
-#header > h1:first-child + #toc { margin-top: 8px; border-top: 1px solid #ddd; }
-#header > h1:only-child, body.toc2 #header > h1:nth-last-child(2) { border-bottom: 1px solid #ddd; padding-bottom: 8px; }
-#header .details { border-bottom: 1px solid #ddd; line-height: 1.45; padding-top: 0.25em; padding-bottom: 0.25em; padding-left: 0.25em; color: #555555; display: -ms-flexbox; display: -webkit-flex; display: flex; -ms-flex-flow: row wrap; -webkit-flex-flow: row wrap; flex-flow: row wrap; }
+#header > h1:first-child + #toc { margin-top: 8px; border-top: 1px solid #000; }
+#header > h1:only-child, body.toc2 #header > h1:nth-last-child(2) { border-bottom: 1px solid #000; padding-bottom: 8px; }
+#header .details { border-bottom: 1px solid #000; line-height: 1.45; padding-top: 0.25em; padding-bottom: 0.25em; padding-left: 0.25em; color: #555555; display: -ms-flexbox; display: -webkit-flex; display: flex; -ms-flex-flow: row wrap; -webkit-flex-flow: row wrap; flex-flow: row wrap; }
 #header .details span:first-child { margin-left: -0.125em; }
 #header .details span.email a { color: #6f6f6f; }
 #header .details br { display: none; }
@@ -326,7 +326,7 @@ b.button:after { content: "]"; padding: 0 2px 0 3px; }
 #header #revnumber { text-transform: capitalize; }
 #header #revnumber:after { content: "\00a0"; }
 
-#content > h1:first-child:not([class]) { color: #000; border-bottom: 1px solid #ddd; padding-bottom: 8px; margin-top: 0; padding-top: 1rem; margin-bottom: 1.25rem; }
+#content > h1:first-child:not([class]) { color: #000; border-bottom: 1px solid #000; padding-bottom: 8px; margin-top: 0; padding-top: 1rem; margin-bottom: 1.25rem; }
 
 #toc { border-bottom: 1px solid #ddd; padding-bottom: 0.5em; }
 #toc > ul { margin-left: 0.125em; }
@@ -365,7 +365,9 @@ b.button:after { content: "]"; padding: 0 2px 0 3px; }
 .sect1 { padding-bottom: 0.625em; }
 
 @media only screen and (min-width: 768px) { .sect1 { padding-bottom: 1.25em; } }
-.sect1 + .sect1 { border-top: 1px solid #ddd; }
+.sect1 + .sect1 { border-top: 1px solid #000; }
+/* .sect2 + .sect2, .paragraph + .sect2 { border-top: 1px solid #ddd; } */
+.sect2 { border-top: 1px solid #ddd; }
 
 #content h1 > a.anchor, h2 > a.anchor, h3 > a.anchor, #toctitle > a.anchor, .sidebarblock > .content > .title > a.anchor, h4 > a.anchor, h5 > a.anchor, h6 > a.anchor { position: absolute; z-index: 1001; width: 1.5ex; margin-left: -1.5ex; display: block; text-decoration: none !important; visibility: hidden; text-align: center; font-weight: normal; }
 #content h1 > a.anchor:before, h2 > a.anchor:before, h3 > a.anchor:before, #toctitle > a.anchor:before, .sidebarblock > .content > .title > a.anchor:before, h4 > a.anchor:before, h5 > a.anchor:before, h6 > a.anchor:before { content: "\00A7"; font-size: 0.85em; display: block; padding-top: 0.1em; }
