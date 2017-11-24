@@ -193,16 +193,13 @@ p aside { font-size: 0.875em; line-height: 1.35; font-style: italic; }
 h1, h2, h3, #toctitle, .sidebarblock > .content > .title, h4, h5, h6 { font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif; font-weight: bold; font-style: normal; color: #222; text-rendering: optimizeLegibility; margin-top: 1em; margin-bottom: 0.5em; line-height: 1.2125em; }
 h1 small, h2 small, h3 small, #toctitle small, .sidebarblock > .content > .title small, h4 small, h5 small, h6 small { font-size: 60%; color: #6f6f6f; line-height: 0; }
 
-/* h1 { font-size: 2.125em; } */
-h1 { font-size: 2em; }
+h1 { font-size: 2.125em; }
 
-/* h2 { font-size: 1.6875em; color: #7b2d00; margin-top: 0.75em; } */
-h2 { font-size: 1.5em; color: #7b2d00; margin-top: 0.75em; }
+h2 { font-size: 1.6875em; color: #7b2d00; margin-top: 0.75em; }
 
-/* h3, #toctitle, .sidebarblock > .content > .title { font-size: 1.375em; margin-top: 0.5em; } */
-h3, #toctitle, .sidebarblock > .content > .title { font-size: 1.25em; margin-top: 0.5em; }
+h3, #toctitle, .sidebarblock > .content > .title { font-size: 1.375em; margin-top: 0.5em; }
 
-h4 { font-size: 1em; color: #7b2d00; }
+h4 { font-size: 1em; color: #7b2d00; font-style: italic; }
 
 h5 { font-size: 1em; }
 
@@ -380,9 +377,9 @@ b.button:after { content: "]"; padding: 0 2px 0 3px; }
 
 .audioblock, .imageblock, .literalblock, .listingblock, .stemblock, .videoblock { margin-bottom: 1.25em; }
 
-.admonitionblock td.content > .title, .audioblock > .title, .exampleblock > .title, .imageblock > .title, .listingblock > .title, .literalblock > .title, .stemblock > .title, .openblock > .title, .paragraph > .title, .quoteblock > .title, table.tableblock > .title, .verseblock > .title, .videoblock > .title, .dlist > .title, .olist > .title, .ulist > .title, .qlist > .title, .hdlist > .title { text-rendering: optimizeLegibility; text-align: left; }
+.admonitionblock td.content > .title, .audioblock > .title, .exampleblock > .title, .imageblock > .title, .listingblock > .title, .literalblock > .title, .stemblock > .title, .openblock > .title, .paragraph > .title, .quoteblock > .title, table.tableblock > .title, .verseblock > .title, .videoblock > .title, .dlist > .title, .olist > .title, .ulist > .title, .qlist > .title, .hdlist > .title { text-rendering: optimizeLegibility; text-align: left; color: #7b2d00; font-weight: bold; font-style: italic; }
 
-table.tableblock > caption.title { white-space: nowrap; overflow: visible; max-width: 0; color: #7b2d00; font-weight: bold; }
+table.tableblock > caption.title { white-space: nowrap; overflow: visible; max-width: 0; }
 
 .paragraph.lead > p, #preamble > .sectionbody > .paragraph:first-of-type p { color: #000; }
 
@@ -600,7 +597,7 @@ div.unbreakable { page-break-inside: avoid; }
 .nobr { white-space: nowrap; }
 
 /* Kel - a span for bold and color brickred */
-.bold-brickred { color: #7b2d00; font-weight: bold; }
+.bold-brickred { color: #7b2d00; font-weight: bold; font-style: italic; }
 
 .big { font-size: larger; }
 
