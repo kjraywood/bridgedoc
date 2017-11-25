@@ -1,15 +1,13 @@
-:C: pass:normal[&#9827;]
-:D: pass:normal[[.red]##&#9830;##]
-:H: pass:normal[[.red]##&#9829;##]
-:S: pass:normal[&#9824;]
-//:C: pass:normal[[.big]##&clubs;##]
-//:D: pass:normal[[.red]##&diams;##]
-//:H: pass:normal[[.big.red]##&hearts;##]
-//:S: pass:normal[[.big]##&spades;##]
-:clubs: &#9827;
-:diams: &#9826;
-:hearts: &#9825;
-:spades: &#9824;
+:C: pass:normal[[.courier.black]##&#9827;##]
+:D: pass:normal[[.courier.red]##&#9830;##]
+:H: pass:normal[[.courier.red]##&#9829;##]
+:S: pass:normal[[.courier.black]##&#9824;##]
+
+:clubs:  pass:normal[[.courier]##&#9827;##]
+:diams:  pass:normal[[.courier]##&#9830;##]
+:hearts: pass:normal[[.courier]##&#9829;##]
+:spades: pass:normal[[.courier]##&#9824;##]
+
 :times: &times;
 :ndash: &ndash;
 
