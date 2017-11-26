@@ -315,7 +315,7 @@ b.button:after { content: "]"; padding: 0 2px 0 3px; }
 #header > h1:first-child { color: #000; margin-top: 2.25rem; margin-bottom: 0; }
 #header > h1:first-child + #toc { margin-top: 8px; border-top: 1px solid #000; }
 #header > h1:only-child, body.toc2 #header > h1:nth-last-child(2) { border-bottom: 1px solid #000; padding-bottom: 8px; }
-#header .details { border-bottom: 1px solid #000; line-height: 1.45; padding-top: 0.25em; padding-bottom: 0.25em; padding-left: 0.25em; color: #000; display: -ms-flexbox; display: -webkit-flex; display: flex; -ms-flex-flow: row wrap; -webkit-flex-flow: row wrap; flex-flow: row wrap; font-family: "Noto Serif", "DejaVu Serif", serif; font-weight: normal; font-style: italic; }
+#header .details { border-bottom: 1px solid #000; line-height: 1.45; padding-top: 0.25em; padding-bottom: 0.25em; padding-left: 0.25em; color: #0366d6; display: -ms-flexbox; display: -webkit-flex; display: flex; -ms-flex-flow: row wrap; -webkit-flex-flow: row wrap; flex-flow: row wrap; font-family: "Noto Serif", "DejaVu Serif", serif; font-weight: normal; font-style: italic; }
 #header .details span:first-child { margin-left: -0.125em; }
 #header .details span.email a { color: #6f6f6f; }
 #header .details br { display: none; }
@@ -387,7 +387,7 @@ table.tableblock #preamble > .sectionbody > .paragraph:first-of-type p { font-si
 .admonitionblock > table td.icon { text-align: center; width: 80px; }
 .admonitionblock > table td.icon img { max-width: initial; }
 .admonitionblock > table td.icon .title { font-weight: bold; font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif; text-transform: uppercase; }
-.admonitionblock > table td.content { padding-left: 1.125em; padding-right: 1.25em; border-left: 1px solid #ddd; color: #000; }
+.admonitionblock > table td.content { padding-left: 1.125em; padding-right: 1.25em; border-left: 1px solid #ddd; color: #0366d6; }
 .admonitionblock > table td.content > :last-child > :last-child { margin-bottom: 0; }
 
 .exampleblock > .content { border-style: solid; border-width: 1px; border-color: #e6e6e6; margin-bottom: 1.25em; padding: 1.25em; background: #fff; -webkit-border-radius: 0; border-radius: 0; }
@@ -598,6 +598,7 @@ div.unbreakable { page-break-inside: avoid; }
 .bold-brickred { color: #7a2518; font-weight: bold; }
 
 .brickred { color: #7a2518; }
+.githubblue { color: #0366d6; }
 
 /* Kel - prefer suit symbols with courier */
 .courier { font-family: Courier; }
