@@ -8,18 +8,27 @@
 :hearts: pass:normal[[.courier]##&#9829;##]
 :spades: pass:normal[[.courier]##&#9824;##]
 
-:times: &times;
-:ndash: &ndash;
+:ndash:  pass:normal[&ndash;]
+
+:times: &#10761;
+:minus: &#8722;
+
+// heavy plus and minus
+:heavyplus: &#10133;
+:heavyminus: &#10134;
+
+:semicolon: pass:normal[[.courier]##&#59;##]
 
 // full-width symbols
-:fwplus: &#65307;
+:fwsemicolon: &#65307;
+:plus: &#65291;
 :lt: &#65308;
 :eq: &#65309;
 :gt: &#65310;
 :fwpipe: &#65311;
 
 // times surrounded by thinsp
-:xtimes: pass:normal[&thinsp;&times;&thinsp;]
+:xtimes: pass:normal[&thinsp;&#10761;&thinsp;]
 
 :warning: pass:normal[icon:warning[fw,role="orange"]]
 
@@ -51,8 +60,8 @@
 :tab: &emsp;&ensp;
 
 // limit raise or better
-:LRplus: pass:normal[LR&thinsp;^*+*^]
+:LRplus: pass:normal[LR^&#10133;^]
 
-:OrLess: pass:normal[^*-*^]
-:OrMore: pass:normal[^*+*^]
+:OrLess: pass:normal[^&#10134;^]
+:OrMore: pass:normal[^&#10133;^]
 :or: pass:normal[*|*]
