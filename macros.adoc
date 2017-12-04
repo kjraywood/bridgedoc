@@ -11,6 +11,13 @@
 :times: &times;
 :ndash: &ndash;
 
+// full-width symbols
+:fwplus: &#65307;
+:lt: &#65308;
+:eq: &#65309;
+:gt: &#65310;
+:fwpipe: &#65311;
+
 // times surrounded by thinsp
 :xtimes: pass:normal[&thinsp;&times;&thinsp;]
 
@@ -46,5 +53,6 @@
 // limit raise or better
 :LRplus: pass:normal[LR&thinsp;^*+*^]
 
+:OrLess: pass:normal[^*-*^]
 :OrMore: pass:normal[^*+*^]
 :or: pass:normal[*|*]
