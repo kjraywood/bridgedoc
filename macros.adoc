@@ -11,7 +11,7 @@
 :ndash:  pass:normal[&ndash;]
 
 // :times: &#10761;
- :times: &times;
+:times: &times;
 :minus: &#8722;
 
 // heavy plus and minus
@@ -26,7 +26,6 @@
 :lt: &#65308;
 :eq: &#65309;
 :gt: &#65310;
-:fwpipe: &#65311;
 
 // times surrounded by thinsp
 // :xtimes: pass:normal[&thinsp;&#10761;&thinsp;]
