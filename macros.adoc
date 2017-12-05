@@ -62,11 +62,12 @@
 :tab: &emsp;&ensp;
 
 // limit raise or better
-:LRplus: pass:normal[LR^&#10133;^]
+:LRplus: pass:normal[LR^*+*^]
+:OrLess: pass:normal[^*&#8722;*^]
+:OrMore: pass:normal[^*+*^]
 
+// :LRplus: pass:normal[LR^&#10133;^]
 // :OrLess: pass:normal[[.black]##^&#10134;^##]
 // :OrMore: pass:normal[[.black]##^&#10133;^##]
 
-:OrLess: pass:normal[^*&#8722;*^]
-:OrMore: pass:normal[^*+*^]
 :or: pass:normal[*|*]
