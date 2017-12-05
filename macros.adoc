@@ -10,7 +10,8 @@
 
 :ndash:  pass:normal[&ndash;]
 
-:times: &#10761;
+// :times: &#10761;
+ :times: &times;
 :minus: &#8722;
 
 // heavy plus and minus
@@ -28,7 +29,8 @@
 :fwpipe: &#65311;
 
 // times surrounded by thinsp
-:xtimes: pass:normal[&thinsp;&#10761;&thinsp;]
+// :xtimes: pass:normal[&thinsp;&#10761;&thinsp;]
+:xtimes: pass:normal[&thinsp;&times;&thinsp;]
 
 :warning: pass:normal[icon:warning[fw,role="orange"]]
 
@@ -62,6 +64,9 @@
 // limit raise or better
 :LRplus: pass:normal[LR^&#10133;^]
 
-:OrLess: pass:normal[^&#10134;^]
-:OrMore: pass:normal[^&#10133;^]
+// :OrLess: pass:normal[[.black]##^&#10134;^##]
+// :OrMore: pass:normal[[.black]##^&#10133;^##]
+
+:OrLess: pass:normal[^*&#8722;*^]
+:OrMore: pass:normal[^*+*^]
 :or: pass:normal[*|*]
