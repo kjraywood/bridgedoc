@@ -37,19 +37,19 @@
 :hyph: &#8209;
 
 // small bullet
-:bull: pass:normal[[.mildblue.big]##&bull;##]
+:bull: pass:normal[[.mildblue]##&bull;##]
 
 // triangular bullet
 // :tribull: pass:normal[[.mildblue]##&#8227;##]
-:tribull: pass:normal[[.mildblue.small]##&#x27a4;##]
+:tribull: pass:normal[[.vraise.mildblue.small]##&#x27a4;##]
 
 // inline separator (x25cf is bigger)
-// :isep: pass:normal[[.mildblue]##&nbsp;&bull;&nbsp;##]
-:isep: pass:normal[[.mildblue.small]##&nbsp;&#x25cf;&nbsp;##]
+// :isep: pass:normal[&nbsp;[.mildblue]##&bull;##&nbsp;]
+:isep: pass:normal[[.vvraise.mildblue.ssmall]##&nbsp;&#x25cf;&nbsp;##]
 
 // inline separator using triangular bullet
 // :trisep: pass:normal[[.mildblue]##&nbsp;&ensp;&#8227;&nbsp;##]
-:trisep: pass:normal[[.mildblue.small]##&nbsp;&ensp;&#x27a4;&nbsp;##]
+:trisep: pass:normal[&nbsp;&ensp;[.vraise.mildblue.small]##&#x27a4;##&nbsp;]
 
 //assertion
 :assn: &#8870;
