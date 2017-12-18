@@ -22,7 +22,7 @@
 
 // full-width symbols
 :fwsemicolon: &#65307;
-:plus: &#65291;
+:fwplus: &#65291;
 :lt: &#65308;
 :eq: &#65309;
 :gt: &#65310;
@@ -31,7 +31,7 @@
 // :xtimes: pass:normal[&thinsp;&#10761;&thinsp;]
 :xtimes: pass:normal[&thinsp;&times;&thinsp;]
 
-:warning: pass:normal[icon:warning[fw,role="orange"]]
+:warning: pass:normal[icon:warning[width=20]]
 
 // non-breaking hyphen
 :hyph: &#8209;
@@ -40,20 +40,22 @@
 :bull: pass:normal[[.mildblue]##&bull;##]
 
 // triangular bullet
-:tribull: pass:normal[[.mildblue]##&#8227;##]
+// :tribull: pass:normal[[.mildblue]##&#8227;##]
+:tribull: pass:normal[[.mildblue.small]##&#x27a4;##]
 
 // inline separator
 :isep: pass:normal[[.mildblue]##&nbsp;&bull;&nbsp;##]
 
 // inline separator using triangular bullet
-:trisep: pass:normal[[.mildblue]##&nbsp;&ensp;&#8227;&nbsp;##]
+// :trisep: pass:normal[[.mildblue]##&nbsp;&ensp;&#8227;&nbsp;##]
+:trisep: pass:normal[[.mildblue.small]##&nbsp;&ensp;&#x27a4;&nbsp;##]
 
 //assertion
 :assn: &#8870;
 
 //:downRA: &#8627;
-:downRA: &#11177;
-:forces: &#10140;
+:downRA: &#x2ba9;
+:forces: &#x279c;
 
 :thinsp: &thinsp;
 :emsp: &emsp;
