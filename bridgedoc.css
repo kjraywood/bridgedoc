@@ -683,7 +683,13 @@ div.unbreakable { page-break-inside: avoid; }
 .orange { color: #bf6900; }
 
 /* orange background for alerts */
-.alert { background-color: #ffd27f; }
+/* .alert { background-color: #ffd27f; } */
+/* cyan background for alerts */
+.alert { background-color: #aefefe; }
+/* mauve background for alerts */
+/* .alert { background-color: #ecd8ff; } */
+/* lime background for alerts */
+/* .alert { background-color: #00fa00; }
 
 span.icon > .fa { cursor: default; }
 
