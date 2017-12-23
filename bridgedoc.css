@@ -680,6 +680,8 @@ div.unbreakable { page-break-inside: avoid; }
 
 .yellow-background { background-color: #fafa00; }
 
+.orange-background { background-color: #f7d358; }
+
 .alert { text-decoration: underline; }
 /* orange background for alerts
 .alert { background-color: #f7d358; } */
