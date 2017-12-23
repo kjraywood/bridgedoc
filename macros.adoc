@@ -31,7 +31,7 @@
 // :xtimes: pass:normal[&thinsp;&#10761;&thinsp;]
 :xtimes: pass:normal[&thinsp;&times;&thinsp;]
 
-:warning: pass:normal[icon:warning[width=20]]
+:warning: pass:normal[[.vvraise]##icon:warning[width=20]##]
 
 // non-breaking hyphen
 :hyph: &#8209;
