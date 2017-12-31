@@ -265,10 +265,10 @@ blockquote, blockquote p { line-height: 1.6; color: #6f6f6f; }
 
 /* Tables */
 table { background: #fff; margin-bottom: 1.25em; border: solid 1px #ddd; }
-table thead, table tfoot { background: #f2f2f2; font-weight: bold; }
+table thead, table tfoot { background: #f0f0f0; font-weight: bold; }
 table thead tr th, table thead tr td, table tfoot tr th, table tfoot tr td { padding: 0.125em 0.5em; font-size: inherit; color: #000; text-align: left; }
 table tr th, table tr td { padding: 0.075em 0.5em; font-size: inherit; color: #000; }
-table tr.even, table tr.alt, table tr:nth-of-type(even) { background: #f2f2f2; }
+table tr.even, table tr.alt, table tr:nth-of-type(even) { background: #f0f0f0; }
 table thead tr th, table tfoot tr th, table tbody tr td, table tr td, table tfoot tr td { display: table-cell; line-height: 1.4; }
 
 body { -moz-osx-font-smoothing: grayscale; -webkit-font-smoothing: antialiased; tab-size: 4; }
@@ -340,7 +340,7 @@ b.button:after { content: "]"; padding: 0 2px 0 3px; }
 
 @media only screen and (min-width: 768px) { #toctitle { font-size: 1.375em; }
   body.toc2 { padding-left: 15em; padding-right: 0; }
-  #toc.toc2 { margin-top: 0 !important; background-color: #f2f2f2; position: fixed; width: 15em; left: 0; top: 0; border-right: 1px solid #ddd; border-top-width: 0 !important; border-bottom-width: 0 !important; z-index: 1000; padding: 1.25em 1em; height: 100%; overflow: auto; }
+  #toc.toc2 { margin-top: 0 !important; background-color: #f0f0f0; position: fixed; width: 15em; left: 0; top: 0; border-right: 1px solid #ddd; border-top-width: 0 !important; border-bottom-width: 0 !important; z-index: 1000; padding: 1.25em 1em; height: 100%; overflow: auto; }
   #toc.toc2 #toctitle { margin-top: 0; margin-bottom: 0.8rem; font-size: 1.2em; }
   #toc.toc2 > ul { font-size: 0.9em; margin-bottom: 0; }
   #toc.toc2 ul ul { margin-left: 0; padding-left: 1em; }
@@ -395,7 +395,7 @@ table.tableblock #preamble > .sectionbody > .paragraph:first-of-type p { font-si
 .exampleblock > .content > :first-child { margin-top: 0; }
 .exampleblock > .content > :last-child { margin-bottom: 0; }
 
-.sidebarblock { border-style: solid; border-width: 1px; border-color: #d9d9d9; margin-bottom: 1.25em; padding: 1.25em; background: #f2f2f2; -webkit-border-radius: 0; border-radius: 0; }
+.sidebarblock { border-style: solid; border-width: 1px; border-color: #d9d9d9; margin-bottom: 1.25em; padding: 1.25em; background: #f0f0f0; -webkit-border-radius: 0; border-radius: 0; }
 .sidebarblock > :first-child { margin-top: 0; }
 .sidebarblock > :last-child { margin-bottom: 0; }
 .sidebarblock > .content > .title { color: #6f6f6f; margin-top: 0; }
@@ -500,7 +500,7 @@ th.valign-middle, td.valign-middle { vertical-align: middle; }
 
 table thead th, table tfoot th { font-weight: bold; }
 
-tbody tr th { display: table-cell; line-height: 1.4; background: #f5f5f5; }
+tbody tr th { display: table-cell; line-height: 1.4; background: #f0f0f0; }
 
 tbody tr th, tbody tr th p, tfoot tr th, tfoot tr th p { color: #222; font-weight: bold; }
 
