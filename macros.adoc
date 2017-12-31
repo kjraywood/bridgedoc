@@ -48,7 +48,8 @@
 //assertion
 :assn: &#8870;
 
-//:downRA: &#8627;
+// arrows
+:blueLDarrow: pass:normal[[.mildblue.big]##&#x2bae;##]
 :downRA: &#x2ba9;
 :forces: &#x279c;
 
