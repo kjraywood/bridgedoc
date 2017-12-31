@@ -42,8 +42,8 @@ parser.add_argument('adocfile', type=argparse.FileType('w'))
 args = parser.parse_args()
 
 # wrapping-list bullets
-WL_BULLS = {  '@' : '&nbsp;{bull}{thinsp}'
-           , '@@' : '&emsp;&nbsp;{tribull}{thinsp}'
+WL_BULLS = {  '@' : '&nbsp;{bull}'
+           , '@@' : '&emsp;&nbsp;{tribull}'
            , '_'  : ''
            , '__' : '&emsp;'
            }
