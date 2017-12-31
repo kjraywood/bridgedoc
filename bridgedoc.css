@@ -682,15 +682,10 @@ div.unbreakable { page-break-inside: avoid; }
 
 .orange-background { background-color: #f7d358; }
 
+.special { background-color: #3fff3f;
+	   color: #000; }
+
 .alert { text-decoration: underline; }
-/* orange background for alerts
-.alert { background-color: #f7d358; } */
-/* cyan background for alerts
-.alert { background-color: #aefefe; } */
-/* mauve background for alerts
-.alert { background-color: #ecd8ff; } */
-/* lime background for alerts
-.alert { background-color: #00fa00; } */
 
 .vraise {vertical-align: 8%; }
 .vvraise {vertical-align: 12.5%; }
