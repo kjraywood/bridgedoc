@@ -40,10 +40,10 @@
 :smbull: pass:normal[[.mildblue]##&bull;##]
 
 // regular bullet
-:bull: pass:normal[[.vvraise.mildblue.ssmall]##&#x25cf;##]
+:bull: pass:normal[[.vvraise.mildblue.ssmall]##&#x25cf;##&thinsp;]
 
 // triangular bullet
-:tribull: pass:normal[[.vraise.mildblue.small]##&#x27a4;##]
+:tribull: pass:normal[[.vraise.mildblue.small]##&#x27a4;##&thinsp;]
 
 //assertion
 :assn: &#8870;
