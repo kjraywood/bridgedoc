@@ -13,6 +13,7 @@
 // :times: &#10761;
 :times: &times;
 :minus: &#8722;
+:ne: &ne;
 
 // heavy plus and minus
 :heavyplus: &#10133;
