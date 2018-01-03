@@ -51,6 +51,7 @@
 
 // arrows
 :blueLDarrow: pass:normal[[.mildblue.big]##&#x2bae;##]
+:blueSWarrow: pass:normal[[.mildblue.big]##*&#x2199;*##]
 :downRA: &#x2ba9;
 :forces: &#x279c;
 
