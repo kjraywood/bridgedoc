@@ -34,7 +34,6 @@
 
 :warning: pass:normal[[.vvraise]##icon:warning[width=20]##]
 :info: pass:normal[[.vvraise]##icon:info[width=20]##]
-:exclamation: pass:normal[[.vraise]##icon:exclamation[width=8]##]
 
 // non-breaking hyphen
 :hyph: &#8209;
