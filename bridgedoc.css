@@ -387,7 +387,7 @@ table.tableblock #preamble > .sectionbody > .paragraph:first-of-type p { font-si
 .admonitionblock > table td.icon { text-align: center; width: 40px; }
 .admonitionblock > table td.icon img { max-width: initial;  height: 32px; width: auto; }
 .admonitionblock > table td.icon .title { font-weight: bold; font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif; text-transform: uppercase; }
-.admonitionblock > table td.content { padding-left: 1.125em; padding-right: 1.25em; border-style: solid; border-width: 1px; border-color: #d9d9d9; margin-bottom: 1.25em; padding: 1.25em; background: #f0f0f0; }
+.admonitionblock > table td.content { padding-left: 0.625em; padding-right: 1.25em; border-left: 1px solid #bbb; }
 .admonitionblock > table td.content > :last-child > :last-child { margin-bottom: 0; }
 
 .exampleblock > .content { border-style: solid; border-width: 1px; border-color: #e6e6e6; margin-bottom: 1.25em; padding: 1.25em; background: #fff; -webkit-border-radius: 0; border-radius: 0; }
@@ -463,7 +463,7 @@ table.pyhltable .linenodiv { background: none !important; padding-right: 0 !impo
 table.tableblock { max-width: 100%; border-collapse: separate; }
 table.tableblock td > .paragraph:last-child p > p:last-child, table.tableblock th > p:last-child, table.tableblock td > p:last-child { margin-bottom: 0; }
 
-table.tableblock, th.tableblock, td.tableblock { border: 0 solid #ddd; }
+table.tableblock, th.tableblock, td.tableblock { border: 0 solid #bbb; }
 
 table.grid-all th.tableblock, table.grid-all td.tableblock { border-width: 0 1px 1px 0; }
 
