@@ -14,6 +14,7 @@
 :times: &times;
 :minus: &#8722;
 :ne: &ne;
+:simto: &#x223c;
 
 // heavy plus and minus
 :heavyplus: &#10133;
@@ -24,6 +25,7 @@
 // full-width symbols
 :fwsemicolon: &#65307;
 :fwplus: &#65291;
+:fwsimto: &#xff5e;
 :lt: &#65308;
 :eq: &#65309;
 :gt: &#65310;
