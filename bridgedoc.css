@@ -686,6 +686,8 @@ div.unbreakable { page-break-inside: avoid; }
 
 .alert { text-decoration: underline; }
 
+.lightgrey-background { background-color: #f0f0f0; }
+
 .vraise {vertical-align: 8%; }
 .vvraise {vertical-align: 12.5%; }
 .ssmall { font-size: 75%; }
