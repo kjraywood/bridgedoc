@@ -682,11 +682,19 @@ div.unbreakable { page-break-inside: avoid; }
 .orange-background { background-color: #f7d358; }
 
 .special { background-color: #5fff5f;
-	   color: #000; }
+	   border: 3px outset #5fff5f;
+	   padding-left: 0.75em;
+	   padding-right: 0.75em;
+	   color: #000;
+	 }
 
 .alert { text-decoration: underline; }
 
-.lightgrey-background { background-color: #ddd; }
+.lightgrey-bg { background-color: #ddd;
+		padding-left: 0.25em;
+		padding-right: 0.25em;
+		white-space: nowrap;
+	      }
 
 .vraise {vertical-align: 8%; }
 .vvraise {vertical-align: 12.5%; }
