@@ -681,10 +681,11 @@ div.unbreakable { page-break-inside: avoid; }
 
 .orange-background { background-color: #f7d358; }
 
-.special { background-color: #5fff5f;
+.special { color: #000;
+	   background-color: #5fff5f;
 	   border: 3px outset #5fff5f;
 	   padding: 0.125em 0.625em;
-	   color: #000;
+	   white-space: nowrap;
 	 }
 
 .alert { text-decoration: underline; }
