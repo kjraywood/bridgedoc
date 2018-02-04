@@ -15,6 +15,7 @@
 :minus: &#8722;
 :ne: &ne;
 :simto: &#x223c;
+:natural: &#x266e;
 
 // heavy plus and minus
 :heavyplus: &#10133;
