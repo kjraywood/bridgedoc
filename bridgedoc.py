@@ -44,8 +44,8 @@ args = parser.parse_args()
 # wrapping-list bullets
 WL_BULLS = {  '@' : '&nbsp;{bull}'
            , '@@' : '&emsp;&nbsp;{tribull}'
-           , '_'  : ''
-           , '__' : '&emsp;'
+           , '_'  : '&emsp;'
+           , '__' : '&emsp;&emsp;'
            }
 
 # wrapping-list format-string
