@@ -41,11 +41,11 @@ parser.add_argument('bdocfile', type=argparse.FileType('r'))
 parser.add_argument('adocfile', type=argparse.FileType('w'))
 args = parser.parse_args()
 
-# wrapping-list bullets
-WL_BULLS = {  '@' : '&nbsp;{bull}'
-           , '@@' : '&emsp;&nbsp;{tribull}'
-           , '_'  : '&emsp;'
-           , '__' : '&emsp;&emsp;'
+# wrapping-list bullets and backspace
+WL_BULLS = {  '@' : ( '&nbsp;{bull}'         , None )
+           , '@@' : ( '&emsp;&nbsp;{tribull}', '{backspace}' )
+           , '_'  : ( '&emsp;'               ,  '{backspace}' )
+           , '__' : ( '&emsp;&emsp;'         , '{backspace}{backspace}' )
            }
 
 # wrapping-list format-string
@@ -77,15 +77,15 @@ for line in bdoc:
 
         # If the first word is not a valid bullet-parameter
         # then NameError will be raised
-        bull = WL_BULLS[ head ]
+        bull, backspace = WL_BULLS[ head ]
     except:
         pass
     else:
         # Is there something to be added to the previous line?
-        if len( head ) == 2:
+        if backspace:
             line = adoc.pop()
             n = -3 if line.endswith( ADNL ) else -1
-            adoc.append( line[:n] + '{backspace}' + line[n:] )
+            adoc.append( line[:n] + backspace + line[n:] )
 
         # Determine index for inserting before EOL
         n = -3 if tail.endswith( ADNL ) else -1
