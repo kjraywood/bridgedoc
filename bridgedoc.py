@@ -44,7 +44,7 @@ args = parser.parse_args()
 # wrapping-list bullets and backspace
 WL_BULLS = {  '@' : ( '&nbsp;{bull}'         , None )
            , '@@' : ( '&emsp;&nbsp;{tribull}', '{backspace}' )
-           , '_'  : ( '&emsp;'               ,  '{backspace}' )
+           , '_'  : ( '&emsp;'               , '{backspacex}' )
            , '__' : ( '&emsp;&emsp;'         , '{backspace}{backspace}' )
            }
 

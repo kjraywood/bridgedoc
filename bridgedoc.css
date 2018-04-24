@@ -710,6 +710,7 @@ div.unbreakable { page-break-inside: avoid; }
 .ssmall { font-size: 75%; }
 
 .backspace { margin-left: -1em; }
+.backspacex { margin-left: -1.25em; }
 
 span.icon > .fa { cursor: default; }
 

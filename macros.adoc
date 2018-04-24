@@ -66,6 +66,7 @@
 :tab: &emsp;&ensp;
 
 :backspace: pass:normal[[.backspace]## ##]
+:backspacex: pass:normal[[.backspacex]## ##]
 
 // limit raise or better
 :LRplus: pass:normal[LR^*+*^]
