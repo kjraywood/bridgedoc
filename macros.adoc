@@ -1,3 +1,10 @@
+// General attributes for all documents
+:icons: image
+:xrefstyle: short
+:table-caption!:
+:hide-uri-scheme:
+:linkattrs:
+
 :C: pass:normal[[.courier.black]##&#9827;##]
 :D: pass:normal[[.courier.red]##&#9830;##]
 :H: pass:normal[[.courier.red]##&#9829;##]

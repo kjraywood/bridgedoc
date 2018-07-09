@@ -5,36 +5,51 @@ ifeq ($(strip $(MAIN)),)
 endif
 
 ifeq ($(strip $(INSTALL_DIR)),)
-    INSTALL_DIR = $(abspath $(CURDIR)/..)
+    INSTALL_DIR = ..
+endif
+
+ifeq ($(strip $(ICONS_DIR)),)
+    ICONS_DIR = ../icons
 endif
 
 SOURCES = $(wildcard *.bdoc)
 ADOCS = $(SOURCES:.bdoc=.adoc)
-HTML = index.html
+
+HTMLS =  $(addprefix $(INSTALL_DIR)/, $(SOURCES:.bdoc=.html))
+
+MAIN_HTML = $(addprefix $(INSTALL_DIR)/, $(MAIN:.adoc=.html))
 
 MACROS = $(THIS_DIR)/macros.adoc
 STYLE_SHEET = $(THIS_DIR)/bridgedoc.css
 PREPROC = python $(THIS_DIR)/bridgedoc.py
 
-.PHONY: all install tidy clean status update pull commit
+UPDATED = Last updated $(shell date '+%B %-d, %Y')
 
-all: $(HTML)
+ADOC_CMD = asciidoctor -a bridgedoc=$(THIS_DIR) \
+		       -a stylesheet=$(STYLE_SHEET) \
+		       -a iconsdir=$(ICONS_DIR) \
+		       -a nofooter \
+		       -a revdate="$(UPDATED)"
 
-$(HTML): $(MAIN) $(MACROS) $(ADOCS) $(STYLE_SHEET)
-	asciidoctor -a stylesheet=$(STYLE_SHEET) \
-		    -a bridgedoc=$(THIS_DIR) $(MAIN) -o $@
+.PHONY: all tidy clean status update pull commit
+.INTERMEDIATE: $(ADOCS)
+
+all: $(MAIN_HTML) $(HTMLS)
 
 %.adoc : %.bdoc
 	$(PREPROC) $< $@
 
-install: $(HTML)
-	install -m 0664 -t $(INSTALL_DIR) $<
+$(INSTALL_DIR)/%.html : %.adoc
+	( cat $(MACROS); echo ; cat $< ) | $(ADOC_CMD) -a toc=left -o $@ -
 
-tidy:
-	$(RM) $(ADOCS)
+$(HTMLS): $(MACROS) $(STYLE_SHEET)
 
-clean: tidy
-	$(RM) $(HTML) *~
+$(MAIN_HTML): $(MAIN) $(ADOCS) $(STYLE_SHEET) $(MACROS)
+	( cat $(MACROS); echo ; cat $< ) | $(ADOC_CMD) -a toc=left \
+	-a doctype=book -o $@ -
+
+clean:
+	$(RM) $(ADOCS) *~
 
 status:
 	git status
@@ -45,4 +60,7 @@ update pull:
 commit:
 	git commit -a
 
-#	@echo $(shell read -p "Comment: " MSG; svn commit -m "$$MSG" )
+echo:
+	@echo INSTALL_PATH=$(INSTALL_PATH)
+	@echo MAIN_HTML=$(MAIN_HTML)
+	@echo HTMLS=$(HTMLS)
