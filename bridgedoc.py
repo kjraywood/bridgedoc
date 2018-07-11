@@ -15,6 +15,9 @@ def proc_bids( s ):
 SUITLEN_REGEX = re.compile( r'(\d)\*([{mMoO])' )
 SUITLEN_REPL = r'\1{xtimes}\2'
 
+# For identifying section-header lines
+HEADER_REGEX = re.compile( r'^=+\s+' )
+
 def proc_suitlen( s ):
     """ Sub suit-lengths: 4*m -> 4{xtimes}m """
     return SUITLEN_REGEX.sub( SUITLEN_REPL, s )
@@ -57,12 +60,15 @@ ADNL = ' +\n'
 with args.bdocfile as f:
     bdoc = f.readlines()
 
-adoc=[]
+adoc = []
+nullprev = True
 
 for line in bdoc:
 
     # Bids and suit-lengths on lines that do not begin with '['
-    if not line.startswith( '[' ):
+    # and are not header lines following a blank line
+    if not line.startswith( '[' ) and (
+         not nullprev or not HEADER_REGEX.match( line ) ):
         line = proc_bids( line )
         line = proc_suitlen( line )
 
@@ -92,6 +98,7 @@ for line in bdoc:
         line = WL_FMT % ( bull, tail[:n], tail[n:] )
 
     adoc.append( line )
+    nullprev = bool( line and line.strip() )
 
 with args.adocfile as f:
     f.writelines( adoc )
