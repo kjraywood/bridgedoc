@@ -61,14 +61,14 @@ with args.bdocfile as f:
     bdoc = f.readlines()
 
 adoc = []
-nullprev = True
+prev = False
 
 for line in bdoc:
 
     # Bids and suit-lengths on lines that do not begin with '['
     # and are not header lines following a blank line
     if not line.startswith( '[' ) and (
-         not nullprev or not HEADER_REGEX.match( line ) ):
+         prev or not HEADER_REGEX.match( line ) ):
         line = proc_bids( line )
         line = proc_suitlen( line )
 
@@ -98,7 +98,7 @@ for line in bdoc:
         line = WL_FMT % ( bull, tail[:n], tail[n:] )
 
     adoc.append( line )
-    nullprev = bool( line and line.strip() )
+    prev = bool( line and line.strip() )
 
 with args.adocfile as f:
     f.writelines( adoc )
