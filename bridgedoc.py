@@ -102,7 +102,7 @@ for line in bdoc:
     # If the line starts with '[', then do not change
     # the value of prev.
     if not line.startswith( '[' ):
-        prev = bool( line and line.strip() ) and
+        prev = bool( line.strip() )
 
 with args.adocfile as f:
     f.writelines( adoc )
