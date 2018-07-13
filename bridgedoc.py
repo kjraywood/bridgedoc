@@ -98,7 +98,11 @@ for line in bdoc:
         line = WL_FMT % ( bull, tail[:n], tail[n:] )
 
     adoc.append( line )
-    prev = bool( line and line.strip() )
+
+    # If the line starts with '[', then do not change
+    # the value of prev.
+    if not line.startswith( '[' ):
+        prev = bool( line and line.strip() ) and
 
 with args.adocfile as f:
     f.writelines( adoc )
