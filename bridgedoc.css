@@ -329,7 +329,7 @@ b.button:after { content: "]"; padding: 0 2px 0 3px; }
 
 #toc { border-bottom: 1px solid #ddd; padding-bottom: 0.5em; }
 #toc > ul { margin-left: 0.125em; }
-#toc ul.sectlevel0 > li > a { font-style: italic; }
+#toc ul.sectlevel0 > li > a { font-style: italic; font-weight: bold; }
 #toc ul.sectlevel0 ul.sectlevel1 { margin: 0.5em 0; }
 #toc ul { font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif; list-style-type: none; }
 #toc li { line-height: 1.3334; margin-top: 0.3334em; }
