@@ -4,6 +4,10 @@ ifeq ($(strip $(MAIN)),)
     MAIN = system.adoc
 endif
 
+ifeq ($(strip $(INDEX)),)
+    INDEX = index.adoc
+endif
+
 ifeq ($(strip $(INSTALL_DIR)),)
     INSTALL_DIR = ..
 endif
@@ -19,6 +23,8 @@ HTMLS =  $(addprefix $(INSTALL_DIR)/, $(SOURCES:.bdoc=.html))
 
 MAIN_HTML = $(addprefix $(INSTALL_DIR)/, $(MAIN:.adoc=.html))
 
+INDEX_HTML = $(addprefix $(INSTALL_DIR)/, $(INDEX:.adoc=.html))
+
 MACROS = $(THIS_DIR)/macros.adoc
 STYLE_SHEET = $(THIS_DIR)/bridgedoc.css
 PREPROC = python $(THIS_DIR)/bridgedoc.py
@@ -31,22 +37,31 @@ ADOC_CMD = asciidoctor -a bridgedoc=$(THIS_DIR) \
 		       -a nofooter \
 		       -a revdate="$(UPDATED)"
 
-.PHONY: all tidy clean status update pull commit
+.PHONY: all parts index system tidy clean status update pull commit
 .INTERMEDIATE: $(ADOCS)
 
-all: $(MAIN_HTML) $(HTMLS)
+all: parts index system
+
+parts: $(HTMLS)
+
+index: $(INDEX_HTML)
+
+system: $(MAIN_HTML)
 
 %.adoc : %.bdoc
 	$(PREPROC) $< $@
 
-$(INSTALL_DIR)/%.html : %.adoc
-	( cat $(MACROS); echo ; cat $< ) | $(ADOC_CMD) -a toc=left -o $@ -
+$(INSTALL_DIR)/%.html : %.bdoc
+	( cat $(MACROS); echo ; $(PREPROC) $< - ) | $(ADOC_CMD) -a toc=left -o $@ -
 
 $(HTMLS): $(MACROS) $(STYLE_SHEET)
 
 $(MAIN_HTML): $(MAIN) $(ADOCS) $(STYLE_SHEET) $(MACROS)
 	( cat $(MACROS); echo ; cat $< ) | $(ADOC_CMD) -a toc=left \
 	-a doctype=book -o $@ -
+
+$(INDEX_HTML): $(INDEX) $(STYLE_SHEET) $(MACROS)
+	( cat $(MACROS); echo ; cat $< ) | $(ADOC_CMD) -a toc! -o $@ -
 
 clean:
 	$(RM) $(ADOCS) *~
