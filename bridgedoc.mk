@@ -12,12 +12,22 @@ ifeq ($(strip $(INSTALL_DIR)),)
     INSTALL_DIR = ..
 endif
 
+# ICONS_DIR and CSS_DIR are relative to INSTALL_DIR
+
 ifeq ($(strip $(ICONS_DIR)),)
     ICONS_DIR = ../icons
 endif
 
+ifeq ($(strip $(CSS_DIR)),)
+    CSS_DIR = ../css
+endif
+
 SOURCES = $(wildcard *.bdoc)
 ADOCS = $(SOURCES:.bdoc=.adoc)
+
+MACROS = $(THIS_DIR)/macros.adoc
+STYLE_SHEET_SRC = $(THIS_DIR)/bridgedoc.css
+PREPROC = python $(THIS_DIR)/bridgedoc.py
 
 HTMLS =  $(addprefix $(INSTALL_DIR)/, $(SOURCES:.bdoc=.html))
 
@@ -25,19 +35,20 @@ MAIN_HTML = $(addprefix $(INSTALL_DIR)/, $(MAIN:.adoc=.html))
 
 INDEX_HTML = $(addprefix $(INSTALL_DIR)/, $(INDEX:.adoc=.html))
 
-MACROS = $(THIS_DIR)/macros.adoc
-STYLE_SHEET = $(THIS_DIR)/bridgedoc.css
-PREPROC = python $(THIS_DIR)/bridgedoc.py
+STYLE_SHEET = $(notdir $(STYLE_SHEET_SRC))
+
+STYLE_SHEET_TGT =  $(INSTALL_DIR)/$(CSS_DIR)/$(STYLE_SHEET)
 
 UPDATED = Last updated $(shell date '+%B %-d, %Y')
 
 ADOC_CMD = asciidoctor -a bridgedoc=$(THIS_DIR) \
-		       -a stylesheet=$(STYLE_SHEET) \
+		       -a stylesheet=$(CSS_DIR)/$(STYLE_SHEET) \
+		       -a linkcss \
 		       -a iconsdir=$(ICONS_DIR) \
 		       -a nofooter \
 		       -a revdate="$(UPDATED)"
 
-.PHONY: all parts index system tidy clean status update pull commit
+.PHONY: all parts index system css tidy clean status update pull commit
 .INTERMEDIATE: $(ADOCS)
 
 all: parts index system
@@ -48,20 +59,25 @@ index: $(INDEX_HTML)
 
 system: $(MAIN_HTML)
 
+css: $(STYLE_SHEET_TGT)
+
 %.adoc : %.bdoc
 	$(PREPROC) $< $@
 
 $(INSTALL_DIR)/%.html : %.bdoc
 	( cat $(MACROS); echo ; $(PREPROC) $< - ) | $(ADOC_CMD) -a toc=left -o $@ -
 
-$(HTMLS): $(MACROS) $(STYLE_SHEET)
+$(HTMLS): $(MACROS) $(STYLE_SHEET_TGT)
 
-$(MAIN_HTML): $(MAIN) $(ADOCS) $(STYLE_SHEET) $(MACROS)
+$(MAIN_HTML): $(MAIN) $(ADOCS) $(STYLE_SHEET_TGT) $(MACROS)
 	( cat $(MACROS); echo ; cat $< ) | $(ADOC_CMD) -a toc=left \
 	-a doctype=book -o $@ -
 
-$(INDEX_HTML): $(INDEX) $(STYLE_SHEET) $(MACROS)
+$(INDEX_HTML): $(INDEX) $(STYLE_SHEET_TGT) $(MACROS)
 	( cat $(MACROS); echo ; cat $< ) | $(ADOC_CMD) -a toc! -o $@ -
+
+$(STYLE_SHEET_TGT): $(STYLE_SHEET_SRC)
+	install -p -m 0644 $< $@
 
 clean:
 	$(RM) $(ADOCS) *~
