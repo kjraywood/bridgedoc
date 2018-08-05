@@ -24,6 +24,7 @@
 :simto: &#x223c;
 :natural: &#x266e;
 :ge: &#x2a7e;
+:superdag: pass:normal[^&dagger;^]
 
 // heavy plus and minus
 :heavyplus: &#10133;
