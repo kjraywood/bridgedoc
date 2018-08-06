@@ -699,7 +699,7 @@ div.unbreakable { page-break-inside: avoid; }
 
 .alert { text-decoration: underline; }
 
-.lightgrey-bg { background-color: #ddd;
+.lightgrey-bg { background-color: #f0f0f0;
 		padding-left: 0.25em;
 		padding-right: 0.25em;
 		white-space: nowrap;
