@@ -683,13 +683,6 @@ div.unbreakable { page-break-inside: avoid; }
 
 .orange-bg { background-color: #ffb732; }
 
-.special { color: #000;
-	   background-color: #5fff5f;
-	   border: 3px outset #5fff5f;
-	   padding: 0.125em 0.625em;
-	   white-space: nowrap;
-	 }
-
 .orange-box { color: #000;
 	   background-color: #ffa500;
 	   border: 3px outset #ffa500;
