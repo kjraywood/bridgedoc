@@ -44,10 +44,11 @@
 // :xtimes: pass:normal[&thinsp;&#10761;&thinsp;]
 :xtimes: pass:normal[&thinsp;&times;&thinsp;]
 
-:warning: pass:normal[[.vvraise]##icon:warning[width=20]##]
+:warning: pass:normal[[.vraise]##icon:warning[width=24]##&nbsp;]
 :info: pass:normal[[.vvraise]##icon:info[width=20]##]
 :ignore: pass:normal[[.vvraise]##icon:ignore[width=20]##]
-:reference: pass:normal[[.vvraise]##icon:reference[width=20]##]
+:reference: pass:normal[[.vraise]##icon:reference[width=24]##&ensp;]
+:important: pass:normal[[.vraise]##icon:important[width=32]##&nbsp;]
 
 // non-breaking hyphen
 :hyph: &#8209;
