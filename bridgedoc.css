@@ -681,7 +681,10 @@ div.unbreakable { page-break-inside: avoid; }
 
 .lime-bg { background-color: #5fff5f; }
 
-.orange-bg { background-color: #ffb732; }
+.orange-bg { background-color: #ffc737;
+		padding-left: 0.25em;
+		padding-right: 0.25em;
+	   }
 
 .orange-box { color: #000;
 	   background-color: #ffa500;
