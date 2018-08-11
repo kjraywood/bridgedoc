@@ -47,6 +47,7 @@
 :warning: pass:normal[[.vvraise]##icon:warning[width=20]##]
 :info: pass:normal[[.vvraise]##icon:info[width=20]##]
 :ignore: pass:normal[[.vvraise]##icon:ignore[width=20]##]
+:reference: pass:normal[[.vvraise]##icon:reference[width=20]##]
 
 // non-breaking hyphen
 :hyph: &#8209;
