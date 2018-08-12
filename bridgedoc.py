@@ -11,6 +11,14 @@ def proc_bids( s ):
     """ Sub bids: 1C -> 1{C}, ..."""
     return BIDS_REGEX.sub( BIDS_REPL, s )
 
+# Allow escaping of C,D,H or S
+ESC_REGEX = re.compile( r'\\([CDHS])' )
+ESC_REPL  = r'\1'
+
+def proc_esc( s ):
+    """ \C -> C, ..."""
+    return ESC_REGEX.sub( ESC_REPL, s )
+
 # Suit-lengths
 SUITLEN_REGEX = re.compile( r'(\d)\*([{mMoO])' )
 SUITLEN_REPL = r'\1{xtimes}\2'
@@ -81,6 +89,7 @@ for line in bdoc:
         line = proc_bids( line )
         line = proc_suitlen( line )
 
+    line = proc_esc( line )
     line = proc_alerts( line )
     line = proc_l4head( line )
     line = proc_alert_line( line )
