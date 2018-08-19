@@ -39,14 +39,14 @@ STYLE_SHEET = $(notdir $(STYLE_SHEET_SRC))
 
 STYLE_SHEET_TGT =  $(INSTALL_DIR)/$(CSS_DIR)/$(STYLE_SHEET)
 
-UPDATED = Last updated $(shell date '+%B %-d, %Y')
+FUNC_FILEDATE = Last updated $(shell \
+                     date -d "$$(stat --printf '%y' $(1))" '+%B %-d, %Y')
 
 ADOC_CMD = asciidoctor -a bridgedoc=$(THIS_DIR) \
 		       -a stylesheet=$(CSS_DIR)/$(STYLE_SHEET) \
 		       -a linkcss \
 		       -a iconsdir=$(ICONS_DIR) \
-		       -a nofooter \
-		       -a revdate="$(UPDATED)"
+		       -a nofooter
 
 .PHONY: all parts index system css tidy clean status update pull commit
 .INTERMEDIATE: $(ADOCS)
@@ -65,16 +65,18 @@ css: $(STYLE_SHEET_TGT)
 	$(PREPROC) $< $@
 
 $(INSTALL_DIR)/%.html : %.bdoc
-	( cat $(MACROS); echo ; $(PREPROC) $< - ) | $(ADOC_CMD) -a toc=left -o $@ -
+	( cat $(MACROS); echo ; $(PREPROC) $< - ) | $(ADOC_CMD) \
+	-a toc=left -a revdate="$(call FUNC_FILEDATE, $<)" -o $@ -
 
 $(HTMLS): $(MACROS) $(STYLE_SHEET_TGT)
 
 $(MAIN_HTML): $(MAIN) $(ADOCS) $(STYLE_SHEET_TGT) $(MACROS)
 	( cat $(MACROS); echo ; cat $< ) | $(ADOC_CMD) -a toc=left \
-	-a doctype=book -o $@ -
+	-a doctype=book -a revdate="$(call FUNC_FILEDATE, .)" -o $@ -
 
 $(INDEX_HTML): $(INDEX) $(STYLE_SHEET_TGT) $(MACROS)
-	( cat $(MACROS); echo ; cat $< ) | $(ADOC_CMD) -a toc! -o $@ -
+	( cat $(MACROS); echo ; cat $< ) | $(ADOC_CMD) -a toc! \
+	-a revdate="$(call FUNC_FILEDATE, .)" -o $@ -
 
 $(STYLE_SHEET_TGT): $(STYLE_SHEET_SRC)
 	install -p -m 0644 $< $@
