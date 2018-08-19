@@ -34,9 +34,14 @@ def proc_suitlen( s ):
 ALERT_REGEX = re.compile( r'!([\w{}]+)!' )
 ALERT_REPL  = r'[alert]#\1#'
 
+ALERT_REGEX2 = re.compile( r'!!([\w{}]+)!!' )
+ALERT_REPL2  = r'[alert]##\1##'
+
 def proc_alerts( s ):
     """ Sub alerts: !3{S}! -> [alert]##3{S}## """
-    return ALERT_REGEX.sub( ALERT_REPL, s )
+    return ALERT_REGEX.sub( ALERT_REPL
+                          ,  ALERT_REGEX2.sub( ALERT_REPL2, s )
+                          )
 
 # in-line level-4 header
 L4HEAD_REGEX = re.compile( r'^&([^&]+)&(?=[^&]|$)' )
