@@ -28,6 +28,7 @@ ADOCS = $(SOURCES:.bdoc=.adoc)
 MACROS = $(THIS_DIR)/macros.adoc
 STYLE_SHEET_SRC = $(THIS_DIR)/bridgedoc.css
 PREPROC = python $(THIS_DIR)/bridgedoc.py
+EXTN_SECTNUMOFFSET = $(THIS_DIR)/lib/sectnumoffset-treeprocessor.rb
 
 HTMLS =  $(addprefix $(INSTALL_DIR)/, $(SOURCES:.bdoc=.html))
 
@@ -44,7 +45,7 @@ FUNC_FILEDATE = Last updated $(shell \
 
 ADOC_CMD = asciidoctor -a bridgedoc=$(THIS_DIR) \
 		       -a stylesheet=$(CSS_DIR)/$(STYLE_SHEET) \
-		       -a linkcss \
+		       -a linkcss -a sectnums \
 		       -a iconsdir=$(ICONS_DIR) \
 		       -a nofooter
 
@@ -66,7 +67,8 @@ css: $(STYLE_SHEET_TGT)
 
 $(INSTALL_DIR)/%.html : %.bdoc
 	( cat $(MACROS); echo ; $(PREPROC) $< - ) | $(ADOC_CMD) \
-	-a toc=left -a revdate="$(call FUNC_FILEDATE, $<)" -o $@ -
+	-a toc=left -a revdate="$(call FUNC_FILEDATE, $<)" \
+	-r $(EXTN_SECTNUMOFFSET) -o $@ -
 
 $(HTMLS): $(MACROS) $(STYLE_SHEET_TGT)
 
