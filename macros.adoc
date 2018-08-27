@@ -49,6 +49,7 @@
 :ignore: pass:normal[[.vvraise]##icon:ignore[width=20]##]
 :reference: pass:normal[[.vraise]##icon:reference[width=24]##&ensp;]
 :important: pass:normal[[.vraise]##icon:important[width=32]##&nbsp;]
+:new: pass:normal[[.vraise]##icon:new[width=32]##&nbsp;]
 
 // non-breaking hyphen
 :hyph: &#8209;
