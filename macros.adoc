@@ -23,6 +23,7 @@
 :ne: &ne;
 :simto: &#x223c;
 :natural: &#x266e;
+:le: &#x2a7d;
 :ge: &#x2a7e;
 :superdag: pass:normal[^&dagger;^]
 
