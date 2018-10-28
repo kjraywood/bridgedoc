@@ -594,6 +594,13 @@ sup.footnote a:active, sup.footnoteref a:active { text-decoration: underline; }
 
 div.unbreakable { page-break-inside: avoid; }
 
+@media only screen  and (max-device-width: 896px) {
+   .clubs { font-size: 75%; vertical-align: 8%; }
+   .diamonds { font-size: 70%; vertical-align: 8%; }
+   .hearts { font-size: 80%; vertical-align: 8%; }
+   .spades { font-size: 75%; vertical-align: 8%; }
+}
+
 /* Kel - a non-breaking span */
 .nobr { white-space: nowrap; }
 
@@ -693,7 +700,13 @@ div.unbreakable { page-break-inside: avoid; }
 	   white-space: nowrap;
 	 }
 
-.alert { text-decoration: underline; }
+.alert { -webkit-text-decoration:  #005793 solid underline;
+         text-decoration:  #005793 solid underline;
+         -webkit-text-decoration-skip: ink;
+         text-decoration-skip: ink;
+         -webkit-text-underline-position: under;
+	 text-underline-position: under;
+       }
 
 .lightgrey-bg { background-color: #f0f0f0;
 		padding-left: 0.25em;
