@@ -207,7 +207,7 @@ strong, b { font-weight: bold; line-height: inherit; }
 
 small { font-size: 60%; line-height: inherit; }
 
-code { font-family: Consolas, "Liberation Mono", Courier, monospace; font-weight: bold; color: #7f0a0c; }
+code { font-family: Consolas, "Liberation Mono", Courier, monospace; font-weight: bold; }
 
 /* Lists */
 ul, ol, dl { font-size: 1em; line-height: 1.6; margin-bottom: 1.25em; list-style-position: outside; font-family: inherit; }
@@ -602,9 +602,6 @@ div.unbreakable { page-break-inside: avoid; }
 
 .brickred { color: #7a2518; }
 .githubblue { color: #0366d6; }
-
-/* Kel - prefer suit symbols with courier */
-.courier { font-family: Courier; }
 
 .big { font-size: larger; }
 
