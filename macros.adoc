@@ -5,15 +5,10 @@
 :hide-uri-scheme:
 :linkattrs:
 
-:C: pass:normal[[.courier.black]##&#9827;##]
-:D: pass:normal[[.courier.red]##&#9830;##]
-:H: pass:normal[[.courier.red]##&#9829;##]
-:S: pass:normal[[.courier.black]##&#9824;##]
-
-:clubs:  pass:normal[[.courier]##&#9827;##]
-:diams:  pass:normal[[.courier]##&#9830;##]
-:hearts: pass:normal[[.courier]##&#9829;##]
-:spades: pass:normal[[.courier]##&#9824;##]
+:C: pass:normal[[.clubs.black]##&#x2663;##]
+:D: pass:normal[[.diamonds.red]##&#x2666;##]
+:H: pass:normal[[.hearts.red]##&#x2665;##]
+:S: pass:normal[[.spades.black]##&#x2660;##]
 
 :ndash:  pass:normal[&ndash;]
 
@@ -31,7 +26,7 @@
 :heavyplus: &#10133;
 :heavyminus: &#10134;
 
-:semicolon: pass:normal[[.courier]##&#59;##]
+:semicolon: pass:normal[`&#59;`]
 
 // full-width symbols
 :fwsemicolon: &#65307;
@@ -91,3 +86,5 @@
 // :OrMore: pass:normal[[.black]##^&#10133;^##]
 
 :or: pass:normal[*|*]
+
+:vsep: pass:normal[[.mildblue]##&#x2503;##]
