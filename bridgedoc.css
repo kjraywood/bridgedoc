@@ -607,7 +607,13 @@ div.unbreakable { page-break-inside: avoid; }
 
 .small { font-size: smaller; }
 
-.underline { text-decoration: underline; }
+.underline { -webkit-text-decoration: underline;
+	 text-decoration:  underline;
+	 -webkit-text-decoration-skip: ink;
+	 text-decoration-skip: ink;
+	 -webkit-text-underline-position: under;
+	 text-underline-position: under;
+       }
 
 .overline { text-decoration: overline; }
 
@@ -693,8 +699,8 @@ div.unbreakable { page-break-inside: avoid; }
 	   white-space: nowrap;
 	 }
 
-.alert { -webkit-text-decoration:  #0366d6 solid underline;
-	 text-decoration:  #0366d6 solid underline;
+.alert { -webkit-text-decoration: underline;
+	 text-decoration:  underline;
 	 -webkit-text-decoration-skip: ink;
 	 text-decoration-skip: ink;
 	 -webkit-text-underline-position: under;
