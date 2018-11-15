@@ -260,11 +260,20 @@ blockquote, blockquote p { line-height: 1.6; color: #6f6f6f; }
 
 /* Tables */
 table { background: #fff; margin-bottom: 1em; border: solid 1px #ddd; }
-table thead, table tfoot { background: #f0f0f0; }
-table thead tr th, table thead tr td, table tfoot tr th, table tfoot tr td { padding: 0.125em 0.5em; font-size: inherit; color: #000; text-align: left; }
+table thead, table tfoot { background: #f7f7f7; }
+
+table thead tr th, table thead tr td, table tfoot tr th, table tfoot tr td { padding: 0.125em 0.5em;
+									     font-size: inherit;
+									     color: #000;
+									     background: #fff;
+									     text-align: left;
+									   }
+
 table tr th, table tr td { padding: 0.2em 0.5em 0.05em 0.5em; font-size: inherit; color: #000; }
-table tr.even, table tr.alt, table tr:nth-of-type(even) { background: #f0f0f0; }
-table thead tr th, table tfoot tr th, table tbody tr td, table tr td, table tfoot tr td { display: table-cell; line-height: 1.4; }
+table tr.odd, table tr.alt, table tr:nth-of-type(odd) { background: #efefef; }
+table thead tr th, table tfoot tr th, table tbody tr td, table tr td, table tfoot tr td { display: table-cell;
+											  line-height: 1.4;
+											}
 
 body { -moz-osx-font-smoothing: grayscale; -webkit-font-smoothing: antialiased; tab-size: 4; }
 
@@ -389,6 +398,7 @@ table.tableblock #preamble > .sectionbody > [class="paragraph"]:first-of-type p 
 .admonitionblock > table td.icon .title { font-weight: bold; font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif; text-transform: uppercase; }
 .admonitionblock > table td.content { padding-left: 0.625em; padding-right: 1.25em; border-left: 1px solid #bbb; }
 .admonitionblock > table td.content > :last-child > :last-child { margin-bottom: 0; }
+.admonitionblock > table tr { background: none; }
 
 .exampleblock > .content { border-style: solid; border-width: 1px; border-color: #e6e6e6; margin-bottom: 1.25em; padding: 1.25em; background: #fff; -webkit-border-radius: 0; border-radius: 0; }
 .exampleblock > .content > :first-child { margin-top: 0; }
@@ -486,7 +496,7 @@ table.frame-sides { border-width: 0 1px; }
 table.frame-topbot, table.frame-ends { border-width:1px 0 }
 
 /* new lines (1.5.8) - might not need */
-table.stripes-all tr,table.stripes-odd tr:nth-of-type(odd) { background:#f8f8f7 }
+table.stripes-all tr,table.stripes-odd tr:nth-of-type(odd) { background:#efefef }
 table.stripes-none tr,table.stripes-odd tr:nth-of-type(even) { background:none }
 
 th.halign-left, td.halign-left { text-align: left; }
