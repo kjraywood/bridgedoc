@@ -604,6 +604,9 @@ sup.footnote a:active, sup.footnoteref a:active { text-decoration: underline; }
 
 div.unbreakable { page-break-inside: avoid; }
 
+/* Kel - extra emphasis */
+.xemph { color: #0366d6; font-family: "Noto Serif", "DejaVu Serif", serif; font-weight: normal; font-style: italic; }
+
 /* Kel - a non-breaking span */
 .nobr { white-space: nowrap; }
 
