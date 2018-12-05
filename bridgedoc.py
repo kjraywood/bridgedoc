@@ -54,7 +54,7 @@ def proc_l4head( s ):
 
 # Lines beginning with ALERT:
 ALERT_LINE_REGEX = re.compile( r'^ALERT:\s+(.*)$' )
-ALERT_LINE_REPL  = r'{important} [blue]##__\1__##'
+ALERT_LINE_REPL  = r'{important} [.xemph.blue]##__\1__##'
 
 def proc_alert_line( s ):
     """ Sub lines beiginging with 'ALERT: '"""
