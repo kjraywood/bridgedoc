@@ -726,6 +726,16 @@ div.unbreakable { page-break-inside: avoid; }
 		white-space: nowrap;
 	      }
 
+.lightgrey-box { color: #000;
+		 display: inline-box;
+		 background-color: #efefef;
+		 border-style: solid;
+		 border-width: 1px;
+		 border-color: #bbb;
+		 padding: 0.375em 0.625em 0.125em;
+		 white-space: nowrap;
+	 }
+
 .vraise {vertical-align: 8%; }
 .vvraise {vertical-align: 12.5%; }
 .ssmall { font-size: 75%; }
