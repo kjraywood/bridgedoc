@@ -734,7 +734,7 @@ div.unbreakable { page-break-inside: avoid; }
 		 border-color: #bbb;
 		 padding: 0.125em 0.625em 0.0em;
 		 white-space: nowrap;
-		 margin: 0.0625em;
+		 margin: 0.0625em 0.5em 0.0625em 0.0em;
 	 }
 
 .vraise {vertical-align: 8%; }
