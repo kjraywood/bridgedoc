@@ -22,6 +22,10 @@
 :ge: &#x2a7e;
 :superdag: pass:normal[^&dagger;^]
 
+// angle brackets
+:lab: &#x27ea;
+:rab: &#x27eb;
+
 // heavy plus and minus
 :heavyplus: &#10133;
 :heavyminus: &#10134;
