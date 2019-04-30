@@ -70,13 +70,11 @@ $(INSTALL_DIR)/%.html : %.bdoc
 	-a toc=left -a revdate="$(call FUNC_FILEDATE, $<)" \
 	-r $(EXTN_SECTNUMOFFSET) -o $@ -
 
-$(HTMLS): $(MACROS) $(STYLE_SHEET_TGT)
-
-$(MAIN_HTML): $(MAIN) $(ADOCS) $(STYLE_SHEET_TGT) $(MACROS)
+$(MAIN_HTML): $(MAIN) $(ADOCS)
 	( cat $(MACROS); echo ; cat $< ) | $(ADOC_CMD) -a toc=left \
 	-a doctype=book -a revdate="$(call FUNC_FILEDATE, .)" -o $@ -
 
-$(INDEX_HTML): $(INDEX) $(STYLE_SHEET_TGT) $(MACROS)
+$(INDEX_HTML): $(INDEX)
 	( cat $(MACROS); echo ; cat $< ) | $(ADOC_CMD) -a toc! \
 	-a revdate="$(call FUNC_FILEDATE, .)" -o $@ -
 
