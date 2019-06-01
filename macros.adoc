@@ -5,10 +5,10 @@
 :hide-uri-scheme:
 :linkattrs:
 
-:C: pass:normal[[.clubs.black]##&#x2663;##]
-:D: pass:normal[[.diamonds.red]##&#x2666;##]
+:C: pass:normal[[.clubs.green]##&#x2663;##]
+:D: pass:normal[[.diamonds.orange]##&#x2666;##]
 :H: pass:normal[[.hearts.red]##&#x2665;##]
-:S: pass:normal[[.spades.black]##&#x2660;##]
+:S: pass:normal[[.spades.blue]##&#x2660;##]
 
 :ndash:  pass:normal[&ndash;]
 
