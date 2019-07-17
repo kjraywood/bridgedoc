@@ -258,6 +258,18 @@ blockquote, blockquote p { line-height: 1.6; color: #6f6f6f; }
   /* h4 { font-size: 1.4375em; } */
 }
 
+@media print {
+  #content {
+    column-count: 2;
+    -webkit-column-count: 2;
+    -moz-column-count: 2;
+    /* column-rule: 0.05em solid grey; */
+    column-gap: 60px;
+    -webkit-column-gap: 60px;
+    -moz-column-gap: 60px;
+  }
+}
+
 /* Tables */
 table { background: #fff; margin-bottom: 1em; border: solid 1px #ddd; }
 table thead, table tfoot { background: #f7f7f7; }
