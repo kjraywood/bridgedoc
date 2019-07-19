@@ -4,6 +4,10 @@ ifeq ($(strip $(MAIN)),)
     MAIN = system.adoc
 endif
 
+ifeq ($(strip $(REMINDERS)),)
+    REMINDERS = reminders.adoc
+endif
+
 ifeq ($(strip $(INDEX)),)
     INDEX = index.adoc
 endif
@@ -34,6 +38,9 @@ HTMLS =  $(addprefix $(INSTALL_DIR)/, $(SOURCES:.bdoc=.html))
 
 MAIN_HTML = $(addprefix $(INSTALL_DIR)/, $(MAIN:.adoc=.html))
 
+REMINDERS_CSS = $(REMINDERS:.adoc=.css)
+REMINDERS_HTML = $(addprefix $(INSTALL_DIR)/, $(REMINDERS:.adoc=.html))
+
 INDEX_HTML = $(addprefix $(INSTALL_DIR)/, $(INDEX:.adoc=.html))
 
 STYLE_SHEET = $(notdir $(STYLE_SHEET_SRC))
@@ -44,12 +51,12 @@ FUNC_FILEDATE = Last updated $(shell \
                      date -d "$$(stat --printf '%y' $(1))" '+%B %-d, %Y')
 
 ADOC_CMD = asciidoctor -a bridgedoc=$(THIS_DIR) \
-		       -a stylesheet=$(CSS_DIR)/$(STYLE_SHEET) \
-		       -a linkcss -a sectnums \
 		       -a iconsdir=$(ICONS_DIR) \
-		       -a nofooter
+		       -a sectnums -a nofooter
 
-.PHONY: all parts index system css tidy clean status update pull commit
+CSS_OPTS = -a stylesheet=$(CSS_DIR)/$(STYLE_SHEET) -a linkcss
+
+.PHONY: all parts index system reminders css tidy clean status update pull commit
 .INTERMEDIATE: $(ADOCS)
 
 all: parts index system
@@ -60,19 +67,25 @@ index: $(INDEX_HTML)
 
 system: $(MAIN_HTML)
 
+reminders: $(REMINDERS_HTML)
+
 css: $(STYLE_SHEET_TGT)
 
 %.adoc : %.bdoc
 	$(PREPROC) $< $@
 
 $(INSTALL_DIR)/%.html : %.bdoc
-	( cat $(MACROS); echo ; $(PREPROC) $< - ) | $(ADOC_CMD) \
+	( cat $(MACROS); echo ; $(PREPROC) $< - ) | $(ADOC_CMD) $(CSS_OPTS) \
 	-a toc=left -a revdate="$(call FUNC_FILEDATE, $<)" \
 	-r $(EXTN_SECTNUMOFFSET) -o $@ -
 
 $(MAIN_HTML): $(MAIN) $(ADOCS)
-	( cat $(MACROS); echo ; cat $< ) | $(ADOC_CMD) -a toc=left \
+	( cat $(MACROS); echo ; cat $< ) | $(ADOC_CMD) $(CSS_OPTS) -a toc=left \
 	-a doctype=book -a revdate="$(call FUNC_FILEDATE, .)" -o $@ -
+
+$(REMINDERS_HTML): $(REMINDERS) $(REMINDERS_CSS)
+	( cat $(MACROS); echo ; cat $< ) | $(ADOC_CMD) -a stylesheet=$(REMINDERS_CSS) \
+	-a revdate="$(call FUNC_FILEDATE, .)" -o $@ -
 
 $(INDEX_HTML): $(INDEX)
 	( cat $(MACROS); echo ; cat $< ) | $(ADOC_CMD) -a toc! \
