@@ -23,8 +23,12 @@
 :superdag: pass:normal[^&dagger;^]
 
 // angle brackets
-:lab: &#x27ea;
-:rab: &#x27eb;
+:lab: &#x27e8;
+:rab: &#x27e9;
+
+// double angle brackets
+:dlab: &#x27ea;
+:drab: &#x27eb;
 
 // heavy plus and minus
 :heavyplus: &#10133;
