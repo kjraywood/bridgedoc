@@ -282,7 +282,7 @@ table thead tr th, table thead tr td, table tfoot tr th, table tfoot tr td { pad
 									   }
 
 table tr th, table tr td { padding: 0.2em 0.5em 0.05em 0.5em; font-size: inherit; color: #000; }
-table tr.odd, table tr.alt, table tr:nth-of-type(odd) { background: #efefef; }
+table tr.odd, table tr.alt, table tr:nth-of-type(odd) { background: #e7e7e7; }
 table thead tr th, table tfoot tr th, table tbody tr td, table tr td, table tfoot tr td { display: table-cell;
 											  line-height: 1.4;
 											}
@@ -356,7 +356,7 @@ b.button::after { content: "]"; padding: 0 2px 0 3px; }
 
 @media screen and (min-width:768px){#toctitle{font-size:1.375em}
   body.toc2 { padding-left: 15em; padding-right: 0; }
-  #toc.toc2 { margin-top: 0 !important; background-color: #f0f0f0; position: fixed; width: 15em; left: 0; top: 0; border-right: 1px solid #ddd; border-top-width: 0 !important; border-bottom-width: 0 !important; z-index: 1000; padding: 1.25em 1em; height: 100%; overflow: auto; }
+  #toc.toc2 { margin-top: 0 !important; background-color: #e7e7e7; position: fixed; width: 15em; left: 0; top: 0; border-right: 1px solid #ddd; border-top-width: 0 !important; border-bottom-width: 0 !important; z-index: 1000; padding: 1.25em 1em; height: 100%; overflow: auto; }
   #toc.toc2 #toctitle { margin-top: 0; margin-bottom: 0.8rem; font-size: 1.2em; }
   #toc.toc2 > ul { font-size: 0.9em; margin-bottom: 0; }
   #toc.toc2 ul ul { margin-left: 0; padding-left: 1em; }
@@ -508,7 +508,7 @@ table.frame-sides { border-width: 0 1px; }
 table.frame-topbot, table.frame-ends { border-width:1px 0 }
 
 /* new lines (1.5.8) - might not need */
-table.stripes-all tr,table.stripes-odd tr:nth-of-type(odd) { background:#efefef }
+table.stripes-all tr,table.stripes-odd tr:nth-of-type(odd) { background:#e7e7e7 }
 table.stripes-none tr,table.stripes-odd tr:nth-of-type(even) { background:none }
 
 th.halign-left, td.halign-left { text-align: left; }
@@ -742,7 +742,7 @@ div.unbreakable { page-break-inside: avoid; }
 
 .lightgrey-box { color: #000;
 		 display: inline-block;
-		 background-color: #efefef;
+		 background-color: #e7e7e7;
 		 border-style: solid;
 		 border-width: 1px;
 		 border-color: #bbb;
