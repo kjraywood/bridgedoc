@@ -88,7 +88,7 @@ $(REMINDERS_HTML): $(REMINDERS) $(REMINDERS_CSS)
 	-a revdate="$(call FUNC_FILEDATE, .)" -o $@ -
 
 $(INDEX_HTML): $(INDEX)
-	( cat $(MACROS); echo ; cat $< ) | $(ADOC_CMD) -a toc! \
+	( cat $(MACROS); echo ; cat $< ) | $(ADOC_CMD) $(CSS_OPTS) -a toc! \
 	-a revdate="$(call FUNC_FILEDATE, .)" -o $@ -
 
 $(STYLE_SHEET_TGT): $(STYLE_SHEET_SRC)
