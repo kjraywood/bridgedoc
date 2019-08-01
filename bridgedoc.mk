@@ -47,8 +47,7 @@ STYLE_SHEET = $(notdir $(STYLE_SHEET_SRC))
 
 STYLE_SHEET_TGT =  $(INSTALL_DIR)/$(CSS_DIR)/$(STYLE_SHEET)
 
-FUNC_FILEDATE = Last updated $(shell \
-                     date -d "$$(stat --printf '%y' $(1))" '+%B %-d, %Y')
+FUNC_FILEDATE = $(shell date -d "$$(stat --printf '%y' $(1))" '+%B %-d, %Y')
 
 ADOC_CMD = asciidoctor -a bridgedoc=$(THIS_DIR) \
 		       -a iconsdir=$(ICONS_DIR) \
@@ -80,11 +79,13 @@ $(INSTALL_DIR)/%.html : %.bdoc
 	-r $(EXTN_SECTNUMOFFSET) -o $@ -
 
 $(MAIN_HTML): $(MAIN) $(ADOCS)
-	( cat $(MACROS); echo ; cat $< ) | $(ADOC_CMD) $(CSS_OPTS) -a toc=left \
-	-a doctype=book -a revdate="$(call FUNC_FILEDATE, .)" -o $@ -
+	( cat $(MACROS); echo ; cat $< ) | $(ADOC_CMD) $(CSS_OPTS) \
+	-a toc=left -a doctype=book \
+	-a revdate="$(call FUNC_FILEDATE, .)" -o $@ -
 
 $(REMINDERS_HTML): $(REMINDERS) $(REMINDERS_CSS)
-	( cat $(MACROS); echo ; cat $< ) | $(ADOC_CMD) -a stylesheet=$(REMINDERS_CSS) \
+	( cat $(MACROS); echo ; cat $< ) | $(ADOC_CMD) \
+	-a stylesheet=$(REMINDERS_CSS) \
 	-a revdate="$(call FUNC_FILEDATE, .)" -o $@ -
 
 $(INDEX_HTML): $(INDEX)
