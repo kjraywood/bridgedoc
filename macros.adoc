@@ -84,9 +84,11 @@
 
 :backspace:  pass:normal[[.backspace]## ##]
 :backspacex: pass:normal[[.backspacex]## ##]
+:backspacey: pass:normal[[.backspacey]## ##]
 
 :indent:  pass:normal[[.indent]##&nbsp; ##]
 :indentx: pass:normal[[.indentx]##&nbsp; ##]
+:indenty: pass:normal[[.indenty]##&nbsp; ##]
 
 // limit raise or better
 :LRplus: pass:normal[LR^*+*^]
