@@ -767,8 +767,11 @@ div.unbreakable { page-break-inside: avoid; }
 .vvraise {vertical-align: 12.5%; }
 .ssmall { font-size: 75%; }
 
-.backspace { margin-left: -1em; }
-.backspacex { margin-left: -1.25em; }
+.backspace { margin-left: -0.95em; }
+.backspacex { margin-left: -2em; }
+
+.indent  { margin-right: 0.4em; }
+.indentx { margin-right: 1.55em; }
 
 span.icon > .fa { cursor: default; }
 

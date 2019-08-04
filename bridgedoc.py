@@ -67,12 +67,12 @@ parser.add_argument('adocfile', type=argparse.FileType('w'))
 args = parser.parse_args()
 
 # wrapping-list bullets and backspace
-WL_BULLS = {  '@' : ( '&nbsp;{bull}'         , None )
-           , '@@' : ( '&emsp;&nbsp;{bull}'   , '{backspace}' )
-           ,  '>' : ( '&nbsp;{tribull}'      , None )
-           , '>>' : ( '&emsp;&nbsp;{tribull}', '{backspace}' )
-           , '_'  : ( '&emsp;'               , '{backspacex}' )
-           , '__' : ( '&emsp;&emsp;'         , '{backspace}{backspace}' )
+WL_BULLS = {  '@' : ( '&nbsp;{bull}'      , None           )
+           , '@@' : ( '{indent}{bull}'    , '{backspace}'  )
+           ,  '>' : ( '&nbsp;{tribull}'   , None           )
+           , '>>' : ( '{indent}{tribull}' , '{backspace}'  )
+           , '_'  : ( '&ensp;&thinsp;'    , '{backspace}'  )
+           , '__' : ( '{indentx}'         , '{backspacex}' )
            }
 
 # wrapping-list format-string
