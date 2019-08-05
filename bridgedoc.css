@@ -729,10 +729,16 @@ div.unbreakable { page-break-inside: avoid; }
 	   }
 
 .orange-box { color: #000;
-	   background-color: #ffa500;
-	   border: 3px outset #ffa500;
-	   padding: 0.125em 0.625em;
-	   white-space: nowrap;
+	     font-weight: bold;
+	     display: inline-block;
+	     border-style: solid;
+	     border-width: 1px;
+	     border-color: #000;
+	     padding: 0.25em 0.625em 0.0em;
+	     white-space: nowrap;
+	     margin: 0.0em 0.5em 0.0625em 0.0em;
+	     background-color: #ffa500;
+	     white-space: nowrap;
 	 }
 
 .alert { -webkit-text-decoration: underline;
