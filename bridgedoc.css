@@ -60,7 +60,7 @@ q { quotes: "\201C" "\201D" "\2018" "\2019"; }
 small { font-size: 80%; }
 
 /** Prevent `sub` and `sup` affecting `line-height` in all browsers. */
-sub, sup { font-size: 75%; line-height: 0; position: relative; vertical-align: baseline; }
+sub, sup { font-size: 70%; line-height: 0; position: relative; vertical-align: baseline; }
 
 sup { top: -0.5em; }
 
@@ -274,12 +274,13 @@ blockquote, blockquote p { line-height: 1.6; color: #6f6f6f; }
 table { background: #fff; margin-bottom: 1em; border: solid 1px #ddd; }
 table thead, table tfoot { background: #f7f7f7; }
 
-table thead tr th, table thead tr td, table tfoot tr th, table tfoot tr td { padding: 0.125em 0.5em;
-									     font-size: inherit;
-									     color: #000;
-									     background: #fff;
-									     text-align: left;
-									   }
+table thead tr th, table thead tr td, table tfoot tr th, table tfoot tr td {
+    padding: 0.125em 0.5em;
+    font-size: inherit;
+    color: #000;
+    background: #bdc7ed;
+    text-align: left;
+}
 
 table tr th, table tr td { padding: 0.2em 0.5em 0.05em 0.5em; font-size: inherit; color: #000; }
 table tr.odd, table tr.alt, table tr:nth-of-type(odd) { background: #e7e7e7; }
@@ -616,6 +617,14 @@ sup.footnote a:active, sup.footnoteref a:active { text-decoration: underline; }
 
 div.unbreakable { page-break-inside: avoid; }
 
+/* Kel - draw oval around character */
+.OvalBox {
+    border-radius: 50%;
+    text-align: center;
+    padding: 0.25em 0.15em 0.025em 0.25em; /* TRBL */
+    border: 3px solid #0000bf;
+}
+
 /* Kel - extra emphasis */
 .xemph { font-family: "Noto Serif", "DejaVu Serif", serif; font-weight: normal; font-style: italic; }
 
@@ -774,6 +783,11 @@ div.unbreakable { page-break-inside: avoid; }
 .indent  { margin-right: 0.4em; }
 .indentx { margin-right: 1.55em; }
 .indenty { margin-right: 0.6em; }
+
+.nullchar {
+    margin-right: -1em;
+    margin-left:  -1em;
+}
 
 span.icon > .fa { cursor: default; }
 
