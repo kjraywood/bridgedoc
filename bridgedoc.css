@@ -789,6 +789,11 @@ div.unbreakable { page-break-inside: avoid; }
     margin-left:  -1em;
 }
 
+.rot135 {
+    display: inline-block;
+    transform: rotate(135deg);
+}
+
 span.icon > .fa { cursor: default; }
 
 .admonitionblock td.icon [class^="fa icon-"] { font-size: 2.5em; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); cursor: default; }
