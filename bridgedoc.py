@@ -69,9 +69,9 @@ args = parser.parse_args()
 # wrapping-list bullets and backspace
 WL_BULLS = {  '@' : ( '&nbsp;{bull}'      , None           )
            , '@@' : ( '{indenty}{bull}'   , '{backspacey}' )
-           ,  '>' : ( '&nbsp;{tribull}'   , None           )
+           ,  '>' : ( '{tribull}'	  , '{nbsp}'        )
            , '>>' : ( '{indent}{tribull}' , '{backspace}'  )
-           , '_'  : ( '&ensp;&thinsp;'    , '{backspace}'  )
+           , '_'  : ( '{indenty}'         , '{backspacey}'  )
            , '__' : ( '{indentx}'         , '{backspacex}' )
            }
 
