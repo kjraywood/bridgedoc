@@ -782,9 +782,9 @@ div.unbreakable { page-break-inside: avoid; }
 .vvraise {vertical-align: 12.5%; }
 .ssmall { font-size: 75%; }
 
-.backspace  { margin-left: -0.95em; }
+.backspace  { margin-left: -0.5em; }
 .backspacex { margin-left: -2em; }
-.backspacey { margin-left: -1.2em; }
+.backspacey { margin-left: -1.07em; }
 
 .indent  { margin-right: 0.4em; }
 .indentx { margin-right: 1.55em; }

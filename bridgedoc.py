@@ -71,7 +71,7 @@ WL_BULLS = {  '@' : ( '&nbsp;{bull}'      , None           )
            , '@@' : ( '{indenty}{bull}'   , '{backspacey}' )
            ,  '>' : ( '{tribull}'	  , '{nbsp}'        )
            , '>>' : ( '{indent}{tribull}' , '{backspace}'  )
-           , '_'  : ( '{indenty}'         , '{backspacey}'  )
+           , '_'  : ( '{indent}'         , '{backspacey}'  )
            , '__' : ( '{indentx}'         , '{backspacex}' )
            }
 
