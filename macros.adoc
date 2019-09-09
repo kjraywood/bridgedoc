@@ -59,11 +59,10 @@
 :hyph: &#8209;
 
 // regular bullet
-//:bull: pass:normal[[.vvraise.mildblue.ssmall]##&#x25cf;##&thinsp;]
-:bull: pass:normal[[.mildblue]##&bull;##]
+:bull: pass:normal[[.vlower.mildblue.big]##&bull;##]
 
 // triangular bullet
-:tribull: pass:normal[[.vraise.mildblue.small]##&#x27a4;##&thinsp;]
+:tribull: pass:normal[[.mildblue.small.higher]##&#x27a4;##&thinsp;]
 
 // bullet surrounded by thinsp
 :xbull: pass:normal[&thinsp;[.mildblue]##&bull;##&thinsp;]

@@ -637,7 +637,7 @@ div.unbreakable { page-break-inside: avoid; }
 .brickred { color: #7a2518; }
 .githubblue { color: #0366d6; }
 
-.big { font-size: larger; }
+.big { font-size: larger; line-height: 0; }
 
 .small { font-size: smaller; }
 
@@ -778,6 +778,8 @@ div.unbreakable { page-break-inside: avoid; }
 	     margin: 0.0em 0.5em 0.0625em 0.0em;
 	   }
 
+.higher { bottom: 0.0625em; line-height: 0; position: relative; vertical-align: baseline; }
+.vlower { bottom: -0.125em; line-height: 0; position: relative; vertical-align: baseline; }
 .vraise {vertical-align: 8%; }
 .vvraise {vertical-align: 12.5%; }
 .ssmall { font-size: 75%; }
