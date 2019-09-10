@@ -91,9 +91,9 @@
 :indenty: pass:normal[[.indenty]##&nbsp; ##]
 
 // limit raise or better
-:LRplus: pass:normal[LR^*+*^]
-:OrLess: pass:normal[^*&#8722;*^]
-:OrMore: pass:normal[^*+*^]
+:LRplus: pass:normal[LR[.vhigher]##*+*##]
+:OrLess: pass:normal[[.vhigher]##*&#8722;*##]
+:OrMore: pass:normal[[.vhigher]##*+*##]
 
 // :LRplus: pass:normal[LR^&#10133;^]
 // :OrLess: pass:normal[[.black]##^&#10134;^##]
