@@ -401,7 +401,7 @@ b.button::after { content: "]"; padding: 0 2px 0 3px; }
 table.tableblock.fit-content > caption.title { white-space:nowrap; width:0 }
 
 .paragraph.lead > p, #preamble > .sectionbody > .paragraph:first-of-type p { color: #000; }
-.paragraph.lead > p, #preamble > .sectionbody > [class="paragraph"]:first-of-type p{font-size:1.21875em; line-height:1.6; color: #000; }
+/* .paragraph.lead > p, #preamble > .sectionbody > [class="paragraph"]:first-of-type p{font-size:1.21875em; line-height:1.6; color: #000; } */
 
 table.tableblock #preamble > .sectionbody > [class="paragraph"]:first-of-type p { font-size:inherit; }
 
