@@ -504,6 +504,9 @@ table.grid-rows tfoot > tr > th.tableblock, table.grid-rows tfoot > tr > td.tabl
 
 table.frame-all { border-width: 1px; }
 
+table.frame-allx { border-width: 1px; margin-top: 0.125em; margin-bottom: 1.5em; }
+table.frame-nonex { margin-top: 0.125em; margin-bottom: 1.5em; }
+
 table.frame-sides { border-width: 0 1px; }
 
 table.frame-topbot, table.frame-ends { border-width:1px 0 }
