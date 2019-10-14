@@ -1,35 +1,50 @@
 #!/bin/env python3
 """RBN to JSON"""
 
-DOT = "."
-COLON = ":"
-SEMICOLON = ";"
+# a list-like sequence that includes methods popleft and rotate
+from collections import deque
 
-ROTATE_BY_DIR = { "W": 0, "N": 1, "E": 2, "S": 3 }
+DOT = '.'
+COLON = ':'
 
-class Suit( list ):
-    def __init__( self, rbnsuit ):
-        """Input = string containing cards in a single suit"""
-        super().__init__( rbnsuit.upper() )
+class RBNlist( list ):
+    def has_item( self, item ):
+        try:
+            _ = self.index( item )
+            return True
+        except ValueError:
+            return False
 
+DIRECTIONS = RBNlist( 'WNES' )
+VULNERABILITIES = RBNlist( 'ZNEB?' )
+NONBID_CALLS = RBNlist( 'PXRAY' )
+STRAINS = RBNlist( 'NSHDC' )
+LEVELS = RBNlist( map( str, range(1,8) ) )
+OPINIONS = RBNlist( '!?' )
+CONVENTIONAL = RBNlist( '*' )
+ALERTS = RBNlist( '^' )
+ALERT_NUMBERS = RBNlist( map( str, range(1,10) ) )
+
+class RBNobject( object ):
+    def __init__( self ):
+        self.valid = False
+
+    def __bool__( self ):
+        return self.valid
+    
+class Suit( RBNlist ):
+    """Input = string containing cards in a single suit"""
     def __str__( self ):
         return self.string()
 
     def string( self, sep = '' ):
         return sep.join( self )
 
-    def has_card( self, card ):
+class OneHand( RBNobject ):
+    """Input = string of a single hand with leading : or ;"""
+    def __init__( self, rbn_hand):
         try:
-            i = self.index( card )
-            return True
-        except ValueError:
-            return False
-
-class Hand( object ):
-    def __init__( self, rbnhand):
-        """Input = single hand with leading colon or semicolon of RBN tag H"""
-        try:
-            suits = rbnhand[1:].split( DOT )
+            suits = rbn_hand[1:].split( DOT )
             if len(suits) != 4 :
                 raise ValueError( 'wrong number of suits' )
             self.clubs    = Suit( suits.pop() )
@@ -37,48 +52,126 @@ class Hand( object ):
             self.hearts   = Suit( suits.pop() )
             self.spades   = Suit( suits.pop() )
             self.valid = True
-            self.visible = rbnhand.startswith( COLON )
+            self.visible = rbn_hand.startswith( COLON )
         except:
             self.valid = False
             self.visible = False
 
-    def __bool__( self ):
-        return self.valid
-
-# a list-like sequence that includes methods popleft and rotate
-from collections import deque
-
-class Deal( object ):
-    def __init__( self, rbndeal):
-        """Input = a deal specified by RBN tag H"""
+class Hands( RBNobject ):
+    """Input = a deal specified by RBN tag H"""
+    def __init__( self, rbn_line):
 
         try:
-            # split the deal retaining the delimiter (: or ;)
+            # split the hands retaining the delimiter (: or ;)
             # at the start of each suit
-            sdeal = deque( rbndeal.replace( ':', '~:'
-                                          ).replace( ';', '~;'
-                                                   ).split( '~' )
-                         )
+            rbn_list = deque( rbn_line.replace( ':', '~:'
+                                       ).replace( ';', '~;'
+                                         ).split( '~' )
+                       )
 
             # get the starting direction
-            start_dir = sdeal.popleft()
+            start_dir = rbn_list.popleft()
 
-            n = len( sdeal )
+            n = len( rbn_list )
             if n > 4:
                 raise ValueError( 'too many hands' )
 
-            # Add nulls for missing hands
-            sdeal.extend( [ None for _ in range( 4 - n ) ] )
-
-            # populate list of hands
-            hands = deque( [ Hand( x ) for x in sdeal ] )
+            # Add nulls for missing hands and populate list of hands
+            rbn_list.extend( [ None for _ in range( 4 - n ) ] )
+            four_hands = deque( [ OneHand( x ) for x in hand_list ] )
         
             # rotate the list according to the starting direction
-            hands.rotate( ROTATE_BY_DIR[ start_dir ] )
-            self.west = hands.popleft()
-            self.north = hands.popleft()
-            self.east = hands.popleft()
-            self.south = hands.popleft()
+            four_hands.rotate( DIRECTIONS.index( start_dir ) )
+            self.west = four_hands.popleft()
+            self.north = four_hands.popleft()
+            self.east = four_hands.popleft()
+            self.south = four_hands.popleft()
             self.valid = True
         except:
             self.valid = False
+
+class Call( RBNobject ):
+    def __init__( self, rbn_char ):
+        self.is_bid = LEVELS.has_item( rbn_char )
+        if self.is_bid:
+            self.level = rbn_char
+            self.strain = None
+            self.valid = False
+        else:
+            self.valid = NONBID_CALLS.has_item( rbn_char )
+            self.rbn_char = rbn_char if self.valid else None
+        self.note_open = self.valid
+
+    def add_strain( self, strain ):
+        self.valid = self.bid and STRAINS.has_item( strain )
+        self.strain = strain if self.valid else None
+        self.note_open = self.valid
+
+    ### FIXME ###
+    # def add_note( self, note ):
+    #     self.valid = self.note_open
+
+                            
+    #                     if NOTATIONS.has_item( s ):
+    #                         c.set_note( s )
+    #                         if round_chars:
+    #                             s = round_chars.popleft()
+    #                             if NOTATIONS.has_item( s ):
+    #                                 c.append_note( s)
+    #                             else:
+    #                     else if 
+    #############
+
+        
+class Auction( RBNobject ):
+    def __init__( self, rbn_line):
+        """Input = an auction specified by RBN tag A"""
+
+        # An aution is a list of rounds
+        self.rounds = []
+
+        try:
+            # split the input
+            rbn_list = deque( rbn_line.split( ':' ) )
+
+            # extract dealer+vul and check validity
+            dlr, vul = list( rbn_list.popleft() )
+            if not  DIRECTIONS.has_item( dlr ):
+                raise ValueError( 'Bad dealer' )
+            if not VULNERABILITIES.has_item( vul ):
+                raise ValueError( 'Bad vulnerability' )
+
+            self.dealer = dlr
+            self.vul = vul
+
+            # go through each round building a list of all calls
+            all_calls = []
+            while rbn_list:
+                #### FIXME #####
+                # Check completeness (4 calls) of previous round
+                ################
+                
+                # begin a list of calls for this round
+                round_calls = []
+
+                # pop the next round (a string) and
+                # convert to a list of characters
+                round_chars = deque( rbn_list.popleft() )
+                while round_chars:
+                    c = Call( round_chars.popleft() )
+                    if c.is_bid:
+                        c.add_strain( round_chars.popleft() )
+
+                    # Check for call notation
+                    while c.note_open and round_chars:
+                        s = round_chars.popleft()
+                        if not c.add_note( s ):
+                            round_chars.appendleft( s )
+
+                    if not c:
+                        raise ValueError( 'Bad call' )
+
+                    round_calls.append( c )
+
+                all_calls.append( round_calls )
+            
