@@ -122,56 +122,72 @@ class Call( RBNobject ):
     #                     else if 
     #############
 
-        
-class Auction( RBNobject ):
-    def __init__( self, rbn_line):
-        """Input = an auction specified by RBN tag A"""
 
-        # An aution is a list of rounds
-        self.rounds = []
 
-        try:
-            # split the input
-            rbn_list = deque( rbn_line.split( ':' ) )
+class Auction( list ):
+    def __init__( self, rbn_rounds, dlr ):
+        super().__init__([])
+        # rbn_rounds is a list of auction strings for each round
+        if not rbn_rounds:
+            return
 
-            # extract dealer+vul and check validity
-            dlr, vul = list( rbn_list.popleft() )
-            if not  DIRECTIONS.has_item( dlr ):
-                raise ValueError( 'Bad dealer' )
-            if not VULNERABILITIES.has_item( vul ):
-                raise ValueError( 'Bad vulnerability' )
+        # go through each round building a list of all calls
+        calls = deque()
+        num_calls_remaining = 0
 
-            self.dealer = dlr
-            self.vul = vul
+        while rbn_rounds:
+            # Check for missing calls from previous round
+            if num_calls_remaining:
+                raise ValueError( 'incomplete round' )
 
-            # go through each round building a list of all calls
-            all_calls = []
-            while rbn_list:
-                #### FIXME #####
-                # Check completeness (4 calls) of previous round
-                ################
-                
-                # begin a list of calls for this round
-                round_calls = []
+            # Pop the next round and do not allow blank rounds
+            rnd = deque( rbn_rounds.popleft() )
+            if not rnd:
+                raise ValueError( 'incomplete round' )
 
-                # pop the next round (a string) and
-                # convert to a list of characters
-                round_chars = deque( rbn_list.popleft() )
-                while round_chars:
-                    c = Call( round_chars.popleft() )
-                    if c.is_bid:
-                        c.add_strain( round_chars.popleft() )
+            num_calls_remaining = 4
 
-                    # Check for call notation
-                    while c.note_open and round_chars:
-                        s = round_chars.popleft()
-                        if not c.add_note( s ):
-                            round_chars.appendleft( s )
+            while rnd:
+                c = Call( rnd.popleft() )
+                if c.is_bid:
+                    c.add_strain( rnd.popleft() )
 
-                    if not c:
-                        raise ValueError( 'Bad call' )
+                # Check for call notation
+                while c.is_open and rnd:
+                    if c.add_note( rnd[0] ):
+                        rnd.popleft()
 
-                    round_calls.append( c )
+                if not c:
+                    raise ValueError( 'Bad call' )
 
-                all_calls.append( round_calls )
+                calls.append( c )
+                num_calls_remaining -= 1
+
+        # No more input.  Convert sequence of calls to rounds
+        # that start with west by prepending nulls, then
+        # append nulls to reach a multiple of 4
+        calls.extendleft( [ None for _ in range( DIRECTIONS.index(dlr) ) ] )
+        calls.extend( [ None for _ in range( 4 - ( len(calls) % 4) ) ] )
+
+        # Split auctions into simple lists of rounds of four calls
+        while calls:
+            self.append( [ calls.popleft() for _ in range(4) ] )
             
+            
+def ParseAuctionTag(  rbn_line ):
+    """Input = an auction specified by RBN tag A
+       Return = tuple( dealer, vulnerability, Auction )
+    """
+    # split the input
+    rbn_list = deque( rbn_line.split( ':' ) )
+
+    # extract dealer+vul and check validity
+    dlr, vul = list( rbn_list.popleft() )
+
+    if not  DIRECTIONS.has_item( dlr ):
+        raise ValueError( 'Bad dealer' )
+    if not VULNERABILITIES.has_item( vul ):
+            raise ValueError( 'Bad vulnerability' )
+
+    return tuple( dlr, vul, Auction( rbn_list, dlr))
+
