@@ -15,22 +15,23 @@ class RBNlist( list ):
         except ValueError:
             return False
 
+NOTE_CONV = '*'
+NOTE_FLAG = '^'
+
 DIRECTIONS = RBNlist( 'WNES' )
 VULNERABILITIES = RBNlist( 'ZNEB?' )
 NONBID_CALLS = RBNlist( 'PXRAY' )
 STRAINS = RBNlist( 'NSHDC' )
 LEVELS = RBNlist( map( str, range(1,8) ) )
-OPINIONS = RBNlist( '!?' )
-CONVENTIONAL = RBNlist( '*' )
-ALERTS = RBNlist( '^' )
-ALERT_NUMBERS = RBNlist( map( str, range(1,10) ) )
+NOTATIONS = RBNlist( (NOTE_CONV, NOTE_FLAG) )
+NOTE_NUMBERS = RBNlist( map( str, range(1,10) ) )
 
 class RBNobject( object ):
     def __init__( self ):
         self.valid = False
 
     def __bool__( self ):
-        return self.valid
+        return self.__dict__.get( 'valid', False )
     
 class Suit( RBNlist ):
     """Input = string containing cards in a single suit"""
@@ -43,86 +44,93 @@ class Suit( RBNlist ):
 class OneHand( RBNobject ):
     """Input = string of a single hand with leading : or ;"""
     def __init__( self, rbn_hand):
-        try:
-            suits = rbn_hand[1:].split( DOT )
-            if len(suits) != 4 :
-                raise ValueError( 'wrong number of suits' )
-            self.clubs    = Suit( suits.pop() )
-            self.diamonds = Suit( suits.pop() )
-            self.hearts   = Suit( suits.pop() )
-            self.spades   = Suit( suits.pop() )
-            self.valid = True
-            self.visible = rbn_hand.startswith( COLON )
-        except:
-            self.valid = False
-            self.visible = False
+        suits = rbn_hand[1:].split( DOT )
+        if len(suits) != 4 :
+            raise ValueError( 'wrong number of suits' )
+        self.clubs    = Suit( suits.pop() )
+        self.diamonds = Suit( suits.pop() )
+        self.hearts   = Suit( suits.pop() )
+        self.spades   = Suit( suits.pop() )
+        self.visible = rbn_hand.startswith( COLON )
+        self.valid = True
 
 class Hands( RBNobject ):
     """Input = a deal specified by RBN tag H"""
     def __init__( self, rbn_line):
 
-        try:
-            # split the hands retaining the delimiter (: or ;)
-            # at the start of each suit
-            rbn_list = deque( rbn_line.replace( ':', '~:'
-                                       ).replace( ';', '~;'
-                                         ).split( '~' )
-                       )
+        # split the hands retaining the delimiter (: or ;)
+        # at the start of each suit
+        rbn_list = deque( rbn_line.replace( ':', '~:'
+                                          ).replace( ';', '~;'
+                                                   ).split( '~' )
+                        )
 
-            # get the starting direction
-            start_dir = rbn_list.popleft()
+        # get the starting direction
+        start_dir = rbn_list.popleft()
 
-            n = len( rbn_list )
-            if n > 4:
-                raise ValueError( 'too many hands' )
+        n = len( rbn_list )
+        if n > 4:
+            raise ValueError( 'too many hands' )
 
-            # Add nulls for missing hands and populate list of hands
-            rbn_list.extend( [ None for _ in range( 4 - n ) ] )
-            four_hands = deque( [ OneHand( x ) for x in hand_list ] )
-        
-            # rotate the list according to the starting direction
-            four_hands.rotate( DIRECTIONS.index( start_dir ) )
-            self.west = four_hands.popleft()
-            self.north = four_hands.popleft()
-            self.east = four_hands.popleft()
-            self.south = four_hands.popleft()
-            self.valid = True
-        except:
-            self.valid = False
+        # Add nulls for missing hands and populate list of hands
+        rbn_list.extend( [ None for _ in range( 4 - n ) ] )
+        four_hands = deque( [ OneHand( x ) for x in rbn_list ] )
+
+        # rotate the list according to the starting direction
+        four_hands.rotate( DIRECTIONS.index( start_dir ) )
+        self.west = four_hands.popleft()
+        self.north = four_hands.popleft()
+        self.east = four_hands.popleft()
+        self.south = four_hands.popleft()
+        self.valid = True
 
 class Call( RBNobject ):
     def __init__( self, rbn_char ):
-        self.is_bid = LEVELS.has_item( rbn_char )
-        if self.is_bid:
+        if LEVELS.has_item( rbn_char ):
             self.level = rbn_char
             self.strain = None
-            self.valid = False
+        elif NONBID_CALLS.has_item( rbn_char ):
+            self.level = None
+            self.strain = rbn_char
+            self.valid = True
         else:
-            self.valid = NONBID_CALLS.has_item( rbn_char )
-            self.rbn_char = rbn_char if self.valid else None
-        self.note_open = self.valid
+            raise ValueError( 'Invalid call' )
+        self.is_open = True
+        self.notation = None
 
     def add_strain( self, strain ):
-        self.valid = self.bid and STRAINS.has_item( strain )
-        self.strain = strain if self.valid else None
-        self.note_open = self.valid
+        if self.strain:
+            raise Exception( 'Call already has strain' )
 
-    ### FIXME ###
-    # def add_note( self, note ):
-    #     self.valid = self.note_open
+        if not STRAINS.has_item( strain ):
+            raise ValueError( 'Invalid strain' )
 
-                            
-    #                     if NOTATIONS.has_item( s ):
-    #                         c.set_note( s )
-    #                         if round_chars:
-    #                             s = round_chars.popleft()
-    #                             if NOTATIONS.has_item( s ):
-    #                                 c.append_note( s)
-    #                             else:
-    #                     else if 
-    #############
+        self.strain = strain
+        self.valid = True
 
+    def add_notation( self, rbn_char ):
+        if not self.is_open:
+            raise Exception( 'Call is closed. Cannot add notation' )
 
+        if self.notation:
+            # notation must be NOTE_FLAG since is_open is true
+            # but check anyway to be ready for other types
+            if self.notation == NOTE_FLAG:
+                if NOTE_NUMBERS.has_item( rbn_char):
+                    self.note_number = rbn_char
+                else:
+                    raise ValueError( 'Notification requires number' )
+            else:
+                raise Exception( 'Impossible path' )
+
+        elif NOTATIONS.has_item( rbn_char ):
+            self.notation = rbn_char
+            self.is_open = ( rbn_char == NOTE_FLAG )
+        else:
+            self.is_open = False
+            return False
+
+        return True
 
 class Auction( list ):
     def __init__( self, rbn_rounds, dlr ):
@@ -149,12 +157,12 @@ class Auction( list ):
 
             while rnd:
                 c = Call( rnd.popleft() )
-                if c.is_bid:
+                if c.level:
                     c.add_strain( rnd.popleft() )
 
                 # Check for call notation
                 while c.is_open and rnd:
-                    if c.add_note( rnd[0] ):
+                    if c.add_notation( rnd[0] ):
                         rnd.popleft()
 
                 if not c:
@@ -172,8 +180,7 @@ class Auction( list ):
         # Split auctions into simple lists of rounds of four calls
         while calls:
             self.append( [ calls.popleft() for _ in range(4) ] )
-            
-            
+
 def ParseAuctionTag(  rbn_line ):
     """Input = an auction specified by RBN tag A
        Return = tuple( dealer, vulnerability, Auction )
