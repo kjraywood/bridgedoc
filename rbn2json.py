@@ -2,38 +2,67 @@
 """RBN to JSON"""
 
 # a list-like sequence that includes methods popleft and rotate
-from collections import deque
+from collections import deque as CollectionsList
 
 DOT = '.'
 COLON = ':'
 
-class RBNlist( list ):
-    def has_item( self, item ):
-        try:
-            _ = self.index( item )
-            return True
-        except ValueError:
-            return False
+class RBN_SequenceError( Exception ):
+    pass
 
+# Notations
 NOTE_CONV = '*'
 NOTE_FLAG = '^'
 
-DIRECTIONS = RBNlist( 'WNES' )
-VULNERABILITIES = RBNlist( 'ZNEB?' )
-NONBID_CALLS = RBNlist( 'PXRAY' )
-STRAINS = RBNlist( 'NSHDC' )
-LEVELS = RBNlist( map( str, range(1,8) ) )
-NOTATIONS = RBNlist( (NOTE_CONV, NOTE_FLAG) )
-NOTE_NUMBERS = RBNlist( map( str, range(1,10) ) )
+NOTATIONS = ( NOTE_CONV, NOTE_FLAG )
+NOTE_NUMBERS = tuple( map( str, range(1,10) ) )
 
-class RBNobject( object ):
-    def __init__( self ):
-        self.valid = False
+# Non-bid calls
+PASS = 'P'
+DOUBLE = 'X'
+REDOUBLE = 'R'
+ALL_PASS = 'A'
+YOUR_CALL = 'Y'
 
-    def __bool__( self ):
-        return self.__dict__.get( 'valid', False )
-    
-class Suit( RBNlist ):
+NONBID_CALLS = ( PASS, DOUBLE, REDOUBLE, ALL_PASS, YOUR_CALL )
+
+# Vulnerabilities
+NONE_VUL = 'Z'
+NS_VUL = 'N'
+EW_VUL = 'E'
+BOTH_VUL = 'B'
+UNKNOWN_VUL = '?'
+
+VULNERABILITIES = ( NONE_VUL, NS_VUL, EW_VUL, BOTH_VUL, UNKNOWN_VUL )
+
+# suits, strains and levels
+NOTRUMP = 'N'
+SPADES = 'S'
+HEARTS = 'H'
+DIAMONDS = 'D'
+CLUBS = 'C'
+
+SUIT_KEYS = ( SPADES, HEARTS, DIAMONDS, CLUBS )
+STRAINS = ( NOTRUMP, ) + SUIT_KEYS
+LEVELS = tuple( map( str, range(1,8) ) )
+
+# Seats
+WEST  = 'W'
+NORTH = 'N'
+EAST  = 'E'
+SOUTH = 'S'
+
+SEAT_KEYS = ( WEST, NORTH, EAST, SOUTH )
+
+def rotate( vec, num):
+    """return a vector rotated by num steps"""
+    return vec[num:] + vec[:num]
+
+# extended string function that handles nulls
+def xstr(s):
+    return '' if s is None else str(s)
+
+class Suit( list ):
     """Input = string containing cards in a single suit"""
     def __str__( self ):
         return self.string()
@@ -41,58 +70,60 @@ class Suit( RBNlist ):
     def string( self, sep = '' ):
         return sep.join( self )
 
-class OneHand( RBNobject ):
+class Hand( object ):
     """Input = string of a single hand with leading : or ;"""
     def __init__( self, rbn_hand):
-        suits = rbn_hand[1:].split( DOT )
-        if len(suits) != 4 :
-            raise ValueError( 'wrong number of suits' )
-        self.clubs    = Suit( suits.pop() )
-        self.diamonds = Suit( suits.pop() )
-        self.hearts   = Suit( suits.pop() )
-        self.spades   = Suit( suits.pop() )
-        self.visible = rbn_hand.startswith( COLON )
-        self.valid = True
+        if not rbn_hand:
+            raise SyntaxError('Null input to Hand')
 
-class Hands( RBNobject ):
+        rbn_suits = rbn_hand[1:].split( DOT )
+        n = len(rbn_suits)
+        if n > 4 :
+            raise ValueError( 'too many suits' )
+
+        # Create a dictionary with keys from SUIT_KEYS and
+        # values of class Suit mapped to each item of rbn_suits
+        self.suit = dict( zip( SUIT_KEYS[:n]
+                             , map( Suit, rbn_suits )
+                             )
+                        )
+        self.visible = rbn_hand.startswith( COLON )
+
+class Deal( object ):
     """Input = a deal specified by RBN tag H"""
     def __init__( self, rbn_line):
 
         # split the hands retaining the delimiter (: or ;)
         # at the start of each suit
-        rbn_list = deque( rbn_line.replace( ':', '~:'
+        rbn_list = CollectionsList( rbn_line.replace( ':', '~:'
                                           ).replace( ';', '~;'
                                                    ).split( '~' )
                         )
 
-        # get the starting direction
-        start_dir = rbn_list.popleft()
+        # determine the rotation relative to west
+        try:
+            seat_offset = SEAT_KEYS.index( rbn_list.popleft() )
+        except:
+            raise ValueError( 'Bad starting seat' )
 
         n = len( rbn_list )
         if n > 4:
             raise ValueError( 'too many hands' )
 
-        # Add nulls for missing hands and populate list of hands
-        rbn_list.extend( [ None for _ in range( 4 - n ) ] )
-        four_hands = deque( [ OneHand( x ) for x in rbn_list ] )
+        # save hands in a dictionary
+        self.hand = dict( zip( rotate( SEAT_KEYS, seat_offset )[:n]
+                             , map( Hand, rbn_list )
+                             )
+                        )
 
-        # rotate the list according to the starting direction
-        four_hands.rotate( DIRECTIONS.index( start_dir ) )
-        self.west = four_hands.popleft()
-        self.north = four_hands.popleft()
-        self.east = four_hands.popleft()
-        self.south = four_hands.popleft()
-        self.valid = True
-
-class Call( RBNobject ):
+class Call( object ):
     def __init__( self, rbn_char ):
-        if LEVELS.has_item( rbn_char ):
+        if rbn_char in LEVELS:
             self.level = rbn_char
             self.strain = None
-        elif NONBID_CALLS.has_item( rbn_char ):
+        elif rbn_char in NONBID_CALLS:
             self.level = None
             self.strain = rbn_char
-            self.valid = True
         else:
             raise ValueError( 'Invalid call' )
         self.is_open = True
@@ -100,30 +131,30 @@ class Call( RBNobject ):
 
     def add_strain( self, strain ):
         if self.strain:
-            raise Exception( 'Call already has strain' )
+            raise RBN_SequenceError( 'Call already has strain' )
 
-        if not STRAINS.has_item( strain ):
+        if strain not in STRAINS:
             raise ValueError( 'Invalid strain' )
 
         self.strain = strain
-        self.valid = True
 
     def add_notation( self, rbn_char ):
         if not self.is_open:
-            raise Exception( 'Call is closed. Cannot add notation' )
+            raise RBN_SequenceError( 'Call is closed. Cannot add notation' )
 
         if self.notation:
             # notation must be NOTE_FLAG since is_open is true
             # but check anyway to be ready for other types
             if self.notation == NOTE_FLAG:
-                if NOTE_NUMBERS.has_item( rbn_char):
+                if rbn_char in NOTE_NUMBERS:
                     self.note_number = rbn_char
+                    self.is_open = False
                 else:
                     raise ValueError( 'Notification requires number' )
             else:
                 raise Exception( 'Impossible path' )
 
-        elif NOTATIONS.has_item( rbn_char ):
+        elif rbn_char in NOTATIONS:
             self.notation = rbn_char
             self.is_open = ( rbn_char == NOTE_FLAG )
         else:
@@ -131,6 +162,17 @@ class Call( RBNobject ):
             return False
 
         return True
+
+    def __bool__( self ):
+        return bool( self.strain
+                     and not ( self.notation and self.is_open )
+                   )
+    def __str__( self ):
+        return ( xstr( self.level )
+               + xstr( self.strain )
+               + xstr( self.notation )
+               + xstr( self.note_number if self.notation == NOTE_FLAG else None )
+               )
 
 class Auction( list ):
     def __init__( self, rbn_rounds, dlr ):
@@ -140,7 +182,7 @@ class Auction( list ):
             return
 
         # go through each round building a list of all calls
-        calls = deque()
+        calls = CollectionsList()
         num_calls_remaining = 0
 
         while rbn_rounds:
@@ -149,7 +191,7 @@ class Auction( list ):
                 raise ValueError( 'incomplete round' )
 
             # Pop the next round and do not allow blank rounds
-            rnd = deque( rbn_rounds.popleft() )
+            rnd = CollectionsList( rbn_rounds.popleft() )
             if not rnd:
                 raise ValueError( 'incomplete round' )
 
@@ -174,27 +216,26 @@ class Auction( list ):
         # No more input.  Convert sequence of calls to rounds
         # that start with west by prepending nulls, then
         # append nulls to reach a multiple of 4
-        calls.extendleft( [ None for _ in range( DIRECTIONS.index(dlr) ) ] )
-        calls.extend( [ None for _ in range( 4 - ( len(calls) % 4) ) ] )
+        calls.extendleft( [ None for _ in range( SEAT_KEYS.index(dlr) ) ] )
+        calls.extend( [ None for _ in range( (4 - ( len(calls) % 4)) % 4 ) ] )
 
         # Split auctions into simple lists of rounds of four calls
         while calls:
             self.append( [ calls.popleft() for _ in range(4) ] )
 
-def ParseAuctionTag(  rbn_line ):
+def ParseAuctionTag( rbn_line ):
     """Input = an auction specified by RBN tag A
-       Return = tuple( dealer, vulnerability, Auction )
+       Return = ( dealer, vulnerability, Auction )
     """
     # split the input
-    rbn_list = deque( rbn_line.split( ':' ) )
+    rbn_list = CollectionsList( rbn_line.split( ':' ) )
 
     # extract dealer+vul and check validity
     dlr, vul = list( rbn_list.popleft() )
 
-    if not  DIRECTIONS.has_item( dlr ):
+    if dlr not in SEAT_KEYS:
         raise ValueError( 'Bad dealer' )
-    if not VULNERABILITIES.has_item( vul ):
+    if vul not in VULNERABILITIES:
             raise ValueError( 'Bad vulnerability' )
 
-    return tuple( dlr, vul, Auction( rbn_list, dlr))
-
+    return ( dlr, vul, Auction( rbn_list, dlr))
