@@ -265,3 +265,27 @@ def ParseAuctionTag( rbn_line ):
             raise ValueError( 'Bad vulnerability' )
 
     return ( dlr, vul, Auction( rbn_list, dlr))
+
+class _RBN_int( int ):
+    def __str__( self ):
+        return '%s %d' % ( type( self ).__name__, self )
+
+class Session( _RBN_int ):
+    pass
+
+class Board( _RBN_int ):
+    pass
+
+class NumberedNote( object ):
+    def __init__( self, numb, note ):
+        """The tag is the number so must be passed as the first arg"""
+        self.number = int( numb )
+        self.note = note
+
+    def __str__( self ):
+        return ( str( self.note ) if self.number is 0
+                 else '%d. %s' % ( self.number, self.note )
+               )
+
+class TextPara( str ):
+    pass
