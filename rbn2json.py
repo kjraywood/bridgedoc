@@ -96,9 +96,9 @@ class Deal( object ):
         # split the hands retaining the delimiter (: or ;)
         # at the start of each suit
         rbn_list = CollectionsList( rbn_line.replace( ':', '~:'
-                                          ).replace( ';', '~;'
-                                                   ).split( '~' )
-                        )
+                                             ).replace( ';', '~;'
+                                               ).split( '~' )
+                                  )
 
         # determine the rotation relative to west
         try:
@@ -118,16 +118,13 @@ class Deal( object ):
 
 class Call( object ):
     def __init__( self, rbn_char ):
-        if rbn_char in LEVELS:
-            self.level = rbn_char
-            self.strain = None
-        elif rbn_char in NONBID_CALLS:
-            self.level = None
-            self.strain = rbn_char
+        self.level  = rbn_char if rbn_char in LEVELS       else None
+        self.strain = rbn_char if rbn_char in NONBID_CALLS else None
+        if self.level or self.strain or (rbn_char is None):
+            self.is_open = bool( rbn_char )
+            self.notation = None
         else:
             raise ValueError( 'Invalid call' )
-        self.is_open = True
-        self.notation = None
 
     def add_strain( self, strain ):
         if self.strain:
@@ -214,10 +211,10 @@ class Auction( list ):
                 num_calls_remaining -= 1
 
         # No more input.  Convert sequence of calls to rounds
-        # that start with west by prepending nulls, then
-        # append nulls to reach a multiple of 4
-        calls.extendleft( [ None for _ in range( SEAT_KEYS.index(dlr) ) ] )
-        calls.extend( [ None for _ in range( (4 - ( len(calls) % 4)) % 4 ) ] )
+        # that start with west by prepending null calls, then
+        # append null calls to reach a multiple of 4
+        calls.extendleft( [ Call( None ) for _ in range( SEAT_KEYS.index(dlr) ) ] )
+        calls.extend( [ Call( None ) for _ in range( (4 - ( len(calls) % 4)) % 4 ) ] )
 
         # Split auctions into simple lists of rounds of four calls
         while calls:
@@ -228,7 +225,7 @@ def ParseAuctionTag( rbn_line ):
        Return = ( dealer, vulnerability, Auction )
     """
     # split the input
-    rbn_list = CollectionsList( rbn_line.split( ':' ) )
+    rbn_list = CollectionsList( rbn_line.split( COLON ) )
 
     # extract dealer+vul and check validity
     dlr, vul = list( rbn_list.popleft() )
