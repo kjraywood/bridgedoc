@@ -1,14 +1,15 @@
 #!/bin/env python3
 """RBN to JSON"""
 
-# a list-like sequence that includes methods popleft and rotate
-from collections import deque as CollectionsList
+# deque = double-ended queue
+#       = provides methods appendleft, popleft, rotate ...
+from collections import deque 
+from collections import OrderedDict
 
 DOT = '.'
 COLON = ':'
-
-class RBN_SequenceError( Exception ):
-    pass
+SPACE = ' '
+NEWLINE = '\n'
 
 # Notations
 NOTE_CONV = '*'
@@ -54,6 +55,9 @@ SOUTH = 'S'
 
 SEAT_KEYS = ( WEST, NORTH, EAST, SOUTH )
 
+class RBN_SequenceError( Exception ):
+    pass
+
 def rotate( vec, num):
     """return a vector rotated by num steps"""
     return vec[num:] + vec[:num]
@@ -83,11 +87,17 @@ class Hand( object ):
 
         # Create a dictionary with keys from SUIT_KEYS and
         # values of class Suit mapped to each item of rbn_suits
-        self.suit = dict( zip( SUIT_KEYS[:n]
-                             , map( Suit, rbn_suits )
-                             )
-                        )
+        self.suit = OrderedDict( zip( SUIT_KEYS[:n]
+                                    , map( Suit, rbn_suits )
+                                    )
+                               )
         self.visible = rbn_hand.startswith( COLON )
+
+    def __str__( self ):
+        return SPACE.join( [ k + COLON + str( self.suit[k] )
+                             for k in self.suit.keys()
+                           ]
+                         )
 
 class Deal( object ):
     """Input = a deal specified by RBN tag H"""
@@ -95,10 +105,10 @@ class Deal( object ):
 
         # split the hands retaining the delimiter (: or ;)
         # at the start of each suit
-        rbn_list = CollectionsList( rbn_line.replace( ':', '~:'
-                                             ).replace( ';', '~;'
-                                               ).split( '~' )
-                                  )
+        rbn_list = deque( rbn_line.replace( ':', '~:'
+                                          ).replace( ';', '~;'
+                                                   ).split( '~' )
+                        )
 
         # determine the rotation relative to west
         try:
@@ -111,10 +121,15 @@ class Deal( object ):
             raise ValueError( 'too many hands' )
 
         # save hands in a dictionary
-        self.hand = dict( zip( rotate( SEAT_KEYS, seat_offset )[:n]
-                             , map( Hand, rbn_list )
-                             )
-                        )
+        self.hand = OrderedDict( zip( rotate( SEAT_KEYS, seat_offset )[:n]
+                                    , map( Hand, rbn_list )
+                                    )
+                               )
+    def __str__( self ):
+        return NEWLINE.join( [ '[%s] %s' % ( k, str( self.hand[k] ) )
+                               for k in self.hand.keys()
+                             ]
+                           )
 
 class Call( object ):
     def __init__( self, rbn_char ):
@@ -179,7 +194,7 @@ class Auction( list ):
             return
 
         # go through each round building a list of all calls
-        calls = CollectionsList()
+        calls = deque()
         num_calls_remaining = 0
 
         while rbn_rounds:
@@ -188,7 +203,7 @@ class Auction( list ):
                 raise ValueError( 'incomplete round' )
 
             # Pop the next round and do not allow blank rounds
-            rnd = CollectionsList( rbn_rounds.popleft() )
+            rnd = deque( rbn_rounds.popleft() )
             if not rnd:
                 raise ValueError( 'incomplete round' )
 
@@ -213,8 +228,14 @@ class Auction( list ):
         # No more input.  Convert sequence of calls to rounds
         # that start with west by prepending null calls, then
         # append null calls to reach a multiple of 4
-        calls.extendleft( [ Call( None ) for _ in range( SEAT_KEYS.index(dlr) ) ] )
-        calls.extend( [ Call( None ) for _ in range( (4 - ( len(calls) % 4)) % 4 ) ] )
+        calls.extendleft( [ Call( None )
+                            for _ in range( SEAT_KEYS.index(dlr) )
+                          ]
+                        )
+        calls.extend( [ Call( None )
+                        for _ in range( (4 - ( len(calls) % 4)) % 4 )
+                      ]
+                    )
 
         # Split auctions into simple lists of rounds of four calls
         while calls:
@@ -225,7 +246,7 @@ def ParseAuctionTag( rbn_line ):
        Return = ( dealer, vulnerability, Auction )
     """
     # split the input
-    rbn_list = CollectionsList( rbn_line.split( COLON ) )
+    rbn_list = deque( rbn_line.split( COLON ) )
 
     # extract dealer+vul and check validity
     dlr, vul = list( rbn_list.popleft() )
