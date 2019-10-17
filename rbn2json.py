@@ -186,6 +186,11 @@ class Call( object ):
                + xstr( self.note_number if self.notation == NOTE_FLAG else None )
                )
 
+class Round( list ):
+    """one round of an auction"""
+    def __str__( self ):
+        return '  '.join( [ '%-4s' % str(c) for c in self ] )
+    
 class Auction( list ):
     def __init__( self, rbn_rounds, dlr ):
         super().__init__([])
@@ -237,10 +242,13 @@ class Auction( list ):
                       ]
                     )
 
-        # Split auctions into simple lists of rounds of four calls
+        # Split auctions into list of rounds of four calls
         while calls:
-            self.append( [ calls.popleft() for _ in range(4) ] )
+            self.append( Round( calls.popleft() for _ in range(4) ) )
 
+    def __str__( self ):
+        return NEWLINE.join( [ str( rnd ) for rnd in self ] )
+        
 def ParseAuctionTag( rbn_line ):
     """Input = an auction specified by RBN tag A
        Return = ( dealer, vulnerability, Auction )
