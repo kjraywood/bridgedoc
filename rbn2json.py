@@ -191,12 +191,15 @@ class Round( list ):
         return '  '.join( [ '%-4s' % str(c) for c in self ] )
 
 class Auction( list ):
-    def __init__( self, rbn_rounds, dlr ):
+    def __init__( self, rbn_line, dlr ):
         super().__init__([])
-        # rbn_rounds is a list of auction strings for each round
-        if not rbn_rounds:
+
+        # rbn_line is a colon-separated list of auction rounds
+        if not rbn_line:
             return
 
+        rbn_rounds = deque( rbn_line.split( COLON ) )
+        
         # go through each round building a list of all calls
         calls = deque()
         num_calls_remaining = 0
@@ -209,7 +212,7 @@ class Auction( list ):
             # Pop the next round and do not allow blank rounds
             rnd = deque( rbn_rounds.popleft() )
             if not rnd:
-                raise ValueError( 'incomplete round' )
+                raise ValueError( 'blank round' )
 
             num_calls_remaining = 4
 
@@ -232,6 +235,9 @@ class Auction( list ):
         # No more input.  Convert sequence of calls to rounds
         # that start with west by prepending null calls, then
         # append null calls to reach a multiple of 4
+        if not calls:
+            return
+
         calls.extendleft( [ Call( None )
                             for _ in range( SEAT_KEYS.index(dlr) )
                           ]
@@ -249,29 +255,39 @@ class Auction( list ):
         return NEWLINE.join( [ str( rnd ) for rnd in self ] )
 
 class Dealer( str ):
+    def __new__( cls, value ):
+        if value in SEAT_KEYS:
+            return super().__new__( cls, value )
+        else:
+            raise ValueError( 'Bad dealer' )
+
     def __str__( self ):
         return 'Dlr: %s' % ( self )
 
 class Vul( str ):
+    def __new__( cls, value ):
+        if value in VUL_KEYS:
+            return super().__new__( cls, value )
+        else:
+            raise ValueError( 'Bad vulnerability' )
+
     def __str__( self ):
         return 'Vul: %s' % ( VUL_STR[ self ] )
 
 def ParseAuctionTag( rbn_line ):
     """Input = an auction specified by RBN tag A
-       Return = ( dealer, vulnerability, Auction )
+       Return = iter( dealer, vulnerability, Auction )
     """
-    # split the input
-    rbn_list = deque( rbn_line.split( COLON ) )
+    # split the input into the Dealer+Vul string
+    # and the remainder
+    head, tail = rbn_line.split( COLON, 1 )
 
-    # extract dealer+vul and check validity
-    dlr, vul = list( rbn_list.popleft() )
+    # extract dealer+vul
+    d, v = list( head )
 
-    if dlr not in SEAT_KEYS:
-        raise ValueError( 'Bad dealer' )
-    if vul not in VUL_KEYS:
-            raise ValueError( 'Bad vulnerability' )
-
-    return ( dlr, vul, Auction( rbn_list, dlr))
+    yield Dealer(d)
+    yield Vul(v)
+    yield Auction( tail, d)
 
 class _RBN_int( int ):
     def __str__( self ):
@@ -295,8 +311,11 @@ class NumberedNote( object ):
                )
 
 class Paragraph( str ):
+    def __new__( cls, value ):
+        return super().__new__( cls, value.strip() )
+
     def __add__( self, value ):
-         return self.__class__( super().__add__( SPACE + value ) )
+         return self.__class__( super().__add__( SPACE + value.lstrip() ) )
 
 CMNT_CHAR = '%'
 LEFT_BRACE = '{'
@@ -317,17 +336,16 @@ def brace_contents( string, level=0 ):
                 return ( 0, string[ start : i-1 ] )
         elif not stack and c.strip():
                 raise SyntaxError( 'Content before begin brace' )
-
     if not stack:
         raise ValueError( 'Blank input' )
     return ( len(stack), string[ stack[0] : ] )
 
-RBN_CLASS_BY_TAG = { 'H': Hand
+RBN_CLASS_BY_TAG = { 'H': Deal
                    , 'B': Board
                    , 'S': Session
                    }
 
-ALL_RBN_TAGS = tuple( RBN_CLASS_BY_TAG.keys() ) + NOTE_NUMBERS
+AUCTION_TAG = 'A'
 
 def ParseRBN( f ):
     """A generator that parses an RBN file and returns each record
@@ -351,8 +369,10 @@ def ParseRBN( f ):
                 yield bridge_rec
                 bridge_rec = None
             continue
+
         if x.startswith( CMNT_CHAR ):
             continue
+
         # We have something so if we have not yet
         # started a record, then do so now
         if bridge_rec is None:
@@ -360,18 +380,31 @@ def ParseRBN( f ):
 
         if x.startswith( LEFT_BRACE ):
             level, x = brace_contents( x )
-            bridge_obj = Paragraph( x.strip() )
+            bridge_obj = Paragraph( x )
             while level:
                 x = f.readline().rstrip()
                 if not x:
                     raise SyntaxError( 'Unmatched brace' )
                 level, x = brace_contents( x, level )
-                bridge_obj += x.strip()
-                
-            
+                bridge_obj += x
+            bridge_rec.append( bridge_obj )
+        else:
+            tag, data = x.split( maxsplit=1 )
+            if tag == AUCTION_TAG:
+                bridge_rec.extend( ParseAuctionTag( data ) )
+            elif tag in RBN_CLASS_BY_TAG.keys():
+                bridge_rec.append( RBN_CLASS_BY_TAG[ tag ](data) )
+            elif tag in NOTE_NUMBERS:
+                bridge_rec.append( NumberedNote( tag, data ) )
+            else:
+                raise ValueError( 'Unknown tag' )
+
 import sys, fileinput
 
 if __name__ == "__main__":
 
     with fileinput.input() as f:
         BridgeRecords = list( ParseRBN( f ) )
+
+    for obj in [ rec for rec in BridgeRecords ]:
+        print( obj )
