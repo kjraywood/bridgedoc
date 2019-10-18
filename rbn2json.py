@@ -181,7 +181,8 @@ class Call( object ):
         return ( xstr( self.level )
                + xstr( self.strain )
                + xstr( self.notation )
-               + xstr( self.note_number if self.notation == NOTE_FLAG else None )
+               + xstr( self.note_number if self.notation == NOTE_FLAG
+                       else None )
                )
 
 class Round( list ):
@@ -301,27 +302,32 @@ CMNT_CHAR = '%'
 LEFT_BRACE = '{'
 RIGHT_BRACE = '}'
 
+def brace_contents( string, level=0 ):
+    stack = list( range( level ) )
+    for i, c in enumerate( string, 1 ):
+        if c == LEFT_BRACE:
+            stack.append(i)
+        elif c == RIGHT_BRACE:
+            if not stack:
+                raise SyntaxError( 'End brace without begin brace' )
+            start = stack.pop()
+            if not stack:
+                if string[i:].strip():
+                    raise SyntaxError( 'Content after end brace' )
+                return ( 0, string[ start : i-1 ] )
+        elif not stack and c.strip():
+                raise SyntaxError( 'Content before begin brace' )
+
+    if not stack:
+        raise ValueError( 'Blank input' )
+    return ( len(stack), string[ stack[0] : ] )
+
 RBN_CLASS_BY_TAG = { 'H': Hand
                    , 'B': Board
                    , 'S': Session
                    }
 
 ALL_RBN_TAGS = tuple( RBN_CLASS_BY_TAG.keys() ) + NOTE_NUMBERS
-
-def brace_contents( string, level=0 ):
-    # If continuing, create a stack with first element = -1
-    # -1 to ensure that we return this string from the beginning
-    stack = list( range( -1, level - 1 ) )
-    for i, c in enumerate( string ):
-        if c == LEFT_BRACE:
-            stack.append(i)
-        elif c == RIGHT_BRACE:
-            if not stack:
-                raise ValueError( 'End brace without begin brace')
-            start = stack.pop()
-            if not stack:
-                return ( 0, string[ start + 1: i ] )
-    return ( len(stack), string[ stack[0] + 1:] )
 
 def ParseRBN( f ):
     """A generator that parses an RBN file and returns each record
