@@ -28,13 +28,11 @@ YOUR_CALL = 'Y'
 NONBID_CALLS = ( PASS, DOUBLE, REDOUBLE, ALL_PASS, YOUR_CALL )
 
 # Vulnerabilities
-NONE_VUL = 'Z'
-NS_VUL = 'N'
-EW_VUL = 'E'
-BOTH_VUL = 'B'
-UNKNOWN_VUL = '?'
-
-VULNERABILITIES = ( NONE_VUL, NS_VUL, EW_VUL, BOTH_VUL, UNKNOWN_VUL )
+VUL_KEYS = tuple( 'ZNEB?' )
+VUL_STR = OrderedDict( zip( VUL_KEYS
+                          , ( 'None', 'NS', 'EW', 'Both', '?' )
+                          )
+                     )
 
 # suits, strains and levels
 NOTRUMP = 'N'
@@ -190,7 +188,7 @@ class Round( list ):
     """one round of an auction"""
     def __str__( self ):
         return '  '.join( [ '%-4s' % str(c) for c in self ] )
-    
+
 class Auction( list ):
     def __init__( self, rbn_rounds, dlr ):
         super().__init__([])
@@ -248,7 +246,15 @@ class Auction( list ):
 
     def __str__( self ):
         return NEWLINE.join( [ str( rnd ) for rnd in self ] )
-        
+
+class Dealer( str ):
+    def __str__( self ):
+        return 'Dlr: %s' % ( self )
+
+class Vul( str ):
+    def __str__( self ):
+        return 'Vul: %s' % ( VUL_STR[ self ] )
+
 def ParseAuctionTag( rbn_line ):
     """Input = an auction specified by RBN tag A
        Return = ( dealer, vulnerability, Auction )
@@ -261,7 +267,7 @@ def ParseAuctionTag( rbn_line ):
 
     if dlr not in SEAT_KEYS:
         raise ValueError( 'Bad dealer' )
-    if vul not in VULNERABILITIES:
+    if vul not in VUL_KEYS:
             raise ValueError( 'Bad vulnerability' )
 
     return ( dlr, vul, Auction( rbn_list, dlr))
@@ -287,5 +293,79 @@ class NumberedNote( object ):
                  else '%d. %s' % ( self.number, self.note )
                )
 
-class TextPara( str ):
-    pass
+class Paragraph( str ):
+    def __add__( self, value ):
+         return self.__class__( super().__add__( SPACE + value ) )
+
+CMNT_CHAR = '%'
+LEFT_BRACE = '{'
+RIGHT_BRACE = '}'
+
+RBN_CLASS_BY_TAG = { 'H': Hand
+                   , 'B': Board
+                   , 'S': Session
+                   }
+
+ALL_RBN_TAGS = tuple( RBN_CLASS_BY_TAG.keys() ) + NOTE_NUMBERS
+
+def brace_contents( string, level=0 ):
+    # If continuing, create a stack with first element = -1
+    # -1 to ensure that we return this string from the beginning
+    stack = list( range( -1, level - 1 ) )
+    for i, c in enumerate( string ):
+        if c == LEFT_BRACE:
+            stack.append(i)
+        elif c == RIGHT_BRACE:
+            if not stack:
+                raise ValueError( 'End brace without begin brace')
+            start = stack.pop()
+            if not stack:
+                return ( 0, string[ start + 1: i ] )
+    return ( len(stack), string[ stack[0] + 1:] )
+
+def ParseRBN( f ):
+    """A generator that parses an RBN file and returns each record
+       as a list of objects in the record
+    """
+    # Check the first line
+    x = f.readline().rstrip()
+    if not ( x.startswith( CMNT_CHAR )
+             and x[1:].lstrip().startswith( 'RBN' )
+           ):
+        raise SyntaxError( 'Not an RBN file' )
+    # Start a record
+    bridge_rec = []
+    for line in f:
+        x = line.rstrip()
+        # A blank line indicates end-of-record
+        # but we delay starting a new record
+        # until we have more data
+        if not x:
+            if bridge_rec is not None:
+                yield bridge_rec
+                bridge_rec = None
+            continue
+        if x.startswith( CMNT_CHAR ):
+            continue
+        # We have something so if we have not yet
+        # started a record, then do so now
+        if bridge_rec is None:
+            bridge_rec = []
+
+        if x.startswith( LEFT_BRACE ):
+            level, x = brace_contents( x )
+            bridge_obj = Paragraph( x.strip() )
+            while level:
+                x = f.readline().rstrip()
+                if not x:
+                    raise SyntaxError( 'Unmatched brace' )
+                level, x = brace_contents( x, level )
+                bridge_obj += x.strip()
+                
+            
+import sys, fileinput
+
+if __name__ == "__main__":
+
+    with fileinput.input() as f:
+        BridgeRecords = list( ParseRBN( f ) )
