@@ -142,16 +142,13 @@ class Call( object ):
     def add_strain( self, strain ):
         if self.strain:
             raise RBN_SequenceError( 'Call already has strain' )
-
         if strain not in STRAINS:
             raise ValueError( 'Invalid strain' )
-
         self.strain = strain
 
     def add_notation( self, rbn_char ):
         if not self.is_open:
             raise RBN_SequenceError( 'Call is closed. Cannot add notation' )
-
         if self.notation:
             # notation must be NOTE_FLAG since is_open is true
             # but check anyway to be ready for other types
@@ -163,14 +160,12 @@ class Call( object ):
                     raise ValueError( 'Notification requires number' )
             else:
                 raise Exception( 'Impossible path' )
-
         elif rbn_char in NOTATIONS:
             self.notation = rbn_char
             self.is_open = ( rbn_char == NOTE_FLAG )
         else:
             self.is_open = False
             return False
-
         return True
 
     def __bool__( self ):
@@ -262,7 +257,7 @@ class Dealer( str ):
             raise ValueError( 'Bad dealer' )
 
     def __str__( self ):
-        return 'Dlr: %s' % ( self )
+        return 'Dlr: ' + self
 
 class Vul( str ):
     def __new__( cls, value ):
@@ -351,8 +346,10 @@ def ParseRBN( f ):
     """A generator that parses an RBN file and returns each record
        as a list of objects in the record
     """
+
     # Check the first line
     x = f.readline().rstrip()
+
     if not ( x.startswith( CMNT_CHAR )
              and x[1:].lstrip().startswith( 'RBN' )
            ):
@@ -361,6 +358,7 @@ def ParseRBN( f ):
     bridge_rec = []
     for line in f:
         x = line.rstrip()
+
         # A blank line indicates end-of-record
         # but we delay starting a new record
         # until we have more data
@@ -398,6 +396,8 @@ def ParseRBN( f ):
                 bridge_rec.append( NumberedNote( tag, data ) )
             else:
                 raise ValueError( 'Unknown tag' )
+    if bridge_rec is not None:
+        yield bridge_rec
 
 import sys, fileinput
 
@@ -406,5 +406,7 @@ if __name__ == "__main__":
     with fileinput.input() as f:
         BridgeRecords = list( ParseRBN( f ) )
 
-    for obj in [ rec for rec in BridgeRecords ]:
-        print( obj )
+    for rec in BridgeRecords:
+        for obj in rec:
+            print( obj )
+            print()
