@@ -9,6 +9,7 @@ DOT = '.'
 COLON = ':'
 SPACE = ' '
 NEWLINE = '\n'
+NULL_DATA = '_'
 
 # Notations
 NOTE_CONV = '*'
@@ -51,8 +52,19 @@ def rotate( vec, num):
     return vec[num:] + vec[:num]
 
 # extended string function that handles nulls
-def xstr(s):
-    return '' if s is None else str(s)
+def xstr(s,default=''):
+    return default if s is None else str(s)
+
+def data( obj ):
+    return obj._data()
+
+def named_data( obj ):
+    return ( type( obj ).__name__, data( obj ) )
+
+class RBN_list( list ):
+    """The elements of an RBN list have a _data method"""
+    def _data( self ):
+        return list( map( data, self ) )
 
 class HeldSuit( object ):
     """A HeldSuit is a suit denomination and cards"""
@@ -61,9 +73,11 @@ class HeldSuit( object ):
         self.cards = cards
     def __str__( self ):
         return '%s:%s' % ( self.suit, self.cards )
+    def _data( self ):
+        return ( self.suit, self.cards )
 
 class Hand( object ):
-    """A hand is seat, a list of held-suits, and a visibility flag"""
+    """A hand has a seat, a list of held-suits, and a visibility flag"""
     def __init__( self, seat, rbn_hand):
         """Input = string of a single hand with leading : or ;"""
         if not rbn_hand:
@@ -86,9 +100,10 @@ class Hand( object ):
                            , SPACE.join( map( str, self.held_suits ) )
                            )
 
-#    def data( self ):
+    def _data( self ):
+        return ( SEAT_NAME[ self.seat ], list( map( data, self.held_suits ) ) )
 
-class Deal( object ):
+class Deal( RBN_list ):
     """A Deal is a list of hands"""
     def __init__( self, rbn_line):
         """Input = a deal specified by RBN tag H"""
@@ -110,10 +125,10 @@ class Deal( object ):
 
         seats = rotate( SEAT_KEYS, SEAT_KEYS.index( start_seat ) )[:n]
 
-        self.hands = list( Hand( seat, rbn_hand )
+        super().__init__( Hand( seat, rbn_hand )
                            for seat, rbn_hand
                            in zip( seats, rbn_list )
-                         )
+                        )
 
     def __str__( self ):
         return NEWLINE.join( map( str, self.hands ) )
@@ -168,13 +183,26 @@ class Call( object ):
                + xstr( self.note_number if self.notation == NOTE_FLAG
                        else None )
                )
+    def _data( self ):
+        return ( xstr( self.level, default=NULL_DATA )
+               + xstr( self.strain, default=NULL_DATA )
+               + xstr( ( self.note_number
+                         if self.notation == NOTE_FLAG
+                         else self.notation
+                       )
+                     , default=NULL_DATA
+                     )
+               )
 
-class Round( list ):
-    """one round of an auction"""
+class Round( RBN_list ):
+    """A round is a list of calls"""
     def __str__( self ):
         return '  '.join( [ '%-4s' % str(c) for c in self ] )
 
-class Auction( list ):
+class Auction( RBN_list ):
+    """An auction is a list of rounds
+       constructed from a sequence of calls
+    """
     def __init__( self, rbn_line, dlr ):
         super().__init__([])
 
@@ -238,7 +266,11 @@ class Auction( list ):
     def __str__( self ):
         return NEWLINE.join( [ str( rnd ) for rnd in self ] )
 
-class Dealer( str ):
+class RBN_str( str ):
+    def _data( self ):
+        return super().__str__()
+
+class Dealer( RBN_str ):
     def __new__( cls, value ):
         if value in SEAT_KEYS:
             return super().__new__( cls, value )
@@ -257,6 +289,8 @@ class Vul( str ):
 
     def __str__( self ):
         return 'Vul: %s' % ( VUL_NAME[ self ] )
+    def _data( self ):
+        return VUL_NAME[ self ]
 
 def ParseAuctionTag( rbn_line ):
     """Input = an auction specified by RBN tag A
@@ -273,14 +307,16 @@ def ParseAuctionTag( rbn_line ):
     yield Vul(v)
     yield Auction( tail, d)
 
-class _RBN_int( int ):
+class RBN_int( int ):
     def __str__( self ):
         return '%s %d' % ( type( self ).__name__, self )
+    def _data( self ):
+        return super().__str__()
 
-class Session( _RBN_int ):
+class Session( RBN_int ):
     pass
 
-class Board( _RBN_int ):
+class Board( RBN_int ):
     pass
 
 class NumberedNote( object ):
@@ -293,8 +329,10 @@ class NumberedNote( object ):
         return ( str( self.note ) if self.number is 0
                  else '%d. %s' % ( self.number, self.note )
                )
+    def _data( self ):
+        return ( str( self.number), self.note )
 
-class Paragraph( str ):
+class Paragraph( RBN_str ):
     def __new__( cls, value ):
         return super().__new__( cls, value.strip() )
 
@@ -331,6 +369,14 @@ RBN_CLASS_BY_TAG = { 'H': Deal
 
 AUCTION_TAG = 'A'
 
+class BridgeRecord( list ):
+    """The elements of a BridgeRecord are various classes of
+       RBN object, each with a name _data method.  So the data
+       of the BridgeRecord must be named to identify them.
+    """
+    def _data( self ):
+        return list( map( named_data, self ) )
+
 def ParseRBN( f ):
     """A generator that parses an RBN file and returns each record
        as a list of objects in the record
@@ -344,7 +390,7 @@ def ParseRBN( f ):
            ):
         raise SyntaxError( 'Not an RBN file' )
     # Start a record
-    bridge_rec = []
+    bridge_rec = BridgeRecord()
     for line in f:
         x = line.rstrip()
 
@@ -363,7 +409,7 @@ def ParseRBN( f ):
         # We have something so if we have not yet
         # started a record, then do so now
         if bridge_rec is None:
-            bridge_rec = []
+            bridge_rec = BridgeRecord()
 
         if x.startswith( LEFT_BRACE ):
             level, x = brace_contents( x )
@@ -388,14 +434,14 @@ def ParseRBN( f ):
     if bridge_rec is not None:
         yield bridge_rec
 
-import sys, fileinput
+import sys, fileinput, json
 
 if __name__ == "__main__":
 
     with fileinput.input() as f:
         BridgeRecords = list( ParseRBN( f ) )
 
-    for rec in BridgeRecords:
-        for obj in rec:
-            print( obj )
-            print()
+    print( json.dumps( list( rec._data() for rec in BridgeRecords )
+                     , indent=None
+                     )
+         )
