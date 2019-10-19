@@ -101,7 +101,7 @@ class Hand( object ):
                            )
 
     def _data( self ):
-        return ( SEAT_NAME[ self.seat ], list( map( data, self.held_suits ) ) )
+        return ( SEAT_NAME[ self.seat ], dict( map( data, self.held_suits ) ) )
 
 class Deal( RBN_list ):
     """A Deal is a list of hands"""
