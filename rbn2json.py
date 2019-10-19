@@ -46,9 +46,6 @@ SEAT_NAME = dict( zip( SEAT_KEYS
                      )
                  )
 
-class RBN_SequenceError( Exception ):
-    pass
-
 def rotate( vec, num):
     """return a vector rotated by num steps"""
     return vec[num:] + vec[:num]
@@ -133,14 +130,14 @@ class Call( object ):
 
     def add_strain( self, strain ):
         if self.strain:
-            raise RBN_SequenceError( 'Call already has strain' )
+            raise RuntimeError( 'Call already has strain' )
         if strain not in STRAINS:
             raise ValueError( 'Invalid strain' )
         self.strain = strain
 
     def add_notation( self, rbn_char ):
         if not self.is_open:
-            raise RBN_SequenceError( 'Call is closed. Cannot add notation' )
+            raise RunTimeError( 'Call is closed. Cannot add notation' )
         if self.notation:
             # notation must be NOTE_FLAG since is_open is true
             # but check anyway to be ready for other types
