@@ -59,7 +59,10 @@ def data( obj ):
     return obj._data()
 
 def named_data( obj ):
-    return ( type( obj ).__name__, data( obj ) )
+    return ( obj._tag if hasattr( obj, '_tag')
+             else obj.__class__.__name__
+           , data( obj )
+           )
 
 class RBN_list( list ):
     """The elements of an RBN list have a _data method"""
@@ -101,7 +104,7 @@ class Hand( object ):
                            )
 
     def _data( self ):
-        return ( SEAT_NAME[ self.seat ], dict( map( data, self.held_suits ) ) )
+        return ( self.seat, dict( map( data, self.held_suits ) ) )
 
 class Deal( RBN_list ):
     """A Deal is a list of hands"""
@@ -271,6 +274,7 @@ class RBN_str( str ):
         return super().__str__()
 
 class Dealer( RBN_str ):
+    _tag = 'Dlr'
     def __new__( cls, value ):
         if value in SEAT_KEYS:
             return super().__new__( cls, value )
@@ -314,12 +318,13 @@ class RBN_int( int ):
         return super().__str__()
 
 class Session( RBN_int ):
-    pass
+    _tag = 'Sess'
 
 class Board( RBN_int ):
-    pass
+    _tag = 'Brd'
 
 class NumberedNote( object ):
+    _tag = 'Expln'
     def __init__( self, numb, note ):
         """The tag is the number so must be passed as the first arg"""
         self.number = int( numb )
@@ -333,6 +338,7 @@ class NumberedNote( object ):
         return ( str( self.number), self.note )
 
 class Paragraph( RBN_str ):
+    _tag = 'P'
     def __new__( cls, value ):
         return super().__new__( cls, value.strip() )
 
