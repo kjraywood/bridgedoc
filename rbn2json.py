@@ -4,7 +4,6 @@
 # deque = double-ended queue
 #       = provides methods appendleft, popleft, rotate ...
 from collections import deque 
-from collections import OrderedDict
 
 DOT = '.'
 COLON = ':'
@@ -29,29 +28,23 @@ NONBID_CALLS = ( PASS, DOUBLE, REDOUBLE, ALL_PASS, YOUR_CALL )
 
 # Vulnerabilities
 VUL_KEYS = tuple( 'ZNEB?' )
-VUL_STR = OrderedDict( zip( VUL_KEYS
-                          , ( 'None', 'NS', 'EW', 'Both', '?' )
-                          )
-                     )
+VUL_NAME = dict( zip( VUL_KEYS
+                    , ( 'None', 'NS', 'EW', 'Both', '?' )
+                    )
+               )
 
 # suits, strains and levels
-NOTRUMP = 'N'
-SPADES = 'S'
-HEARTS = 'H'
-DIAMONDS = 'D'
-CLUBS = 'C'
+SUIT_KEYS = tuple( 'SHDC' )
 
-SUIT_KEYS = ( SPADES, HEARTS, DIAMONDS, CLUBS )
-STRAINS = ( NOTRUMP, ) + SUIT_KEYS
+STRAINS = ( 'N', ) + SUIT_KEYS
 LEVELS = tuple( map( str, range(1,8) ) )
 
 # Seats
-WEST  = 'W'
-NORTH = 'N'
-EAST  = 'E'
-SOUTH = 'S'
-
-SEAT_KEYS = ( WEST, NORTH, EAST, SOUTH )
+SEAT_KEYS = tuple( 'WNES' )
+SEAT_NAME = dict( zip( SEAT_KEYS
+                     , ( 'WEST', 'NORTH', 'EAST', 'SOUTH' )
+                     )
+                 )
 
 class RBN_SequenceError( Exception ):
     pass
@@ -64,17 +57,18 @@ def rotate( vec, num):
 def xstr(s):
     return '' if s is None else str(s)
 
-class Suit( list ):
-    """Input = string containing cards in a single suit"""
+class HeldSuit( object ):
+    """A HeldSuit is a suit denomination and cards"""
+    def __init__( self, suit, cards ):
+        self.suit = suit
+        self.cards = cards
     def __str__( self ):
-        return self.string()
-
-    def string( self, sep = '' ):
-        return sep.join( self )
+        return '%s:%s' % ( self.suit, self.cards )
 
 class Hand( object ):
-    """Input = string of a single hand with leading : or ;"""
-    def __init__( self, rbn_hand):
+    """A hand is seat, a list of held-suits, and a visibility flag"""
+    def __init__( self, seat, rbn_hand):
+        """Input = string of a single hand with leading : or ;"""
         if not rbn_hand:
             raise SyntaxError('Null input to Hand')
 
@@ -83,23 +77,24 @@ class Hand( object ):
         if n > 4 :
             raise ValueError( 'too many suits' )
 
-        # Create a dictionary with keys from SUIT_KEYS and
-        # values of class Suit mapped to each item of rbn_suits
-        self.suit = OrderedDict( zip( SUIT_KEYS[:n]
-                                    , map( Suit, rbn_suits )
-                                    )
-                               )
+        self.seat = seat
+        self.held_suits = list( HeldSuit( suit, cards )
+                                for suit, cards
+                                in zip( SUIT_KEYS[:n], rbn_suits )
+                              )
         self.visible = rbn_hand.startswith( COLON )
 
     def __str__( self ):
-        return SPACE.join( [ k + COLON + str( self.suit[k] )
-                             for k in self.suit.keys()
-                           ]
-                         )
+        return '[%s] %s' % ( self.seat
+                           , SPACE.join( map( str, self.held_suits ) )
+                           )
+
+#    def data( self ):
 
 class Deal( object ):
-    """Input = a deal specified by RBN tag H"""
+    """A Deal is a list of hands"""
     def __init__( self, rbn_line):
+        """Input = a deal specified by RBN tag H"""
 
         # split the hands retaining the delimiter (: or ;)
         # at the start of each suit
@@ -108,26 +103,23 @@ class Deal( object ):
                                                    ).split( '~' )
                         )
 
-        # determine the rotation relative to west
-        try:
-            seat_offset = SEAT_KEYS.index( rbn_list.popleft() )
-        except:
+        start_seat = rbn_list.popleft()
+        if start_seat not in SEAT_KEYS:
             raise ValueError( 'Bad starting seat' )
 
         n = len( rbn_list )
         if n > 4:
             raise ValueError( 'too many hands' )
 
-        # save hands in a dictionary
-        self.hand = OrderedDict( zip( rotate( SEAT_KEYS, seat_offset )[:n]
-                                    , map( Hand, rbn_list )
-                                    )
-                               )
+        seats = rotate( SEAT_KEYS, SEAT_KEYS.index( start_seat ) )[:n]
+
+        self.hands = list( Hand( seat, rbn_hand )
+                           for seat, rbn_hand
+                           in zip( seats, rbn_list )
+                         )
+
     def __str__( self ):
-        return NEWLINE.join( [ '[%s] %s' % ( k, str( self.hand[k] ) )
-                               for k in self.hand.keys()
-                             ]
-                           )
+        return NEWLINE.join( map( str, self.hands ) )
 
 class Call( object ):
     def __init__( self, rbn_char ):
@@ -267,7 +259,7 @@ class Vul( str ):
             raise ValueError( 'Bad vulnerability' )
 
     def __str__( self ):
-        return 'Vul: %s' % ( VUL_STR[ self ] )
+        return 'Vul: %s' % ( VUL_NAME[ self ] )
 
 def ParseAuctionTag( rbn_line ):
     """Input = an auction specified by RBN tag A
