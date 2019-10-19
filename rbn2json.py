@@ -381,7 +381,7 @@ def ParseRBN( f ):
                 bridge_rec.extend( ParseAuctionTag( data ) )
             elif tag in RBN_CLASS_BY_TAG.keys():
                 bridge_rec.append( RBN_CLASS_BY_TAG[ tag ](data) )
-            elif tag in NOTE_NUMBERS:
+            elif tag in ('0',) + NOTE_NUMBERS:
                 bridge_rec.append( NumberedNote( tag, data ) )
             else:
                 raise ValueError( 'Unknown tag' )
