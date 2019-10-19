@@ -42,7 +42,7 @@ LEVELS = tuple( map( str, range(1,8) ) )
 # Seats
 SEAT_KEYS = tuple( 'WNES' )
 SEAT_NAME = dict( zip( SEAT_KEYS
-                     , ( 'WEST', 'NORTH', 'EAST', 'SOUTH' )
+                     , ( 'West', 'North', 'East', 'South' )
                      )
                  )
 
@@ -82,7 +82,7 @@ class Hand( object ):
         self.visible = rbn_hand.startswith( COLON )
 
     def __str__( self ):
-        return '[%s] %s' % ( self.seat
+        return '[%-5s] %s' % ( SEAT_NAME[ self.seat ]
                            , SPACE.join( map( str, self.held_suits ) )
                            )
 
