@@ -7,6 +7,7 @@ from collections import deque
 
 DOT = '.'
 COLON = ':'
+SEMICOLON = ';'
 SPACE = ' '
 NEWLINE = '\n'
 NULL_DATA = '_'
@@ -69,45 +70,34 @@ class RBN_list( list ):
     def _data( self ):
         return list( map( data, self ) )
 
-class HeldSuit( object ):
-    """A HeldSuit is a suit denomination and cards"""
-    def __init__( self, suit, cards ):
-        self.suit = suit
-        self.cards = cards
-    def __str__( self ):
-        return '%s:%s' % ( self.suit, self.cards )
-    def _data( self ):
-        return ( self.suit, self.cards )
-
 class Hand( object ):
-    """A hand has a seat, a list of held-suits, and a visibility flag"""
-    def __init__( self, seat, rbn_hand):
-        """Input = string of a single hand with leading : or ;"""
+    """A visibility flag and a dictionary of cards by suit"""
+    def __init__( self, rbn_hand ):
+        """Input = a leading visibility indicator
+                   followed by suits separated by a period
+        """
         if not rbn_hand:
-            raise SyntaxError('Null input to Hand')
-
+            raise SyntaxError( 'Null hand input' )
+        vis_flag = rbn_hand[0]
+        if vis_flag not in ( COLON, SEMICOLON ):
+            raise ValueError( 'Bad visibilitity flag' )
+        self.visibile = ( vis_flag == COLON )
         rbn_suits = rbn_hand[1:].split( DOT )
-        n = len(rbn_suits)
+        n = len( rbn_suits )
         if n > 4 :
             raise ValueError( 'too many suits' )
-
-        self.seat = seat
-        self.held_suits = list( HeldSuit( suit, cards )
-                                for suit, cards
-                                in zip( SUIT_KEYS[:n], rbn_suits )
-                              )
-        self.visible = rbn_hand.startswith( COLON )
+        self.cards = dict( zip( SUIT_KEYS[:n], rbn_suits ) )
 
     def __str__( self ):
-        return '[%-5s] %s' % ( SEAT_NAME[ self.seat ]
-                           , SPACE.join( map( str, self.held_suits ) )
-                           )
-
+        return SPACE.join( '%s:%s' % ( suit, self.cards[suit] )
+                                       for suit in SUIT_KEYS
+                                       if suit in self.cards.keys()
+                         )
     def _data( self ):
-        return ( self.seat, dict( map( data, self.held_suits ) ) )
+        return self.cards
 
-class Deal( RBN_list ):
-    """A Deal is a list of hands"""
+class Deal( dict ):
+    """Hands by seat"""
     def __init__( self, rbn_line):
         """Input = a deal specified by RBN tag H"""
 
@@ -128,13 +118,15 @@ class Deal( RBN_list ):
 
         seats = rotate( SEAT_KEYS, SEAT_KEYS.index( start_seat ) )[:n]
 
-        super().__init__( Hand( seat, rbn_hand )
-                           for seat, rbn_hand
-                           in zip( seats, rbn_list )
-                        )
+        super().__init__( zip( seats, map( Hand, rbn_list ) ) )
 
     def __str__( self ):
-        return NEWLINE.join( map( str, self.hands ) )
+        return NEWLINE.join( '[%s]: %s' % ( seat, self.get( seat ) )
+                             for seat in SEAT_KEYS
+                             if seat in self.keys
+                           )
+    def _data( self ):
+        return dict( ( k, data(v) ) for k,v in self.items() )
 
 class Call( object ):
     def __init__( self, rbn_char ):
