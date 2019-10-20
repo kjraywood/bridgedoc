@@ -115,6 +115,8 @@ class Deal( dict ):
         n = len( rbn_list )
         if n > 4:
             raise ValueError( 'too many hands' )
+        if n == 1:
+            self._tag = 'Hand'
 
         seats = rotate( SEAT_KEYS, SEAT_KEYS.index( start_seat ) )[:n]
 
@@ -126,7 +128,10 @@ class Deal( dict ):
                              if seat in self.keys
                            )
     def _data( self ):
-        return dict( ( k, data(v) ) for k,v in self.items() )
+        if len( self ) == 1:
+            return data( list( self.values()).pop() )
+        else:
+            return dict( ( k, data(v) ) for k,v in self.items() )
 
 class Call( object ):
     def __init__( self, rbn_char ):
