@@ -5,10 +5,12 @@
 :hide-uri-scheme:
 :linkattrs:
 
-:C: pass:normal[[.clubs.green]##&#x2663;##]
-:D: pass:normal[[.diamonds.orange]##&#x2666;##]
-:H: pass:normal[[.hearts.red]##&#x2665;##]
-:S: pass:normal[[.spades.blue]##&#x2660;##]
+:C: pass:normal[[.cardsuit.green]##&#x2663;##]
+:D: pass:normal[[.cardsuit.orange]##&#x2666;##]
+:H: pass:normal[[.cardsuit.red]##&#x2665;##]
+:S: pass:normal[[.cardsuit.blue]##&#x2660;##]
+
+:star: &#x2605;
 
 :ndash:  pass:normal[&ndash;]
 
@@ -23,12 +25,18 @@
 :superdag: pass:normal[^&dagger;^]
 
 // angle brackets
-:lab: &#x27e8;
-:rab: &#x27e9;
+// :lab: &#x27e8;
+// :rab: &#x27e9;
+:lab: &#x276c;
+:rab: &#x276d;
 
 // double angle brackets
 :dlab: &#x27ea;
 :drab: &#x27eb;
+
+// flattened brackets
+:lflatb: &#x27ee;
+:rflatb: &#x27ef;
 
 // heavy plus and minus
 :heavyplus: &#10133;
