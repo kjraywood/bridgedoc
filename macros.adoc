@@ -27,8 +27,8 @@
 // angle brackets
 // :lab: &#x27e8;
 // :rab: &#x27e9;
-:lab: &#x276c;
-:rab: &#x276d;
+:lab: pass:normal[&#x276c;[.backspace]##&nbsp;##]
+:rab:  pass:normal[[.backspace]##&nbsp;&#x276d;##]
 
 // double angle brackets
 :dlab: &#x27ea;
