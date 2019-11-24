@@ -746,12 +746,9 @@ div.unbreakable { page-break-inside: avoid; }
 	     white-space: nowrap;
 	 }
 
-.alert { -webkit-text-decoration: underline;
-	 text-decoration:  underline;
-	 -webkit-text-decoration-skip: ink;
-	 text-decoration-skip: ink;
-	 -webkit-text-underline-position: under;
-	 text-underline-position: under;
+.alert {  display: inline-block;
+	  line-height: 0.75;
+	  border-bottom: 2px solid black;
        }
 
 .lightgrey-bg { background-color: #f0f0f0;
