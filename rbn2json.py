@@ -72,22 +72,16 @@ class RBN_list( list ):
 
 class Hand( object ):
     """A visibility flag and a dictionary of cards by suit"""
-    def __init__( self, rbn_hand ):
-        """Input = a leading visibility indicator
-                   followed by suits separated by a period
-        """
-        if not rbn_hand:
-            raise SyntaxError( 'Null hand input' )
-        vis_flag = rbn_hand[0]
-        if vis_flag not in ( COLON, SEMICOLON ):
-            raise ValueError( 'Bad visibilitity flag' )
-        self.visibile = ( vis_flag == COLON )
-        rbn_suits = rbn_hand[1:].split( DOT )
+
+    @@@@@@@@@@@@@@@
+
+    def __init__( self, visible, rbn_suits):
+        self.visible = visible
         n = len( rbn_suits )
         if n > 4 :
             raise ValueError( 'too many suits' )
         self.cards = dict( zip( SUIT_KEYS[:n], rbn_suits ) )
-
+       
     def __str__( self ):
         return SPACE.join( '%s:%s' % ( suit, self.cards[suit] )
                                        for suit in SUIT_KEYS
@@ -101,26 +95,8 @@ class Deal( dict ):
     def __init__( self, rbn_line):
         """Input = a deal specified by RBN tag H"""
 
-        # split the hands retaining the delimiter (: or ;)
-        # at the start of each suit
-        rbn_list = deque( rbn_line.replace( ':', '~:'
-                                          ).replace( ';', '~;'
-                                                   ).split( '~' )
-                        )
+        @@@@@@@@@@@
 
-        start_seat = rbn_list.popleft()
-        if start_seat not in SEAT_KEYS:
-            raise ValueError( 'Bad starting seat' )
-
-        n = len( rbn_list )
-        if n > 4:
-            raise ValueError( 'too many hands' )
-        if n == 1:
-            self._tag = 'Hand'
-
-        seats = rotate( SEAT_KEYS, SEAT_KEYS.index( start_seat ) )[:n]
-
-        super().__init__( zip( seats, map( Hand, rbn_list ) ) )
 
     def __str__( self ):
         return NEWLINE.join( '[%s]: %s' % ( seat, self.get( seat ) )
@@ -292,6 +268,52 @@ class Vul( str ):
         return 'Vul: %s' % ( VUL_NAME[ self ] )
     def _data( self ):
         return VUL_NAME[ self ]
+
+def ParseHand( rbn_hand ):
+    """Input = a leading visibility indicator
+               followed by suits separated by a period
+       Output = (visible, suits )
+    """
+    if not rbn_hand:
+        raise SyntaxError( 'Null hand input' )
+    vis_flag = rbn_hand[0]
+    if vis_flag not in ( COLON, SEMICOLON ):
+        raise ValueError( 'Bad visibilitity flag' )
+    visibile = ( vis_flag == COLON )
+    suits = rbn_hand[1:].split( DOT )
+    return ( visible, suits )
+
+def ParseHandsTag( rbn_line ):
+    """ input = a deal specified by RBN tag H
+        return = iter( Deal )
+    """
+    # split the hands retaining the delimiter (: or ;)
+    # at the start of each suit
+    rbn_list = deque( rbn_line.replace( ':', '~:'
+                                      ).replace( ';', '~;'
+                                               ).split( '~' )
+                    )
+
+    start_seat = rbn_list.popleft()
+    if start_seat not in SEAT_KEYS:
+        raise ValueError( 'Bad starting seat' )
+
+    n = len( rbn_list )
+    if n > 4:
+        raise ValueError( 'too many hands' )
+
+    seats = rotate( SEAT_KEYS, SEAT_KEYS.index( start_seat ) )
+
+    hand_list = list( Hand( seat, *p )
+                      for seat, p
+                      in zip( seats[:n], map( ParseHand, rbn_list) )
+                    )
+
+    if n == 1:
+        return hand_list
+    else:
+        return Deal( hand_list)
+
 
 def ParseAuctionTag( rbn_line ):
     """Input = an auction specified by RBN tag A
