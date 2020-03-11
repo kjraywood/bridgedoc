@@ -54,6 +54,10 @@
 :eq: &#65309;
 :gt: &#65310;
 
+// white digits in black circles
+:note1: &#x278a;
+:note2: &#x278b;
+
 // times surrounded by thinsp
 // :xtimes: pass:normal[&thinsp;&#10761;&thinsp;]
 :xtimes: pass:normal[&thinsp;&times;&thinsp;]
