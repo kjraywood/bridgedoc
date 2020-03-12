@@ -55,8 +55,14 @@
 :gt: &#65310;
 
 // white digits in black circles
-:note1: &#x278a;
-:note2: &#x278b;
+//:note1: &#x278a;
+//:note2: &#x278b;
+
+// heavy asterix
+:note1: &#x2731;
+
+// heavy dagger
+:note2: &#x1f547;
 
 // times surrounded by thinsp
 // :xtimes: pass:normal[&thinsp;&#10761;&thinsp;]
