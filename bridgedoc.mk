@@ -13,7 +13,7 @@ ifeq ($(strip $(INDEX)),)
 endif
 
 ifeq ($(strip $(INSTALL_DIR)),)
-    INSTALL_DIR = ..
+    INSTALL_DIR = ../web
 endif
 
 # ICONS_DIR and CSS_DIR are relative to INSTALL_DIR
