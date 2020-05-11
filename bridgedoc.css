@@ -622,6 +622,10 @@ sup.footnote a:active, sup.footnoteref a:active { text-decoration: underline; }
 
 div.unbreakable { page-break-inside: avoid; }
 
+/* Kel - increase the size of suit-symbols in Chrome and Safari */
+
+.cardsuit:not(*:root) { font-size: larger; line-height: 0.75; }
+
 /* Kel - draw oval around character */
 .OvalBox {
     border-radius: 50%;
@@ -751,6 +755,8 @@ div.unbreakable { page-break-inside: avoid; }
 	  line-height: 0.75;
 	  border-bottom: 2px solid  #005793;
        }
+
+.alert:not(*:root) { border-bottom-width: 1.125pt; }
 
 .lightgrey-bg { background-color: #f0f0f0;
 		padding-left: 0.25em;
