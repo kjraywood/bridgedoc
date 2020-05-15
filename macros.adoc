@@ -5,10 +5,10 @@
 :hide-uri-scheme:
 :linkattrs:
 
-:C: pass:normal[[.cardsuit.green]##&#x2663;##]
-:D: pass:normal[[.cardsuit.orange]##&#x2666;##]
-:H: pass:normal[[.cardsuit.red]##&#x2665;##]
-:S: pass:normal[[.cardsuit.blue]##&#x2660;##]
+:C: pass:normal[[.cardsuit.green]##&#x2663;&#xFE0E;##]
+:D: pass:normal[[.cardsuit.orange]##&#x2666;&#xFE0E;##]
+:H: pass:normal[[.cardsuit.red]##&#x2665;&#xFE0E;##]
+:S: pass:normal[[.cardsuit.blue]##&#x2660;&#xFE0E;##]
 
 :star: &#x2605;
 
