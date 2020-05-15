@@ -624,7 +624,7 @@ div.unbreakable { page-break-inside: avoid; }
 
 /* Kel - increase the size of suit-symbols in Chrome and Safari */
 
-.cardsuit { font-family: "Noto Sans Symbols2", "DejaVu Sans", "Nimbus Sans", sans-serif;
+.cardsuit { font-family:"Noto Sans Symbols", "DejaVu Sans", "Nimbus Sans", "Symbol", sans-serif;
 	    font-weight: normal; font-style: normal; line-height: 1;
 	  }
 
