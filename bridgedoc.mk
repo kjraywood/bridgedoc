@@ -51,7 +51,9 @@ FUNC_FILEDATE = $(shell date -d "$$(stat --printf '%y' $(1))" '+%B %-d, %Y')
 
 ADOC_CMD = asciidoctor -a bridgedoc=$(THIS_DIR) \
 		       -a iconsdir=$(ICONS_DIR) \
-		       -a sectnums -a nofooter
+		       -a docinfodir=$(THIS_DIR) \
+		       -a docinfo=shared
+		       -a sectnums -a nofooter \
 
 CSS_OPTS = -a stylesheet=$(CSS_DIR)/$(STYLE_SHEET) -a linkcss
 
