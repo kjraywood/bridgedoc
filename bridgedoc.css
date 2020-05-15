@@ -622,9 +622,11 @@ sup.footnote a:active, sup.footnoteref a:active { text-decoration: underline; }
 
 div.unbreakable { page-break-inside: avoid; }
 
-/* Kel - increase the size of suit-symbols in Chrome and Safari */
+/* Kel - use Noto+Sans+Symbols for suit-symbols (web-font)
+       - some systems might have older Noto+Sans=Symbols2 installed
+*/
 
-.cardsuit { font-family:"Noto Sans Symbols", "DejaVu Sans", "Nimbus Sans", "Symbol", sans-serif;
+.cardsuit { font-family: "Noto Sans Symbols", sans-serif;
 	    font-weight: normal; font-style: normal; line-height: 1;
 	  }
 
