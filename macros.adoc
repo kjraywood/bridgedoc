@@ -11,7 +11,7 @@
 :S: pass:normal[[.cardsuit.blue]##&#x2660;&#xFE0E;##]
 
 :star: &#x2605;
-:btrfly: &#x1f98b;
+:strawberry: &#x1f353;&#xFE0F
 
 :ndash:  pass:normal[&ndash;]
 
