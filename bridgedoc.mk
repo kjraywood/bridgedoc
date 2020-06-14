@@ -57,6 +57,17 @@ ADOC_CMD = asciidoctor -a bridgedoc=$(THIS_DIR) \
 
 CSS_OPTS = -a stylesheet=$(CSS_DIR)/$(STYLE_SHEET) -a linkcss
 
+INSERT_RECENT_CHANGES = ( unfound=true; \
+                          while IFS= read -r line; \
+                          do echo "$$line";\
+                             if eval $$unfound \
+                                && [[ "$$line" == '<ul class="sectlevel0">' ]]; \
+                             then cat recent-changes.html; \
+                                  unfound=false; \
+                             fi; \
+                          done; \
+                        )
+
 .PHONY: all parts index system reminders css tidy clean status update pull commit
 .INTERMEDIATE: $(ADOCS)
 
@@ -83,7 +94,8 @@ $(INSTALL_DIR)/%.html : %.bdoc
 $(MAIN_HTML): $(MAIN) $(ADOCS)
 	( cat $(MACROS); echo ; cat $< ) | $(ADOC_CMD) $(CSS_OPTS) \
 	-a toc=left -a doctype=book \
-	-a revdate="$(call FUNC_FILEDATE, .)" -o $@ -
+	-a revdate="$(call FUNC_FILEDATE, .)" -o - - \
+	| $(INSERT_RECENT_CHANGES) >| $@
 
 $(REMINDERS_HTML): $(REMINDERS) $(REMINDERS_CSS)
 	( cat $(MACROS); echo ; cat $< ) | $(ADOC_CMD) \
