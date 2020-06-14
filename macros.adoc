@@ -35,8 +35,8 @@
 // :rab: &#x27e9;
 //:lab: pass:normal[&#x276c;[.backspace]##&nbsp;##]
 //:rab:  pass:normal[[.backspace]##&nbsp;&#x276d;##]
-:lab: &#x276c;
-:rab: &#x276d;
+:lab: pass:normal[&#x276c;]
+:rab: pass:normal[&#x276d;]
 
 // double angle brackets
 :dlab: &#x27ea;
@@ -125,7 +125,7 @@
 // :OrLess: pass:normal[[.black]##^&#10134;^##]
 // :OrMore: pass:normal[[.black]##^&#10133;^##]
 
-:or: &#x2016;
-:orx: &thinsp;&#x2016;&thinsp;
+:or: pass:normal[&#x2016;]
+:orx: pass:normal[&thinsp;&#x2016;&thinsp;]
 
 :vsep: pass:normal[[.mildblue]##&#x2503;##]
