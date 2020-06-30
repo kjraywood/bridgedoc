@@ -12,6 +12,10 @@ ifeq ($(strip $(INDEX)),)
     INDEX = index.adoc
 endif
 
+ifeq ($(strip $(RECENT_CHANGES)),)
+    RECENT_CHANGES = recent-changes.html
+endif
+
 ifeq ($(strip $(INSTALL_DIR)),)
     INSTALL_DIR = html
 endif
@@ -62,7 +66,7 @@ INSERT_RECENT_CHANGES = ( unfound=true; \
                           do echo "$$line";\
                              if eval $$unfound \
                                 && [[ "$$line" == '<ul class="sectlevel0">' ]]; \
-                             then cat recent-changes.html; \
+                             then cat $(RECENT_CHANGES); \
                                   unfound=false; \
                              fi; \
                           done; \
@@ -91,7 +95,7 @@ $(INSTALL_DIR)/%.html : %.bdoc
 	-a toc=left -a revdate="$(call FUNC_FILEDATE, $<)" \
 	-r $(EXTN_SECTNUMOFFSET) -o $@ -
 
-$(MAIN_HTML): $(MAIN) $(ADOCS)
+$(MAIN_HTML): $(MAIN) $(ADOCS) $(RECENT_CHANGES)
 	( cat $(MACROS); echo ; cat $< ) | $(ADOC_CMD) $(CSS_OPTS) \
 	-a toc=left -a doctype=book \
 	-a revdate="$(call FUNC_FILEDATE, .)" -o - - \
