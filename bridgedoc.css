@@ -636,6 +636,7 @@ div.unbreakable { page-break-inside: avoid; }
     text-align: center;
     padding: 0.15em 0.15em 0.025em 0.15em; /* TRBL */
     border: 3px solid #0000bf;
+    line-height: 1.5;
 }
 
 /* Kel - extra emphasis */
