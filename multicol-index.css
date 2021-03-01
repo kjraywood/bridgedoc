@@ -133,6 +133,14 @@ strong strong { font-weight: normal; }
 #content{margin-bottom:.625em}
 
 
+/* prevent column-breaks in paragraphs */
+
+.paragraph {
+    page-break-inside: avoid;
+    break-inside: avoid-column;
+/*    display:table; */
+}
+
 @media screen and (min-width:640px){
     #body { padding-left:25em;
  	    padding-right:0;
