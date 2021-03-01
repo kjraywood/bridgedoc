@@ -34,7 +34,6 @@ SOURCES = $(wildcard *.bdoc)
 ADOCS = $(SOURCES:.bdoc=.adoc)
 
 MACROS = $(THIS_DIR)/macros.adoc
-STYLE_SHEET_SRC = $(THIS_DIR)/bridgedoc.css
 PREPROC = python $(THIS_DIR)/bridgedoc.py
 EXTN_SECTNUMOFFSET = $(THIS_DIR)/lib/sectnumoffset-treeprocessor.rb
 
@@ -47,9 +46,12 @@ REMINDERS_HTML = $(addprefix $(INSTALL_DIR)/, $(REMINDERS:.adoc=.html))
 
 INDEX_HTML = $(addprefix $(INSTALL_DIR)/, $(INDEX:.adoc=.html))
 
-STYLE_SHEET = $(notdir $(STYLE_SHEET_SRC))
+MAIN_STYLE_SHEET = bridgedoc.css
+INDEX_STYLE_SHEET = multicol-index.css
 
-STYLE_SHEET_TGT =  $(INSTALL_DIR)/$(CSS_DIR)/$(STYLE_SHEET)
+ALL_STYLE_SHEETS = $(MAIN_STYLE_SHEET) $(INDEX_STYLE_SHEET)
+
+STYLE_SHEET_TGTS =  $(addprefix $(INSTALL_DIR)/$(CSS_DIR)/, $(ALL_STYLE_SHEETS))
 
 FUNC_FILEDATE = $(shell date -d "$$(stat --printf '%y' $(1))" '+%B %-d, %Y')
 
@@ -59,7 +61,8 @@ ADOC_CMD = asciidoctor -a bridgedoc=$(THIS_DIR) \
 		       -a docinfo=shared \
 		       -a sectnums -a nofooter
 
-CSS_OPTS = -a stylesheet=$(CSS_DIR)/$(STYLE_SHEET) -a linkcss
+MAIN_CSS_OPTS  = -a stylesheet=$(CSS_DIR)/$(MAIN_STYLE_SHEET) -a linkcss
+INDEX_CSS_OPTS = -a stylesheet=$(CSS_DIR)/$(INDEX_STYLE_SHEET) -a linkcss
 
 INSERT_RECENT_CHANGES = ( unfound=true; \
                           while IFS= read -r line; \
@@ -85,18 +88,18 @@ system: $(MAIN_HTML)
 
 reminders: $(REMINDERS_HTML)
 
-css: $(STYLE_SHEET_TGT)
+css: $(STYLE_SHEET_TGTS)
 
 %.adoc : %.bdoc
 	$(PREPROC) $< $@
 
 $(INSTALL_DIR)/%.html : %.bdoc
-	( cat $(MACROS); echo ; $(PREPROC) $< - ) | $(ADOC_CMD) $(CSS_OPTS) \
+	( cat $(MACROS); echo ; $(PREPROC) $< - ) | $(ADOC_CMD) $(MAIN_CSS_OPTS) \
 	-a toc=left -a revdate="$(call FUNC_FILEDATE, $<)" \
 	-r $(EXTN_SECTNUMOFFSET) -o $@ -
 
 $(MAIN_HTML): $(MAIN) $(ADOCS) $(RECENT_CHANGES)
-	( cat $(MACROS); echo ; cat $< ) | $(ADOC_CMD) $(CSS_OPTS) \
+	( cat $(MACROS); echo ; cat $< ) | $(ADOC_CMD) $(MAIN_CSS_OPTS) \
 	-a toc=left -a doctype=book \
 	-a revdate="$(call FUNC_FILEDATE, .)" -o - - \
 	| $(INSERT_RECENT_CHANGES) >| $@
@@ -107,10 +110,10 @@ $(REMINDERS_HTML): $(REMINDERS) $(REMINDERS_CSS)
 	-a revdate="$(call FUNC_FILEDATE, .)" -o $@ -
 
 $(INDEX_HTML): $(INDEX)
-	( cat $(MACROS); echo ; cat $< ) | $(ADOC_CMD) $(CSS_OPTS) -a toc! \
+	( cat $(MACROS); echo ; cat $< ) | $(ADOC_CMD) $(INDEX_CSS_OPTS) -a toc! \
 	-a revdate="$(call FUNC_FILEDATE, .)" -o $@ -
 
-$(STYLE_SHEET_TGT): $(STYLE_SHEET_SRC)
+ $(INSTALL_DIR)/$(CSS_DIR)/%.css: $(THIS_DIR)/%.css
 	install -p -m 0644 $< $@
 
 clean:
