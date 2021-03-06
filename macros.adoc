@@ -78,7 +78,7 @@
 :note: pass:normal[[.vvraise]##icon:note[width=12]##]
 :ignore: pass:normal[[.vvraise]##icon:ignore[width=20]##]
 :reference: pass:normal[[.vraise]##icon:reference[width=24]##&ensp;]
-:caution: pass:normal[[.vraise]##icon:caution[width=32]##&nbsp;]
+:caution: pass:normal[[.vraise]##icon:caution[width=24]##&nbsp;]
 :new: pass:normal[[.vraise]##icon:new[width=32]##&nbsp;]
 
 // non-breaking hyphen
