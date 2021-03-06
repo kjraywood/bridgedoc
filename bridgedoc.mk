@@ -37,8 +37,6 @@ MACROS = $(THIS_DIR)/macros.adoc
 PREPROC = python $(THIS_DIR)/bridgedoc.py
 EXTN_SECTNUMOFFSET = $(THIS_DIR)/lib/sectnumoffset-treeprocessor.rb
 
-HTMLS =  $(addprefix $(INSTALL_DIR)/, $(SOURCES:.bdoc=.html))
-
 MAIN_HTML = $(addprefix $(INSTALL_DIR)/, $(MAIN:.adoc=.html))
 
 REMINDERS_CSS = $(REMINDERS:.adoc=.css)
@@ -78,9 +76,7 @@ INSERT_RECENT_CHANGES = ( unfound=true; \
 .PHONY: all parts index system reminders css tidy clean status update pull commit
 .INTERMEDIATE: $(ADOCS)
 
-all: parts index system
-
-parts: $(HTMLS)
+all: index system
 
 index: $(INDEX_HTML)
 
@@ -92,11 +88,6 @@ css: $(STYLE_SHEET_TGTS)
 
 %.adoc : %.bdoc
 	$(PREPROC) $< $@
-
-$(INSTALL_DIR)/%.html : %.bdoc
-	( cat $(MACROS); echo ; $(PREPROC) $< - ) | $(ADOC_CMD) $(MAIN_CSS_OPTS) \
-	-a toc=left -a revdate="$(call FUNC_FILEDATE, $<)" \
-	-r $(EXTN_SECTNUMOFFSET) -o $@ -
 
 $(MAIN_HTML): $(MAIN) $(ADOCS) $(RECENT_CHANGES)
 	( cat $(MACROS); echo ; cat $< ) | $(ADOC_CMD) $(MAIN_CSS_OPTS) \
@@ -131,4 +122,3 @@ commit:
 echo:
 	@echo INSTALL_PATH=$(INSTALL_PATH)
 	@echo MAIN_HTML=$(MAIN_HTML)
-	@echo HTMLS=$(HTMLS)
