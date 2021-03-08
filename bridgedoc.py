@@ -51,15 +51,6 @@ def proc_l4head( s ):
     """ Sub lev-4 header: &text& -> [boldbrickred]##text## """
     return L4HEAD_REGEX.sub( L4HEAD_REPL, s )
 
-
-# Lines beginning with ALERT:
-ALERT_LINE_REGEX = re.compile( r'^ALERT:\s+(.*)$' )
-ALERT_LINE_REPL  = r'{important} [.xemph.blue]##__\1__##'
-
-def proc_alert_line( s ):
-    """ Sub lines beiginging with 'ALERT: '"""
-    return ALERT_LINE_REGEX.sub( ALERT_LINE_REPL, s )
-
 # Parse input line
 parser = argparse.ArgumentParser(description='Preprocess a BridgeDoc file')
 parser.add_argument('bdocfile', type=argparse.FileType('r'))
@@ -99,7 +90,6 @@ for line in bdoc:
     line = proc_esc( line )
     line = proc_alerts( line )
     line = proc_l4head( line )
-    line = proc_alert_line( line )
     
     # Wrapping lists
     try:
