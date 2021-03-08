@@ -129,3 +129,6 @@
 :orx: pass:normal[&thinsp;&#x2016;&thinsp;]
 
 :vsep: pass:normal[[.mildblue]##&#x2503;##]
+
+// raise, null-width, italic "or"
+:raised_nullwidth_or: pass:normal[[.raisednull]##__or__##]
