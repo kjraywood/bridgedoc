@@ -735,6 +735,11 @@ div.unbreakable { page-break-inside: avoid; }
 		padding-right: 0.25em;
 	   }
 
+.lavender-bg { background-color: #f1d0fb;
+		padding-left: 0.25em;
+		padding-right: 0.25em;
+	   }
+
 .orange-box { color: #000;
 	     font-weight: bold;
 	     display: inline-block;
