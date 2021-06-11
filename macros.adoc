@@ -75,7 +75,8 @@
 :xtimes: pass:normal[&thinsp;&times;&thinsp;]
 
 :warning: pass:normal[[.vraise]##icon:warning[width=24]##&nbsp;]
-:note: pass:normal[[.vvraise]##icon:note[width=12]##]
+:smallnote: pass:normal[[.vvraise]##icon:note[width=12]##]
+:note: pass:normal[[.vvraise]##icon:note[width=24]##]
 :ignore: pass:normal[[.vvraise]##icon:ignore[width=20]##]
 :reference: pass:normal[[.vraise]##icon:reference[width=24]##&ensp;]
 :caution: pass:normal[[.vraise]##icon:caution[width=24]##&nbsp;]
