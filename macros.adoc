@@ -104,6 +104,9 @@
 :downRA: &#x2ba9;
 :forces: &#x279c;
 
+// rightwards double arrow
+:implies: pass:normal[[.mildblue.big.strong]##&#x21d2;##&thinsp;]
+
 :thinsp: &thinsp;
 :emsp: &emsp;
 :ensp: &ensp;
