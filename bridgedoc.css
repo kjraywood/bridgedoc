@@ -403,7 +403,7 @@ table.tableblock #preamble > .sectionbody > [class="paragraph"]:first-of-type p 
 .admonitionblock > table td.icon { text-align: center; width: 40px; }
 .admonitionblock > table td.icon img { max-width: none;  height: 32px; width: auto; }
 .admonitionblock > table td.icon .title { font-weight: bold; font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif; text-transform: uppercase; }
-.admonitionblock > table td.content { padding-left: 0.625em; padding-right: 1.25em; border-left: 1px solid #bbb; }
+.admonitionblock > table td.content { padding-left: 0.625em; padding-right: 1.25em; border-left: 1px solid #bbb; background: #f0f0f0; }
 .admonitionblock > table td.content > :last-child > :last-child { margin-bottom: 0; }
 .admonitionblock > table tr { background: none; }
 
