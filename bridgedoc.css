@@ -379,8 +379,9 @@ b.button::after { content: "]"; padding: 0 2px 0 3px; }
 @media screen and (min-width:768px){#content{margin-bottom:1.25em}
 .sect1{padding-bottom:1.25em}}
 .sect1:last-child{padding-bottom:0}
-.sect1 + .sect1 { border-top: 1px solid #000; }
-.sect2 { border-top: 1px solid #ddd; }
+.sect0 { padding-top:1.5ex; border-top: 2px solid #000; }
+.sect1 { border-top: 2px solid #000; }
+.sect2 { border-top: 1px solid #7d7d7d; }
 
 #content h1 > a.anchor, h2 > a.anchor, h3 > a.anchor, #toctitle > a.anchor, .sidebarblock > .content > .title > a.anchor, h4 > a.anchor, h5 > a.anchor, h6 > a.anchor { position: absolute; z-index: 1001; width: 1.5ex; margin-left: -1.5ex; display: block; text-decoration: none !important; visibility: hidden; text-align: center; font-weight: normal; }
 #content h1 > a.anchor::before, h2 > a.anchor::before, h3 > a.anchor::before, #toctitle > a.anchor::before, .sidebarblock > .content > .title > a.anchor::before, h4 > a.anchor::before, h5 > a.anchor::before, h6 > a.anchor::before { content: "\00A7"; font-size: 0.85em; display: block; padding-top: 0.1em; }
