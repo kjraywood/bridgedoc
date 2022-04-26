@@ -19,8 +19,10 @@
 
 :ndash:  pass:normal[&ndash;]
 
-// :times: &#10761;
-:times: &times;
+//:times: &#10761;
+//:times: &times;
+:times: pass:normal[[.bigger]##&times;##]
+:bigplus: pass:normal[[.bigger]##&plus;##]
 :minus: &#8722;
 :ne: &ne;
 :simto: &#x223c;
@@ -72,7 +74,7 @@
 
 // times surrounded by thinsp
 // :xtimes: pass:normal[&thinsp;&#10761;&thinsp;]
-:xtimes: pass:normal[&thinsp;&times;&thinsp;]
+:xtimes: pass:normal[&thinsp;[.bigger]##&times;##&thinsp;]
 
 :warning: pass:normal[[.vraise]##icon:warning[width=24]##&nbsp;]
 :smallnote: pass:normal[[.vvraise]##icon:note[width=12]##]
