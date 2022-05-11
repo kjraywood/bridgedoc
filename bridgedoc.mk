@@ -16,6 +16,10 @@ ifeq ($(strip $(RECENT_CHANGES)),)
     RECENT_CHANGES = recent-changes.html
 endif
 
+ifeq ($(strip $(CHANGELOG)),)
+   CHANGELOG = changelog.adoc
+endif
+
 ifeq ($(strip $(INSTALL_DIR)),)
     INSTALL_DIR = html
 endif
@@ -35,7 +39,6 @@ ADOCS = $(SOURCES:.bdoc=.adoc)
 
 MACROS = $(THIS_DIR)/macros.adoc
 PREPROC = python $(THIS_DIR)/bridgedoc.py
-EXTN_SECTNUMOFFSET = $(THIS_DIR)/lib/sectnumoffset-treeprocessor.rb
 
 MAIN_HTML = $(addprefix $(INSTALL_DIR)/, $(MAIN:.adoc=.html))
 
@@ -43,6 +46,7 @@ REMINDERS_CSS = $(REMINDERS:.adoc=.css)
 REMINDERS_HTML = $(addprefix $(INSTALL_DIR)/, $(REMINDERS:.adoc=.html))
 
 INDEX_HTML = $(addprefix $(INSTALL_DIR)/, $(INDEX:.adoc=.html))
+CHANGELOG_HTML = $(addprefix $(INSTALL_DIR)/, $(CHANGELOG:.adoc=.html))
 
 MAIN_STYLE_SHEET = bridgedoc.css
 INDEX_STYLE_SHEET = multicol-index.css
@@ -73,14 +77,16 @@ INSERT_RECENT_CHANGES = ( unfound=true; \
                           done; \
                         )
 
-.PHONY: all parts index system reminders css tidy clean status update pull commit
+.PHONY: all parts index system reminders changelog css tidy clean status update pull commit
 .INTERMEDIATE: $(ADOCS)
 
-all: index system
+all: index system changelog
 
 index: $(INDEX_HTML)
 
 system: $(MAIN_HTML)
+
+changelog: $(CHANGELOG_HTML)
 
 reminders: $(REMINDERS_HTML)
 
@@ -102,9 +108,13 @@ $(REMINDERS_HTML): $(REMINDERS) $(REMINDERS_CSS)
 
 $(INDEX_HTML): $(INDEX)
 	( cat $(MACROS); echo ; cat $< ) | $(ADOC_CMD) $(INDEX_CSS_OPTS) -a toc! \
-	-a revdate="$(call FUNC_FILEDATE, .)" -o $@ -
+	-o $@ -
 
- $(INSTALL_DIR)/$(CSS_DIR)/%.css: $(THIS_DIR)/%.css
+$(CHANGELOG_HTML): $(CHANGELOG)
+	( cat $(MACROS); echo ; cat $< ) | $(ADOC_CMD) $(INDEX_CSS_OPTS) -a toc! \
+	-o $@ -
+
+$(INSTALL_DIR)/$(CSS_DIR)/%.css: $(THIS_DIR)/%.css
 	install -p -m 0644 $< $@
 
 clean:
