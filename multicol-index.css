@@ -42,7 +42,6 @@ sub, sup { font-size: 70%; line-height: 0; position: relative; vertical-align: b
 sup { top: -0.5em; }
 
 sub { bottom: -0.25em; }
-
  
 html, body { font-size: 100%; }
 
@@ -69,16 +68,16 @@ a:hover, a:focus { color: #333; }
 a img { border: none; }
 
 /* Default paragraph styles */
-p { font-family: inherit; font-weight: normal; font-size: 1em; line-height: 1.25; margin-bottom: 0.625em; text-rendering: optimizeLegibility; }
+p { font-family: inherit; font-weight: normal; font-size: 1em; line-height: 1.25; margin-bottom: 0.125em; text-rendering: optimizeLegibility; }
 p aside { font-size: 0.875em; line-height: 1.35; font-style: italic; }
 
 /* Default header styles */
-h1, h2, h3, #toctitle, .sidebarblock > .content > .title, h4, h5, h6 { font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif; font-weight: bold; font-style: normal; color: #222; text-rendering: optimizeLegibility; margin-top: 1em; margin-bottom: 0.5em; line-height: 1.2125em; }
+h1, h2, h3, #toctitle, .sidebarblock > .content > .title, h4, h5, h6 { font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif; font-weight: bold; font-style: normal; color: #222; text-rendering: optimizeLegibility; margin-top: 1em; margin-bottom: 0em; line-height: 1.2125em; }
 h1 small, h2 small, h3 small, #toctitle small, .sidebarblock > .content > .title small, h4 small, h5 small, h6 small { font-size: 60%; color: #6f6f6f; line-height: 0; }
 
 h1 { font-size: 2.125em; }
 
-h2 { font-size: 1.6875em; color: #7a2518; margin-top: 0.75em; }
+h2 { font-size: 1.125em; color: #7a2518; margin-top: 1em; margin-bottom: -0.25em; }
 
 hr { border: solid #ddd; border-width: 1px 0 0; clear: both; margin: 1.25em 0 1.1875em; height: 0; }
 
@@ -94,7 +93,7 @@ code { font-family: Consolas, "Liberation Mono", Courier, monospace; font-weight
 
 body { -moz-osx-font-smoothing: grayscale; -webkit-font-smoothing: antialiased; tab-size: 4; }
 
-h1, h2, h3, #toctitle, .sidebarblock > .content > .title, h4, h5, h6 { line-height: 1.4; }
+h1, h2, h3, #toctitle, .sidebarblock > .content > .title, h4, h5, h6 { line-height: 1; }
 
 em em { font-style: normal; }
 
@@ -110,10 +109,10 @@ strong strong { font-weight: normal; }
 #content::before { content: none; }
 
 
-#header > h1:first-child { color: #000; margin-top: 2.25rem; margin-bottom: 0; }
+#header > h1:first-child { color: #000; margin-top: 1.25rem; margin-bottom: 0em; }
 #header > h1:first-child + #toc { margin-top: 8px; border-top: 1px solid #000; }
 #header > h1:only-child, body.toc2 #header > h1:nth-last-child(2) { border-bottom: 1px solid #000; padding-bottom: 8px; }
-#header .details { border-bottom: 1px solid #000; line-height: 1.45; padding-top: 0.25em; padding-bottom: 0.25em; padding-left: 0.25em; color: #0366d6; display: -ms-flexbox; display: -webkit-flex; display: flex; -ms-flex-flow: row wrap; -webkit-flex-flow: row wrap; flex-flow: row wrap; font-family: "Noto Serif", "DejaVu Serif", serif; font-weight: normal; font-style: italic; }
+#header .details { border-bottom: 1px solid #000; line-height: 1.45; padding-top: 0.25em; padding-bottom: 0.5em; padding-left: 0.25em; color: #0366d6; display: -ms-flexbox; display: -webkit-flex; display: flex; -ms-flex-flow: row wrap; -webkit-flex-flow: row wrap; flex-flow: row wrap; font-family: "Noto Serif", "DejaVu Serif", serif; font-weight: normal; font-style: italic; }
 #header .details span:first-child { margin-left: -0.125em; }
 #header .details span.email a { color: #6f6f6f; }
 #header .details br { display: none; }
@@ -160,3 +159,120 @@ strong strong { font-weight: normal; }
 	column-gap: 48px;
     }
 }
+
+
+/* Kel - a non-breaking span */
+.nobr { white-space: nowrap; }
+
+/* Kel - a span for bold and color brickred */
+.bold-brickred { color: #7a2518; font-weight: bold; }
+
+
+.brickred { color: #7a2518; }
+.githubblue { color: #0366d6; }
+
+.big { font-size: larger; line-height: 0; }
+.bigger { font-size: 150%; line-height: 0; }
+
+.small { font-size: smaller; }
+
+.underline { -webkit-text-decoration: underline;
+	 text-decoration:  underline;
+	 -webkit-text-decoration-skip: ink;
+	 text-decoration-skip: ink;
+	 -webkit-text-underline-position: under;
+	 text-underline-position: under;
+       }
+
+.overline { text-decoration: overline; }
+
+.line-through { text-decoration: line-through; }
+
+.aqua { color: #00bfbf; }
+
+.aqua-background { background-color: #00fafa; }
+
+.black { color: black; }
+
+.black-background { background-color: black; }
+
+.blue { color: #0000bf; }
+
+.mildblue { color: #005793; }
+
+.blue-background { background-color: #0000fa; }
+
+.fuchsia { color: #bf00bf; }
+
+.fuchsia-background { background-color: #fa00fa; }
+
+.gray { color: #606060; }
+
+.gray-background { background-color: #7d7d7d; }
+
+.green { color: #008000; }
+
+.green-background { background-color: #007d00; }
+
+.lime { color: #00bf00; }
+
+.lime-background { background-color: #00fa00; }
+
+.maroon { color: #600000; }
+
+.maroon-background { background-color: #7d0000; }
+
+.navy { color: #000060; }
+
+.navy-background { background-color: #00007d; }
+
+.olive { color: #606000; }
+
+.olive-background { background-color: #7d7d00; }
+
+.orange { color: #e57a00; }
+
+.purple { color: #600060; }
+
+.purple-background { background-color: #7d007d; }
+
+.red { color: #bf0000; }
+
+.red-background { background-color: #fa0000; }
+
+.silver { color: #909090; }
+
+.silver-background { background-color: #bcbcbc; }
+
+.teal { color: #006060; }
+
+.teal-background { background-color: #007d7d; }
+
+.white { color: #bfbfbf; }
+
+.white-background { background-color: #fafafa; }
+
+.yellow { color: #bfbf00; }
+
+.yellow-background { background-color: #fafa00; }
+
+.lime-bg { background-color: #5fff5f; }
+
+
+.higher { bottom: 0.0625em; line-height: 0; position: relative; vertical-align: baseline; }
+.vhigher { bottom: 0.5ex; line-height: 0; position: relative; vertical-align: baseline; }
+.vvhigher { bottom: 0.667ex; line-height: 0; position: relative; vertical-align: baseline; }
+.vlower { bottom: -0.125em; line-height: 0; position: relative; vertical-align: baseline; }
+.vvlower { bottom: -0.33em; line-height: 0; position: relative; vertical-align: baseline; }
+.vraise {vertical-align: 8%; }
+.vvraise {vertical-align: 12.5%; }
+.ssmall { font-size: 75%; }
+
+.backspace  { margin-left: -0.5em; }
+.backspacex { margin-left: -2em; }
+.backspacey { margin-left: -0.85em; }
+
+.indent  { margin-right: 0.4em; }
+.indentx { margin-right: 1.55em; }
+.indenty { margin-right: 0.6em; }
+
