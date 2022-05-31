@@ -20,6 +20,10 @@ ifeq ($(strip $(CHANGELOG)),)
    CHANGELOG = changelog.adoc
 endif
 
+ifeq ($(strip $(STAGING)),)
+    STAGING = staging.adoc
+endif
+
 ifeq ($(strip $(INSTALL_DIR)),)
     INSTALL_DIR = html
 endif
@@ -41,6 +45,7 @@ MACROS = $(THIS_DIR)/macros.adoc
 PREPROC = python $(THIS_DIR)/bridgedoc.py
 
 MAIN_HTML = $(addprefix $(INSTALL_DIR)/, $(MAIN:.adoc=.html))
+STAGING_HTML = $(addprefix $(INSTALL_DIR)/, $(STAGING:.adoc=.html))
 
 REMINDERS_CSS = $(REMINDERS:.adoc=.css)
 REMINDERS_HTML = $(addprefix $(INSTALL_DIR)/, $(REMINDERS:.adoc=.html))
@@ -70,17 +75,17 @@ INSERT_RECENT_CHANGES = ( unfound=true; \
                           while IFS= read -r line; \
                           do echo "$$line";\
                              if eval $$unfound \
-                                && [[ "$$line" == '<ul class="sectlevel0">' ]]; \
+                                && [[ "$$line" == '<div id="toc" class="toc2">' ]]; \
                              then cat $(RECENT_CHANGES); \
                                   unfound=false; \
                              fi; \
                           done; \
                         )
 
-.PHONY: all parts index system reminders changelog css tidy clean status update pull commit
+.PHONY: all parts index system staging reminders changelog css tidy clean status update pull commit
 .INTERMEDIATE: $(ADOCS)
 
-all: index system changelog
+all: index system changelog staging
 
 index: $(INDEX_HTML)
 
@@ -90,12 +95,22 @@ changelog: $(CHANGELOG_HTML)
 
 reminders: $(REMINDERS_HTML)
 
+staging: $(STAGING_HTML)
+
 css: $(STYLE_SHEET_TGTS)
+
+$(STAGING_HTML): $(STAGING) $(RECENT_CHANGES)
 
 %.adoc : %.bdoc
 	$(PREPROC) $< $@
 
 $(MAIN_HTML): $(MAIN) $(ADOCS) $(RECENT_CHANGES)
+	( cat $(MACROS); echo ; cat $< ) | $(ADOC_CMD) $(MAIN_CSS_OPTS) \
+	-a toc=left -a doctype=book \
+	-a revdate="$(call FUNC_FILEDATE, .)" -o - - \
+	| $(INSERT_RECENT_CHANGES) >| $@
+
+$(STAGING_HTML): $(STAGING) $(RECENT_CHANGES)
 	( cat $(MACROS); echo ; cat $< ) | $(ADOC_CMD) $(MAIN_CSS_OPTS) \
 	-a toc=left -a doctype=book \
 	-a revdate="$(call FUNC_FILEDATE, .)" -o - - \
