@@ -641,9 +641,10 @@ div.unbreakable { page-break-inside: avoid; }
 .nobr { white-space: nowrap; }
 
 /* Kel - a span for bold and color brickred */
+.bold { font-weight: bold; }
+.brickred { color: #7a2518; }
 .bold-brickred { color: #7a2518; font-weight: bold; }
 
-.brickred { color: #7a2518; }
 .githubblue { color: #0366d6; }
 
 .big { font-size: larger; line-height: 0; }
