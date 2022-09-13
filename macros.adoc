@@ -97,8 +97,9 @@
 // bullet surrounded by thinsp
 :xbull: pass:normal[&thinsp;[.mildblue]##&bull;##&thinsp;]
 
-//assertion
-:assn: &#8870;
+//tree-drawing
+:vright: pass:normal[[.mildblue]##&#x2523;##&thinsp;]
+:vert: pass:normal[[.mildblue]##&#x2503;##&thinsp;]
 
 // arrows
 :blueLDarrow: pass:normal[[.mildblue.big]##&#x2bae;##]
