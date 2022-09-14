@@ -23,7 +23,7 @@
 :times: &times;
 :bigtimes: pass:normal[[.bigger]##&times;##]
 :bigplus: pass:normal[[.bigger]##&plus;##]
-:minus: &#8722;
+:minus:  pass:normal[[.higher]##&#8722;##]
 :ne: &ne;
 :simto: &#x223c;
 :natural: &#x266e;
