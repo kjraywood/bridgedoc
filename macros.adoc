@@ -84,6 +84,7 @@
 :reference: pass:normal[[.vraise]##icon:reference[width=24]##&ensp;]
 :caution: pass:normal[[.vraise]##icon:caution[width=24]##&nbsp;]
 :new: pass:normal[[.vraise]##icon:new[width=32]##&nbsp;]
+:tip: pass:normal[[.vraise]##icon:tip[width=24]##&nbsp;]
 
 // non-breaking hyphen
 :hyph: &#8209;
