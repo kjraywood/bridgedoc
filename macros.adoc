@@ -111,7 +111,9 @@
 :forces: &#x279c;
 
 // rightwards double arrow
-:implies: pass:normal[[.mildblue.big.strong]##&#x27a1;##&thinsp;]
+//:implies: pass:normal[[.mildblue.big.strong]##&#x27a1;##&thinsp;]
+:implies: pass:normal[&thinsp;[.vraise]##icon:implies[width=12]##]
+
 
 :thinsp: &thinsp;
 :emsp: &emsp;
