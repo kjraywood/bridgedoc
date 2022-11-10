@@ -98,6 +98,9 @@
 // bullet surrounded by thinsp
 :xbull: pass:normal[&thinsp;[.mildblue]##&bull;##&thinsp;]
 
+// small centered  bullet surrounded by thinsp
+:cdot: pass:normal[[.small]##&thinsp;&bull;&thinsp;##]
+
 //tree-drawing
 :corner: pass:normal[[.mildblue]##&#x2517;##&thinsp;]
 :vright: pass:normal[[.mildblue]##&#x2523;##&thinsp;]
