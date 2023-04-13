@@ -85,7 +85,7 @@ INSERT_RECENT_CHANGES = ( unfound=true; \
 .PHONY: all parts index system staging reminders changelog css tidy clean status update pull commit
 .INTERMEDIATE: $(ADOCS)
 
-all: index system changelog staging
+all: index system changelog reminders staging
 
 index: $(INDEX_HTML)
 
@@ -116,16 +116,20 @@ $(STAGING_HTML): $(STAGING) $(RECENT_CHANGES)
 	-a revdate="$(call FUNC_FILEDATE, .)" -o - - \
 	| $(INSERT_RECENT_CHANGES) >| $@
 
-$(REMINDERS_HTML): $(REMINDERS) $(REMINDERS_CSS)
-	( cat $(MACROS); echo ; cat $< ) | $(ADOC_CMD) \
-	-a stylesheet=$(REMINDERS_CSS) \
-	-a revdate="$(call FUNC_FILEDATE, .)" -o $@ -
-
 $(INDEX_HTML): $(INDEX)
 	( cat $(MACROS); echo ; cat $< ) | $(ADOC_CMD) $(INDEX_CSS_OPTS) -a toc! \
 	-o $@ -
 
 $(CHANGELOG_HTML): $(CHANGELOG)
+	( cat $(MACROS); echo ; cat $< ) | $(ADOC_CMD) $(INDEX_CSS_OPTS) -a toc! \
+	-o $@ -
+
+# $(REMINDERS_HTML): $(REMINDERS) $(REMINDERS_CSS)
+# 	( cat $(MACROS); echo ; cat $< ) | $(ADOC_CMD) \
+# 	-a stylesheet=$(REMINDERS_CSS) \
+# 	-a revdate="$(call FUNC_FILEDATE, .)" -o $@ -
+
+$(REMINDERS_HTML): $(REMINDERS)
 	( cat $(MACROS); echo ; cat $< ) | $(ADOC_CMD) $(INDEX_CSS_OPTS) -a toc! \
 	-o $@ -
 
