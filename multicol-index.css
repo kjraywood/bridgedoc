@@ -132,9 +132,9 @@ strong strong { font-weight: normal; }
 #content{margin-bottom:.625em}
 
 
-/* prevent column-breaks in paragraphs */
+/* prevent column-breaks in sub-sections */
 
-.paragraph {
+.sect1 {
     page-break-inside: avoid;
     break-inside: avoid-column;
 /*    display:table; */
