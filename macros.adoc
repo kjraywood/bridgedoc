@@ -77,6 +77,9 @@
 :xtimes: pass:normal[&thinsp;&times;&thinsp;]
 :xbigtimes: pass:normal[&thinsp;[.bigger]##&times;##&thinsp;]
 
+// plus surrounded by thinsp
+:xplus: pass:normal[&thinsp;+&thinsp;]
+
 :warning: pass:normal[[.vraise]##icon:warning[width=24]##&nbsp;]
 :smallnote: pass:normal[[.vvraise]##icon:note[width=12]##]
 :note: pass:normal[[.vvraise]##icon:note[width=24]##]
