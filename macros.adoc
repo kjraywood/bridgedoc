@@ -27,7 +27,9 @@
 :ne: &ne;
 :simto: &#x223c;
 :natural: &#x266e;
+:lt: &#x003c;
 :le: &#x2a7d;
+:gt: &#x003e;
 :ge: &#x2a7e;
 :superdag: pass:normal[^&dagger;^]
 :biglowast: pass:normal[[.bigger.vvlower]##&ast;##]
@@ -58,9 +60,9 @@
 :fwsemicolon: &#65307;
 :fwplus: &#65291;
 :fwsimto: &#xff5e;
-:lt: &#65308;
-:eq: &#65309;
-:gt: &#65310;
+:fwlt: &#65308;
+:fweq: &#65309;
+:fwgt: &#65310;
 
 // white digits in black circles
 //:note1: &#x278a;
